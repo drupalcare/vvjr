@@ -1,0 +1,48 @@
+vvjr:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr.css: { }
+  js:
+    js/vvjr.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/drupalSettings
+    - core/once
+
+vvjr-style:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr-style.css: { }
+
+vvjr__576:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr-576.css: { }
+
+vvjr__768:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr-768.css: { }
+
+vvjr__992:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr-992.css: { }
+
+vvjr__1200:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr-1200.css: { }
+
+vvjr__1400:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr-1400.css: { }

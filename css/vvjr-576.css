@@ -1,0 +1,35 @@
+/**
+ * @file
+ * Views Reveal
+ *
+ * Filename:     vvjr-576.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+@media (max-width:36rem) {
+  .vvjr .reveal-inner,
+  .vvjr .reveal-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: initial;
+    overflow: auto;
+    height: auto !important;
+    cursor: initial !important;
+  }
+
+  .vvjr .reveal-inner .front-box,
+  .vvjr .reveal-inner .back-box {
+    position: initial !important;
+    transform: initial !important;
+    opacity: 1;
+    height: auto !important;
+    width: 100%;
+  }
+
+  .vvjr.hover .reveal-item:hover .back-box,
+  .vvjr.hover .reveal-item:hover .front-box {
+    transform: none !important;
+    opacity: 1;
+  }
+
+}

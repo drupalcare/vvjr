@@ -1,0 +1,96 @@
+{#
+  @file
+  Template for rendering a Reveal using vanilla JavaScript in a Drupal Views style plugin.
+
+  This template provides a structured way to render content as a reveal with accessibility considerations.
+
+  Available options:
+  - unique_id: A unique identifier for the reveal.
+  - reveal_method: The event that triggers the reveal (click or hover).
+  - reveal_style: The style of the reveal (fade, zoom, top, right, bottom and left).
+  - reveal_speed: The speed of the reveal animation.
+  - front_bg_color: The background color for the front side.
+  - back_bg_color: The background color for the back side.
+  - animation_easing: The easing function for the animation.
+  - available_breakpoints: Breakpoints where the reveal effect is enabled or disabled.
+  - grid_gap: The gap between the grid items.
+  - box_width: The width of the reveal box.
+  - box_height: The height of the reveal box.
+
+  @see template_preprocess_views_view_vvjr_reveal()
+#}
+
+{% set unique_id = options.unique_id %}
+{% set reveal_id = 'vvjr-' ~ unique_id %}
+
+{# Retrieve additional options for use in the template. #}
+{% set box_width = options.box_width %}
+{% set box_height = options.box_height %}
+{% set grid_gap = options.grid_gap %}
+{% set reveal_method = options.reveal_method %}
+{% set reveal_style = options.reveal_style %}
+{% set reveal_speed = options.reveal_speed %}
+{% set front_bg_color = options.front_bg_color %}
+{% set back_bg_color = options.back_bg_color %}
+{% set animation_easing = options.animation_easing %}
+
+{# Set the classes for the reveal based on the provided options. #}
+{% set classes = [
+  'vvjr',
+  reveal_method,
+] %}
+
+{# Render the main reveal container. #}
+<div {{ attributes.addClass(classes).setAttribute('id', reveal_id) }}
+     data-reveal-method="{{ reveal_method }}"
+     data-breakpoints="{{ options.available_breakpoints }}"
+     role="region"
+     aria-labelledby="{{ reveal_id }}-label"
+     tabindex="0">
+
+  <h2 id="{{ reveal_id }}-label" class="visually-hidden">
+    {{ 'Reveal Container'|t }}
+  </h2>
+
+  <div class="reveal-inner paragraph__inner" {% if box_width > 0 or grid_gap > 0 %} style="{% if box_width > 0 %}grid-template-columns: repeat(auto-fill, minmax({{ box_width }}px, 1fr));{% endif %}{% if grid_gap > 0 %} gap: {{ options.grid_gap }}px;{% endif %}"{% endif %}>
+
+    {% for key, row in rows %}
+      {% set row_content = row.content|render %}
+
+      {# Split the content to separate front and back sides. #}
+      {% set split_content = row_content|split('<div class="vvjr-separator"></div>') %}
+      {% set front_content = split_content[0] %}
+      {% set back_content = split_content[1]|default('') %}
+
+      <div class="reveal-item {{ reveal_style }}" style="height: {{ box_height }}px;">
+
+          <div class="front-box"
+               style="background-color: {{ front_bg_color }};"
+               role="group"
+               aria-labelledby="{{ reveal_id }}-front-{{ key }}"
+               aria-hidden="false">
+
+            <h3 id="{{ reveal_id }}-front-{{ key }}" class="visually-hidden">
+              {{ 'Front Side Content'|t }}
+            </h3>
+            {{ front_content|safe_html }}
+          </div>
+
+          <div class="back-box"
+               style="background-color: {{ back_bg_color }}; transition: {{ reveal_speed }}s {{ animation_easing }};"
+               role="group"
+               aria-labelledby="{{ reveal_id }}-back-{{ key }}"
+               aria-hidden="true">
+
+            <h3 id="{{ reveal_id }}-back-{{ key }}" class="visually-hidden">
+              {{ 'Back Side Content'|t }}
+            </h3>
+            {{ back_content|safe_html }}
+          </div>
+
+      </div>
+    {% endfor %}
+
+  </div>
+</div>
+

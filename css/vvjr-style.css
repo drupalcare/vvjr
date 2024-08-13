@@ -1,0 +1,29 @@
+/**
+ * @file
+ * VVj Reveal.
+ *
+ * Filename:     vvjr-style.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+
+/* Custom */
+.vvjr .reveal-item {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.vvjr .reveal-item:hover,
+.vvjr .reveal-item:focus {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vvjr .reveal-item > div {
+  padding: 16px;
+  overflow: hidden;
+}
+
+.vvjr .reveal-inner {
+  padding: 16px;
+}

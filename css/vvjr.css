@@ -1,0 +1,104 @@
+/**
+ * @file
+ * VVJ Reveal.
+ *
+ * Filename:     vvjr.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+.vvjr,
+.vvjr * {
+  box-sizing: border-box;
+}
+
+.vvjr {
+  width: 100%;
+}
+
+.vvjr .reveal-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  background-color: transparent;
+  width: 100%;
+}
+
+.vvjr .reveal-item {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+.vvjr .back-box {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.vvjr .reveal-item.zoom .back-box {
+  transform: scale(0);
+}
+
+.vvjr .reveal-item.top .back-box {
+  transform: translateY(-100%);
+}
+
+.vvjr .reveal-item.right .back-box {
+  transform: translateX(100%);
+}
+
+.vvjr .reveal-item.bottom .back-box {
+  transform: translateY(100%);
+}
+
+.vvjr .reveal-item.left .back-box {
+  transform: translateX(-100%);
+}
+
+.vvjr.hover .reveal-item.fade:hover .back-box {
+  opacity: 1;
+}
+
+.vvjr.hover .reveal-item.zoom:hover .back-box {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.vvjr.hover .reveal-item.top:hover .back-box {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.vvjr.hover .reveal-item.right:hover .back-box {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.vvjr.hover .reveal-item.bottom:hover .back-box {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.vvjr.hover .reveal-item.left:hover .back-box {
+  transform: translateX(0);
+  opacity: 1;
+}

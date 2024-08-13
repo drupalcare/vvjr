@@ -1,0 +1,196 @@
+<?php
+
+/**
+ * @file
+ * Provides the module implementation for vvjr.
+ *
+ * Contains template preprocessing and theme definitions for Views.
+ *
+ * Filename:     vvjr.module
+ * Website:      https://www.flashwebcenter.com
+ * Description:  template.
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function vvjr_help($route_name, RouteMatchInterface $route_match): ?string {
+  if ($route_name === 'help.page.vvjr') {
+    return _vvjr_helper_render_readme();
+  }
+  return NULL;
+}
+
+/**
+ * Helper function to render README.md.
+ *
+ * @return string
+ *   The rendered content of README.md.
+ */
+function _vvjr_helper_render_readme(): string {
+  $readme_path = __DIR__ . '/README.md';
+  $text = file_get_contents($readme_path);
+
+  if ($text === FALSE) {
+    return t('README.md file not found.');
+  }
+
+  if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
+    return '<pre>' . htmlspecialchars($text) . '</pre>';
+  }
+
+  // Use the Markdown filter to render the README.
+  $filter_manager = \Drupal::service('plugin.manager.filter');
+  $settings = \Drupal::config('markdown.settings')->getRawData();
+  $filter = $filter_manager->createInstance('markdown', ['settings' => $settings]);
+  return $filter->process($text, 'en')->getProcessedText();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function vvjr_theme($existing, $type, $theme, $path) {
+  return [
+    'views_view_vvjr_fields' => [
+      'variables' => [
+        'view' => NULL,
+        'options' => [],
+        'row' => NULL,
+        'field_alias' => NULL,
+        'attributes' => [],
+        'title_attributes' => [],
+        'content_attributes' => [],
+        'title_prefix' => [],
+        'title_suffix' => [],
+        'fields' => [],
+      ],
+      'template' => 'views-view-vvjr-fields',
+      'path' => $path . '/templates',
+    ],
+    'views_view_vvjr' => [
+      'variables' => [
+        'view' => NULL,
+        'rows' => [],
+        'options' => [],
+      ],
+      'template' => 'views-view-vvjr',
+      'path' => $path . '/templates',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for views_view_vvjr.
+ */
+function template_preprocess_views_view_vvjr(array &$variables) {
+  // Load necessary views theme functions.
+  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+
+  // Access the style plugin handler.
+  $handler = $variables['view']->style_plugin;
+
+  // Initialize list attributes array.
+  $list_attributes = [];
+
+  // Conditionally add options as data attributes.
+  if (!empty($handler->options['reveal_method'])) {
+    $list_attributes['data-reveal-method'] = $handler->options['reveal_method'];
+  }
+
+  if (!empty($handler->options['reveal_style'])) {
+    $list_attributes['data-reveal-style'] = $handler->options['reveal_style'];
+  }
+
+  if (!empty($handler->options['reveal_speed'])) {
+    $list_attributes['data-reveal-speed'] = $handler->options['reveal_speed'];
+  }
+
+  if (!empty($handler->options['front_bg_color'])) {
+    $list_attributes['data-front-bg-color'] = $handler->options['front_bg_color'];
+  }
+
+  if (!empty($handler->options['back_bg_color'])) {
+    $list_attributes['data-back-bg-color'] = $handler->options['back_bg_color'];
+  }
+
+  if (!empty($handler->options['box_height'])) {
+    $list_attributes['data-box-height'] = $handler->options['box_height'];
+  }
+
+  if (!empty($handler->options['box_width'])) {
+    $list_attributes['data-box-width'] = $handler->options['box_width'];
+  }
+
+  if (!empty($handler->options['grid_gap'])) {
+    $list_attributes['data-grid-gap'] = $handler->options['grid_gap'];
+  }
+
+  if (!empty($handler->options['animation_easing'])) {
+    $list_attributes['data-animation-easing'] = $handler->options['animation_easing'];
+  }
+
+  if (!empty($handler->options['unique_id'])) {
+    $list_attributes['data-unique-id'] = $handler->options['unique_id'];
+  }
+
+  if (!empty($handler->options['available_breakpoints'])) {
+    $list_attributes['data-available-breakpoints'] = $handler->options['available_breakpoints'];
+  }
+
+  if (isset($handler->options['enable_css'])) {
+    $list_attributes['data-enable-css'] = $handler->options['enable_css'] ? 'true' : 'false';
+  }
+
+  // Create an Attribute object for the list.
+  $variables['list_attributes'] = new Attribute($list_attributes);
+
+  // Pass options to the template for direct access.
+  $variables['options'] = $handler->options;
+
+  // Pass additional settings to the template.
+  $variables['settings'] = [
+    'view_id' => $variables['view']->dom_id,
+    'box_height' => $handler->options['box_height'],
+    'box_width' => $handler->options['box_width'],
+    'reveal_method' => $handler->options['reveal_method'],
+    'reveal_style' => $handler->options['reveal_style'],
+    'reveal_speed' => $handler->options['reveal_speed'],
+    'front_bg_color' => $handler->options['front_bg_color'],
+    'back_bg_color' => $handler->options['back_bg_color'],
+    'grid_gap' => $handler->options['grid_gap'],
+    'animation_easing' => $handler->options['animation_easing'],
+    'unique_id' => $handler->options['unique_id'],
+    'available_breakpoints' => $handler->options['available_breakpoints'],
+    'enable_css' => $handler->options['enable_css'],
+  ];
+
+  // Customize theme hook suggestions for rows.
+  if (!empty($variables['rows'])) {
+    foreach ($variables['rows'] as $key => $row) {
+      if (isset($row['#theme']) && is_array($row['#theme'])) {
+        foreach ($row['#theme'] as $idx => $theme_hook_suggestion) {
+          // Modify theme hook suggestions to use the custom theme function.
+          $variables['rows'][$key]['#theme'][$idx] = str_replace('views_view_fields', 'views_view_vvjr_fields', $theme_hook_suggestion);
+        }
+      }
+    }
+  }
+
+  // Call the default preprocess function for unformatted views.
+  template_preprocess_views_view_unformatted($variables);
+}
+
+/**
+ * Prepares variables for views_view_vvjr_fields template.
+ */
+function template_preprocess_views_view_vvjr_fields(array &$variables) {
+  // Load necessary views theme functions.
+  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+
+  // Preprocess views view fields.
+  template_preprocess_views_view_fields($variables);
+}
