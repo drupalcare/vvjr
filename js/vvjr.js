@@ -31,13 +31,32 @@
           }
         }
 
+        function disableLinksInsideReveal(reveal, disable) {
+          const links = reveal.querySelectorAll('.front-box a, .back-box a');
+          links.forEach(link => {
+            if (disable) {
+              link.setAttribute('tabindex', '-1');
+              link.addEventListener('click', preventDefaultHandler);
+            } else {
+              link.removeAttribute('tabindex');
+              link.removeEventListener('click', preventDefaultHandler);
+            }
+          });
+        }
+
+        function preventDefaultHandler(event) {
+          event.preventDefault();
+        }
+
         function applyRevealBehavior() {
           const currentWidth = window.innerWidth;
 
           if (breakpoints === 'all' || (isBreakpointValid && currentWidth >= parsedBreakpoint)) {
             activateReveal(reveal);
+            disableLinksInsideReveal(reveal, true); // Disable links when active
           } else {
             deactivateReveal(reveal);
+            disableLinksInsideReveal(reveal, false); // Re-enable links when inactive
           }
         }
 
@@ -194,6 +213,8 @@
               inner.removeEventListener('click', inner.revealHandlers?.handleClick);
               inner.removeEventListener('keydown', inner.revealHandlers?.handleKeyDown);
 
+              disableLinksInsideReveal(reveal, false); // Re-enable links on small screens
+
             } else {
               // Large screen: standard behavior
               const isRevealed = inner.classList.contains('revealed');
@@ -202,6 +223,7 @@
 
               // Reattach event listeners
               activateReveal(reveal);
+              disableLinksInsideReveal(reveal, true); // Disable links on large screens
             }
           });
         }
@@ -244,3 +266,4 @@
     }
   };
 })(Drupal, drupalSettings, once);
+
