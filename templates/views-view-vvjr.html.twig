@@ -52,7 +52,7 @@
     {{ 'Reveal Container'|t }}
   </h2>
 
-  <div class="reveal-inner paragraph__inner" {% if box_width > 0 or grid_gap > 0 %} style="{% if box_width > 0 %}grid-template-columns: repeat(auto-fill, minmax({{ box_width }}px, 1fr));{% endif %}{% if grid_gap > 0 %} gap: {{ options.grid_gap }}px;{% endif %}"{% endif %}>
+  <div class="reveal-inner"{% if box_width > 0 or grid_gap > 0 %} style="{% if box_width > 0 %}grid-template-columns: repeat(auto-fill, minmax({{ box_width }}px, 1fr));{% endif %}{% if grid_gap > 0 %} gap: {{ options.grid_gap }}px;{% endif %}"{% endif %}>
 
     {% for key, row in rows %}
       {% set row_content = row.content|render %}

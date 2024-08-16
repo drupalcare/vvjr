@@ -11,6 +11,12 @@ vvjr:
     - core/drupalSettings
     - core/once
 
+vvjr__all:
+  version: VERSION
+  css:
+    theme:
+      css/vvjr-all.css: { }
+
 vvjr-style:
   version: VERSION
   css:

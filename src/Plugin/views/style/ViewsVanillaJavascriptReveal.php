@@ -35,7 +35,7 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
     $options = parent::defineOptions();
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
     $options['reveal_method'] = ['default' => 'click'];
-    $options['reveal_style'] = ['default' => 'fade'];
+    $options['reveal_style'] = ['default' => 'a-fade'];
     $options['reveal_speed'] = ['default' => '0.9'];
     $options['front_bg_color'] = ['default' => '#f0fbff'];
     $options['back_bg_color'] = ['default' => '#b8e7ff'];
@@ -63,7 +63,7 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
       '#type' => 'select',
       '#title' => $this->t('Available Breakpoints for Parallax'),
       '#options' => [
-        'none' => $this->t('Active on all screens'),
+        'all' => $this->t('Active on all screens'),
         '576' => $this->t('576px / 36rem'),
         '768' => $this->t('768px / 48rem'),
         '992' => $this->t('992px / 62rem'),
@@ -71,7 +71,7 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
         '1400' => $this->t('1400px / 87.5rem'),
       ],
       '#default_value' => $this->options['available_breakpoints'],
-      '#description' => $this->t('Select the maximum screen width (in pixels) at which the Reveal should be disabled. Selecting "none" will keep the Reveal active on all screen sizes.'),
+      '#description' => $this->t('Select the maximum screen width (in pixels) at which the Reveal should be disabled. Selecting "Active on all screens" will keep the Reveal active on all screen sizes.'),
     ];
 
     $form['box_height'] = [
@@ -105,12 +105,12 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
       '#type' => 'select',
       '#title' => $this->t('Reveal Style'),
       '#options' => [
-        'fade' => $this->t('Fade'),
-        'zoom' => $this->t('Zoom'),
-        'top' => $this->t('Top'),
-        'right' => $this->t('Right'),
-        'bottom' => $this->t('Bottom'),
-        'left' => $this->t('Left'),
+        'a-fade' => $this->t('Fade'),
+        'a-zoom' => $this->t('Zoom'),
+        'a-top' => $this->t('Slide from Top'),
+        'a-right' => $this->t('Slide from Right'),
+        'a-bottom' => $this->t('Slide from Bottom'),
+        'a-left' => $this->t('Slide from Left'),
       ],
       '#default_value' => $this->options['reveal_style'],
       '#description' => $this->t('Choose the reveal style.'),
@@ -206,7 +206,7 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
     }
 
     // Conditionally include a CSS breakpoint library based on the option.
-    if ($this->options['available_breakpoints'] != 'none') {
+    if ($this->options['available_breakpoints']) {
       // Include the vvjr-style breakpoint-specific library.
       $libraries[] = 'vvjr/vvjr__' . $this->options['available_breakpoints'];
     }

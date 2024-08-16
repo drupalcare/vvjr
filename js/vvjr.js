@@ -6,6 +6,7 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
+
 (function (Drupal, drupalSettings, once) {
   Drupal.behaviors.VVJReveal = {
     attach: function (context, settings) {
@@ -13,7 +14,7 @@
 
       reveales.forEach(reveal => {
         const breakpoints = reveal.getAttribute('data-breakpoints');
-        const trigger = reveal.getAttribute('data-reveal-method');  // Capture the trigger method (hover or click)
+        const trigger = reveal.getAttribute('data-reveal-method');
         const parsedBreakpoint = parseInt(breakpoints, 10);
         const isBreakpointValid = !isNaN(parsedBreakpoint);
 
@@ -33,7 +34,7 @@
         function applyRevealBehavior() {
           const currentWidth = window.innerWidth;
 
-          if (breakpoints === 'none' || (isBreakpointValid && currentWidth >= parsedBreakpoint)) {
+          if (breakpoints === 'all' || (isBreakpointValid && currentWidth >= parsedBreakpoint)) {
             activateReveal(reveal);
           } else {
             deactivateReveal(reveal);
@@ -60,11 +61,9 @@
             }
 
             function handleClick() {
-              inner.classList.toggle('revealed');
-              const isRevealed = inner.classList.contains('revealed');
+              const isRevealed = inner.classList.toggle('revealed');
               updateAccessibility(frontSide, backSide, isRevealed);
 
-              // Apply the corresponding reveal effect on click
               if (isRevealed) {
                 applyRevealEffect(inner, backSide);
               } else {
@@ -75,11 +74,9 @@
             function handleKeyDown(event) {
               if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                inner.classList.toggle('revealed');
-                const isRevealed = inner.classList.contains('revealed');
+                const isRevealed = inner.classList.toggle('revealed');
                 updateAccessibility(frontSide, backSide, isRevealed);
 
-                // Apply the corresponding reveal effect on key press
                 if (isRevealed) {
                   applyRevealEffect(inner, backSide);
                 } else {
@@ -88,6 +85,13 @@
               }
             }
 
+            // Remove existing event listeners to prevent duplication
+            inner.removeEventListener('mouseenter', inner.revealHandlers?.handleMouseEnter);
+            inner.removeEventListener('mouseleave', inner.revealHandlers?.handleMouseLeave);
+            inner.removeEventListener('click', inner.revealHandlers?.handleClick);
+            inner.removeEventListener('keydown', inner.revealHandlers?.handleKeyDown);
+
+            // Attach event listeners based on the trigger type
             if (trigger === 'hover') {
               inner.addEventListener('mouseenter', handleMouseEnter);
               inner.addEventListener('mouseleave', handleMouseLeave);
@@ -166,7 +170,40 @@
               resetRevealEffect(inner, backSide);
             }
           });
-          activateReveal(reveal);
+        }
+
+        function updateAriaHiddenBasedOnWidth() {
+          const currentWidth = window.innerWidth;
+          const revealItems = reveal.querySelectorAll('.reveal-item');
+
+          revealItems.forEach(inner => {
+            const frontSide = inner.querySelector('.front-box');
+            const backSide = inner.querySelector('.back-box');
+
+            if (currentWidth < parsedBreakpoint && breakpoints !== 'all') {
+              // Small screen: both sides visible, disable revealing
+              frontSide.setAttribute('aria-hidden', 'false');
+              backSide.setAttribute('aria-hidden', 'false');
+
+              // Remove reveal classes and event listeners
+              if (inner.classList.contains('revealed')) {
+                inner.classList.remove('revealed');
+              }
+              inner.removeEventListener('mouseenter', inner.revealHandlers?.handleMouseEnter);
+              inner.removeEventListener('mouseleave', inner.revealHandlers?.handleMouseLeave);
+              inner.removeEventListener('click', inner.revealHandlers?.handleClick);
+              inner.removeEventListener('keydown', inner.revealHandlers?.handleKeyDown);
+
+            } else {
+              // Large screen: standard behavior
+              const isRevealed = inner.classList.contains('revealed');
+              frontSide.setAttribute('aria-hidden', isRevealed ? 'true' : 'false');
+              backSide.setAttribute('aria-hidden', isRevealed ? 'false' : 'true');
+
+              // Reattach event listeners
+              activateReveal(reveal);
+            }
+          });
         }
 
         // Throttle the resize event handler
@@ -193,11 +230,13 @@
 
         // Initial check on load
         applyRevealBehavior();
+        updateAriaHiddenBasedOnWidth();
 
         // Throttled resize event listener
         const resizeHandler = throttle(() => {
           resetRevealedOnResize();
           applyRevealBehavior();
+          updateAriaHiddenBasedOnWidth();
         }, 200);
 
         window.addEventListener('resize', resizeHandler);
@@ -205,7 +244,3 @@
     }
   };
 })(Drupal, drupalSettings, once);
-
-
-
-

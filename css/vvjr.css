@@ -35,70 +35,18 @@
   width: 100%;
 }
 
-.vvjr .reveal-item {
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  background-color: transparent;
-  width: 100%;
-  height: 100%;
-}
+/* from here */
 
-.vvjr .back-box {
-  opacity: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  overflow: hidden;
-}
 
-.vvjr .reveal-item.zoom .back-box {
-  transform: scale(0);
-}
 
-.vvjr .reveal-item.top .back-box {
-  transform: translateY(-100%);
-}
 
-.vvjr .reveal-item.right .back-box {
-  transform: translateX(100%);
-}
+  .vvjr .reveal-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: 100%!important;
+  }
 
-.vvjr .reveal-item.bottom .back-box {
-  transform: translateY(100%);
-}
-
-.vvjr .reveal-item.left .back-box {
-  transform: translateX(-100%);
-}
-
-.vvjr.hover .reveal-item.fade:hover .back-box {
-  opacity: 1;
-}
-
-.vvjr.hover .reveal-item.zoom:hover .back-box {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.vvjr.hover .reveal-item.top:hover .back-box {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.vvjr.hover .reveal-item.right:hover .back-box {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.vvjr.hover .reveal-item.bottom:hover .back-box {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.vvjr.hover .reveal-item.left:hover .back-box {
-  transform: translateX(0);
-  opacity: 1;
-}
+  .vvjr .reveal-item > *:last-child {
+    align-self: stretch;
+  }

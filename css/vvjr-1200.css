@@ -7,30 +7,93 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
-@media (max-width: 75rem) {
-  .vvjr .reveal-inner,
+@media (min-width:75rem) {
+  .vvjr .reveal-item {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+  }
+
+  .vvjr .back-box {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  .vvjr .reveal-item.a-zoom .back-box {
+    transform: scale(0);
+  }
+
+  .vvjr .reveal-item.a-top .back-box {
+    transform: translateY(-100%);
+  }
+
+  .vvjr .reveal-item.a-right .back-box {
+    transform: translateX(100%);
+  }
+
+  .vvjr .reveal-item.a-bottom .back-box {
+    transform: translateY(100%);
+  }
+
+  .vvjr .reveal-item.a-left .back-box {
+    transform: translateX(-100%);
+  }
+
+  .vvjr.hover .reveal-item.a-fade:hover .back-box {
+    opacity: 1;
+  }
+
+  .vvjr.hover .reveal-item.a-zoom:hover .back-box {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .vvjr.hover .reveal-item.a-top:hover .back-box {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .vvjr.hover .reveal-item.a-right:hover .back-box {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .vvjr.hover .reveal-item.a-bottom:hover .back-box {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .vvjr.hover .reveal-item.a-left:hover .back-box {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+}
+
+@media (max-width:75rem) {
   .vvjr .reveal-item {
     display: grid;
     grid-template-columns: 1fr;
-    position: initial;
-    overflow: auto;
-    height: auto !important;
-    cursor: initial !important;
+    grid-template-rows: auto 1fr;
+    height: 100% !important;
   }
 
-  .vvjr .reveal-inner .front-box,
-  .vvjr .reveal-inner .back-box {
-    position: initial !important;
-    transform: initial !important;
-    opacity: 1;
-    height: auto !important;
-    width: 100%;
+  .vvjr .reveal-item > *:last-child {
+    align-self: stretch;
   }
 
-  .vvjr.hover .reveal-item:hover .back-box,
-  .vvjr.hover .reveal-item:hover .front-box {
+  .vvjr .reveal-item .back-box,
+  .vvjr .reveal-item .front-box {
     transform: none !important;
-    opacity: 1;
+    opacity: 1 !important;
   }
 
 }

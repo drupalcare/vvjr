@@ -148,7 +148,7 @@ display:
           box_height: '250'
           box_width: '300'
           grid_gap: '16'
-          reveal_style: bottom
+          reveal_style: a-fade
           reveal_method: click
           reveal_speed: '0.4'
           front_bg_color: '#f0fbff'
