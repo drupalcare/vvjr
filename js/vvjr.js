@@ -128,34 +128,34 @@
 
         function applyRevealEffect(inner, backSide) {
           backSide.style.opacity = '1';
-          if (inner.classList.contains('fade')) {
+          if (inner.classList.contains('a-fade')) {
             backSide.style.opacity = '1';
-          } else if (inner.classList.contains('zoom')) {
+          } else if (inner.classList.contains('a-zoom')) {
             backSide.style.transform = 'scale(1)';
-          } else if (inner.classList.contains('top')) {
+          } else if (inner.classList.contains('a-top')) {
             backSide.style.transform = 'translateY(0)';
-          } else if (inner.classList.contains('right')) {
+          } else if (inner.classList.contains('a-right')) {
             backSide.style.transform = 'translateX(0)';
-          } else if (inner.classList.contains('bottom')) {
+          } else if (inner.classList.contains('a-bottom')) {
             backSide.style.transform = 'translateY(0)';
-          } else if (inner.classList.contains('left')) {
+          } else if (inner.classList.contains('a-left')) {
             backSide.style.transform = 'translateX(0)';
           }
         }
 
         function resetRevealEffect(inner, backSide) {
           backSide.style.opacity = '0';
-          if (inner.classList.contains('fade')) {
+          if (inner.classList.contains('a-fade')) {
             backSide.style.opacity = '0';
-          } else if (inner.classList.contains('zoom')) {
+          } else if (inner.classList.contains('a-zoom')) {
             backSide.style.transform = 'scale(0)';
-          } else if (inner.classList.contains('top')) {
+          } else if (inner.classList.contains('a-top')) {
             backSide.style.transform = 'translateY(-100%)';
-          } else if (inner.classList.contains('right')) {
+          } else if (inner.classList.contains('a-right')) {
             backSide.style.transform = 'translateX(100%)';
-          } else if (inner.classList.contains('bottom')) {
+          } else if (inner.classList.contains('a-bottom')) {
             backSide.style.transform = 'translateY(100%)';
-          } else if (inner.classList.contains('left')) {
+          } else if (inner.classList.contains('a-left')) {
             backSide.style.transform = 'translateX(-100%)';
           }
         }
