@@ -6,8 +6,11 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
-
 @media (min-width:75rem) {
+  .vvjr .reveal-item > div {
+    height: 100%;
+  }
+
   .vvjr .reveal-item {
     cursor: pointer;
     position: relative;

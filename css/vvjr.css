@@ -35,18 +35,3 @@
   width: 100%;
 }
 
-/* from here */
-
-
-
-
-  .vvjr .reveal-item {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    height: 100%!important;
-  }
-
-  .vvjr .reveal-item > *:last-child {
-    align-self: stretch;
-  }
