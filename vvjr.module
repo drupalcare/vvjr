@@ -12,8 +12,9 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
-use Drupal\Core\Template\Attribute;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\vvjr\Plugin\views\style\ViewsVanillaJavascriptReveal;
 
 /**
  * Implements hook_help().
@@ -193,4 +194,14 @@ function template_preprocess_views_view_vvjr_fields(array &$variables) {
 
   // Preprocess views view fields.
   template_preprocess_views_view_fields($variables);
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function vvjr_preprocess_views_view(&$variables) {
+  if ($variables['view']->style_plugin instanceof ViewsVanillaJavascriptReveal) {
+    // Add the custom class to the view wrapper.
+    $variables['attributes']['class'][] = 'vvj-reveal';
+  }
 }
