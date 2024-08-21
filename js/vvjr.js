@@ -20,14 +20,28 @@
 
         function updateAccessibility(frontSide, backSide, isRevealed) {
           if (frontSide && backSide) {
-            frontSide.setAttribute('aria-hidden', isRevealed ? 'true' : 'false');
-            backSide.setAttribute('aria-hidden', isRevealed ? 'false' : 'true');
+            const frontAriaHidden = isRevealed ? 'true' : 'false';
+            const backAriaHidden = isRevealed ? 'false' : 'true';
 
-            const frontTabbables = frontSide.querySelectorAll('a, button, input, select, textarea, [tabindex]');
-            const backTabbables = backSide.querySelectorAll('a, button, input, select, textarea, [tabindex]');
+            // Set aria-hidden and tabindex based on the revealed state
+            frontSide.setAttribute('aria-hidden', frontAriaHidden);
+            backSide.setAttribute('aria-hidden', backAriaHidden);
 
-            frontTabbables.forEach(el => el.setAttribute('tabindex', isRevealed ? '-1' : '0'));
-            backTabbables.forEach(el => el.setAttribute('tabindex', isRevealed ? '0' : '-1'));
+            frontSide.setAttribute('tabindex', frontAriaHidden === 'true' ? '-1' : '0');
+            backSide.setAttribute('tabindex', backAriaHidden === 'true' ? '-1' : '0');
+
+            // Adjust tabbable elements based on trigger and revealed state
+            frontSide.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(el => {
+              el.setAttribute('tabindex', isRevealed ? '-1' : '0');
+            });
+
+            backSide.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(el => {
+              if (trigger === 'click') {
+                el.setAttribute('tabindex', isRevealed ? '-1' : '0');
+              } else if (trigger === 'hover') {
+                el.setAttribute('tabindex', isRevealed ? '0' : '-1');
+              }
+            });
           }
         }
 
@@ -53,7 +67,7 @@
 
           if (breakpoints === 'all' || (isBreakpointValid && currentWidth >= parsedBreakpoint)) {
             activateReveal(reveal);
-            disableLinksInsideReveal(reveal, true); // Disable links when active
+            disableLinksInsideReveal(reveal, trigger === 'click'); // Disable links when active and triggered by click
           } else {
             deactivateReveal(reveal);
             disableLinksInsideReveal(reveal, false); // Re-enable links when inactive
@@ -204,6 +218,14 @@
               frontSide.setAttribute('aria-hidden', 'false');
               backSide.setAttribute('aria-hidden', 'false');
 
+              // Remove tabindex from both sides
+              frontSide.removeAttribute('tabindex');
+              backSide.removeAttribute('tabindex');
+
+              // Ensure all elements are tabbable
+              const allTabbables = reveal.querySelectorAll('a, button, input, select, textarea, [tabindex]');
+              allTabbables.forEach(el => el.setAttribute('tabindex', '0'));
+
               // Remove reveal classes and event listeners
               if (inner.classList.contains('revealed')) {
                 inner.classList.remove('revealed');
@@ -218,12 +240,31 @@
             } else {
               // Large screen: standard behavior
               const isRevealed = inner.classList.contains('revealed');
-              frontSide.setAttribute('aria-hidden', isRevealed ? 'true' : 'false');
-              backSide.setAttribute('aria-hidden', isRevealed ? 'false' : 'true');
+              const frontAriaHidden = isRevealed ? 'true' : 'false';
+              const backAriaHidden = isRevealed ? 'false' : 'true';
+
+              frontSide.setAttribute('aria-hidden', frontAriaHidden);
+              backSide.setAttribute('aria-hidden', backAriaHidden);
+
+              frontSide.setAttribute('tabindex', frontAriaHidden === 'true' ? '-1' : '0');
+              backSide.setAttribute('tabindex', backAriaHidden === 'true' ? '-1' : '0');
+
+              // Adjust tabbable elements based on trigger and revealed state
+              frontSide.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(el => {
+                el.setAttribute('tabindex', isRevealed ? '-1' : '0');
+              });
+
+              backSide.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(el => {
+                if (trigger === 'click') {
+                  el.setAttribute('tabindex', isRevealed ? '-1' : '0');
+                } else if (trigger === 'hover') {
+                  el.setAttribute('tabindex', isRevealed ? '0' : '-1');
+                }
+              });
 
               // Reattach event listeners
               activateReveal(reveal);
-              disableLinksInsideReveal(reveal, true); // Disable links on large screens
+              disableLinksInsideReveal(reveal, trigger === 'click'); // Disable links on large screens when clicked
             }
           });
         }
