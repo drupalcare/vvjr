@@ -7,11 +7,11 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 @media (min-width:87.5rem) {
-  .vvjr .reveal-item > div {
+  .vvjr.br-1400 .reveal-item > div {
     height: 100%;
   }
 
-  .vvjr .reveal-item {
+  .vvjr.br-1400 .reveal-item {
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -20,7 +20,7 @@
     height: 100%;
   }
 
-  .vvjr .back-box {
+  .vvjr.br-1400 .back-box {
     opacity: 0;
     position: absolute;
     left: 0;
@@ -30,51 +30,51 @@
     overflow: hidden;
   }
 
-  .vvjr .reveal-item.a-zoom .back-box {
+  .vvjr.br-1400 .reveal-item.a-zoom .back-box {
     transform: scale(0);
   }
 
-  .vvjr .reveal-item.a-top .back-box {
+  .vvjr.br-1400 .reveal-item.a-top .back-box {
     transform: translateY(-100%);
   }
 
-  .vvjr .reveal-item.a-right .back-box {
+  .vvjr.br-1400 .reveal-item.a-right .back-box {
     transform: translateX(100%);
   }
 
-  .vvjr .reveal-item.a-bottom .back-box {
+  .vvjr.br-1400 .reveal-item.a-bottom .back-box {
     transform: translateY(100%);
   }
 
-  .vvjr .reveal-item.a-left .back-box {
+  .vvjr.br-1400 .reveal-item.a-left .back-box {
     transform: translateX(-100%);
   }
 
-  .vvjr.hover .reveal-item.a-fade:hover .back-box {
+  .vvjr.br-1400.hover .reveal-item.a-fade:hover .back-box {
     opacity: 1;
   }
 
-  .vvjr.hover .reveal-item.a-zoom:hover .back-box {
+  .vvjr.br-1400.hover .reveal-item.a-zoom:hover .back-box {
     transform: scale(1);
     opacity: 1;
   }
 
-  .vvjr.hover .reveal-item.a-top:hover .back-box {
+  .vvjr.br-1400.hover .reveal-item.a-top:hover .back-box {
     transform: translateY(0);
     opacity: 1;
   }
 
-  .vvjr.hover .reveal-item.a-right:hover .back-box {
+  .vvjr.br-1400.hover .reveal-item.a-right:hover .back-box {
     transform: translateX(0);
     opacity: 1;
   }
 
-  .vvjr.hover .reveal-item.a-bottom:hover .back-box {
+  .vvjr.br-1400.hover .reveal-item.a-bottom:hover .back-box {
     transform: translateY(0);
     opacity: 1;
   }
 
-  .vvjr.hover .reveal-item.a-left:hover .back-box {
+  .vvjr.br-1400.hover .reveal-item.a-left:hover .back-box {
     transform: translateX(0);
     opacity: 1;
   }
@@ -82,19 +82,19 @@
 }
 
 @media (max-width:87.5rem) {
-  .vvjr .reveal-item {
+  .vvjr.br-1400 .reveal-item {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     height: 100% !important;
   }
 
-  .vvjr .reveal-item > *:last-child {
+  .vvjr.br-1400 .reveal-item > *:last-child {
     align-self: stretch;
   }
 
-  .vvjr .reveal-item .back-box,
-  .vvjr .reveal-item .front-box {
+  .vvjr.br-1400 .reveal-item .back-box,
+  .vvjr.br-1400 .reveal-item .front-box {
     transform: none !important;
     opacity: 1 !important;
   }

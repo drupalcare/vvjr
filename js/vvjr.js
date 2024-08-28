@@ -10,9 +10,10 @@
 (function (Drupal, drupalSettings, once) {
   Drupal.behaviors.VVJReveal = {
     attach: function (context, settings) {
-      const reveales = once('vvjReveal', '.vvjr', context);
+      // Scoped selection for '.vvjr' elements within the context
+      const reveals = once('vvjReveal', '.vvjr', context);
 
-      reveales.forEach(reveal => {
+      reveals.forEach(reveal => {
         const breakpoints = reveal.getAttribute('data-breakpoints');
         const trigger = reveal.getAttribute('data-reveal-method');
         const parsedBreakpoint = parseInt(breakpoints, 10);
@@ -307,4 +308,3 @@
     }
   };
 })(Drupal, drupalSettings, once);
-

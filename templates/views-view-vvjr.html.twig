@@ -33,17 +33,18 @@
 {% set front_bg_color = options.front_bg_color %}
 {% set back_bg_color = options.back_bg_color %}
 {% set animation_easing = options.animation_easing %}
-
+{% set breakpoint = options.available_breakpoints %}
 {# Set the classes for the reveal based on the provided options. #}
 {% set classes = [
   'vvjr',
+  'br-' ~ breakpoint,
   reveal_method,
 ] %}
 
 {# Render the main reveal container. #}
 <div {{ attributes.addClass(classes).setAttribute('id', reveal_id) }}
      data-reveal-method="{{ reveal_method }}"
-     data-breakpoints="{{ options.available_breakpoints }}"
+     data-breakpoints="{{ breakpoint }}"
      role="region"
      aria-labelledby="{{ reveal_id }}-label"
      tabindex="0">
