@@ -7,8 +7,9 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 @media (min-width:62rem) {
-  .vvjr.br-992 .reveal-item > div {
-    height: 100%;
+  .vvjr.br-992 .reveal-inner {
+    grid-template-columns: repeat(auto-fill, minmax(calc(var(--box-width) * 1px), 1fr));
+    gap: calc(var(--grid-gap) * 1px);
   }
 
   .vvjr.br-992 .reveal-item {
@@ -17,7 +18,7 @@
     overflow: hidden;
     background-color: transparent;
     width: 100%;
-    height: 100%;
+    height: var(--box-height);
   }
 
   .vvjr.br-992 .back-box {
@@ -28,6 +29,11 @@
     top: 0;
     bottom: 0;
     overflow: hidden;
+    transition: var(--reveal-speed) var(--animation-easing);
+  }
+
+  .vvjr.br-992 .reveal-item > div {
+    height: 100%;
   }
 
   .vvjr.br-992 .reveal-item.a-zoom .back-box {
@@ -82,11 +88,16 @@
 }
 
 @media (max-width:62rem) {
+  .vvjr.br-992 .reveal-inner {
+    grid-template-columns: 1fr;
+    gap: calc(var(--grid-gap) * 1px);
+  }
+
   .vvjr.br-992 .reveal-item {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    height: 100% !important;
+    height: auto;
   }
 
   .vvjr.br-992 .reveal-item > *:last-child {

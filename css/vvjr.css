@@ -27,7 +27,7 @@
 .vvj-reveal .view-content {
   width: 100%;
   min-width: 100%;
-  display: block!important;
+  display: block !important;
 }
 
 .vvjr {
@@ -40,4 +40,12 @@
   overflow: hidden;
   background-color: transparent;
   width: 100%;
+}
+
+.vvjr .reveal-inner .front-box {
+  background-color: var(--bg-color-front);
+}
+
+.vvjr .reveal-inner .back-box {
+  background-color: var(--bg-color-back);
 }

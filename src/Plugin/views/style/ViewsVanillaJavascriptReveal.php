@@ -74,15 +74,6 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
       '#description' => $this->t('Select the maximum screen width (in pixels) at which the Reveal should be disabled. Selecting "Active on all screens" will keep the Reveal active on all screen sizes.'),
     ];
 
-    $form['box_height'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Box Height (in pixels)'),
-      '#default_value' => $this->options['box_height'],
-      '#description' => $this->t('Specify the height of the revealed box in pixels. Enter "0" to disable this field.'),
-      '#step' => 1,
-      '#min' => 0,
-    ];
-
     $form['box_width'] = [
       '#type' => 'number',
       '#title' => $this->t('Box Min Width (px)'),
@@ -90,6 +81,17 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
       '#description' => $this->t('Defines the minimum width for each grid box (reveal). The grid automatically adjusts the number of columns to fit the available space, ensuring responsive and flexible layout. Enter "0" to disable this field.'),
       '#step' => 1,
       '#min' => 0,
+      '#required' => TRUE,
+    ];
+
+    $form['box_height'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Box Height (in pixels)'),
+      '#default_value' => $this->options['box_height'],
+      '#description' => $this->t('Specify the height of the revealed box in pixels. Enter "0" to disable this field.'),
+      '#step' => 1,
+      '#min' => 0,
+      '#required' => TRUE,
     ];
 
     $form['grid_gap'] = [
@@ -98,7 +100,8 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
       '#default_value' => $this->options['grid_gap'],
       '#description' => $this->t('Set the gap between grid items in pixels.'),
       '#step' => 1,
-      '#min' => 1,
+      '#min' => 0,
+      '#required' => TRUE,
     ];
 
     $form['reveal_style'] = [
