@@ -18,7 +18,7 @@
     overflow: hidden;
     background-color: transparent;
     width: 100%;
-    height: var(--box-height);
+    height: calc(var(--box-height) * 1px);
   }
 
   .vvjr.br-1200 .back-box {

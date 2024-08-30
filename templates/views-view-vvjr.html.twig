@@ -75,7 +75,7 @@
       {% set front_content = split_content[0] %}
       {% set back_content = split_content[1]|default('') %}
 
-      <div class="reveal-item {{ reveal_style }}" style="--box-height: {{ box_height > 0 ? box_height ~ 'px' : 'auto' }};">
+      <div class="reveal-item {{ reveal_style }}" style="--box-height: {{ box_height > 0 ? box_height : 'auto' }};">
 
           <div class="front-box"
                style="--bg-color-front: {{ front_bg_color }};"
