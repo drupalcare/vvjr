@@ -87,7 +87,7 @@
 
 }
 
-@media (max-width:48rem) {
+@media (max-width:47.99875rem) {
   .vvjr.br-768 .reveal-inner {
     grid-template-columns: 1fr;
     gap: calc(var(--grid-gap) * 1px);
