@@ -29,6 +29,11 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
   protected $usesRowPlugin = TRUE;
 
   /**
+   * {@inheritdoc}
+   */
+  protected $usesRowClass = TRUE;
+
+  /**
    * Set default options.
    */
   protected function defineOptions(): array {
@@ -175,6 +180,29 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
       '#default_value' => $this->options['enable_css'],
       '#description' => $this->t('Check this box to include the CSS library for styling the reveal elements.'),
     ];
+
+    $form['vvjr_token_info'] = [
+      '#type' => 'details',
+      '#title' => $this->t('VVJR Tokens'),
+      '#open' => TRUE,
+    ];
+
+    $form['vvjr_token_info']['description'] = [
+      '#markup' => $this->t('<p>When using <em>Global: Text area</em> or <em>Global: Unfiltered text</em> in the Views header, footer, or empty text areas, the default Twig-style tokens (e.g., <code>{{ title }}</code>) will not work with the VVJR style plugin.</p>
+        <p>Instead, use the custom VVJR token format to access field values from the <strong>first row</strong> of the View result:</p>
+        <ul>
+          <li><code>[vvjr:field_name]</code> – The rendered output of the field (e.g., linked title, image, formatted text).</li>
+          <li><code>[vvjr:field_name:plain]</code> – A plain-text version of the field, with all HTML stripped.</li>
+        </ul>
+        <p>Examples:</p>
+        <ul>
+          <li><code>{{ title }}</code> ➜ <code>[vvjr:title]</code></li>
+          <li><code>{{ field_image }}</code> ➜ <code>[vvjr:field_image]</code></li>
+          <li><code>{{ body }}</code> ➜ <code>[vvjr:body:plain]</code></li>
+        </ul>
+        <p>These tokens offer safe and flexible field output for dynamic headings, summaries, and fallback messages in VVJR-enabled Views.</p>'),
+    ];
+
   }
 
   /**
@@ -185,6 +213,43 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
   protected function generateUniqueId(): int {
     // 8 digit unique ID
     return random_int(10000000, 99999999);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preRender($result) {
+    parent::preRender($result);
+
+    if (empty($result)) {
+      return;
+    }
+
+    $this->view->row_index = 0;
+    $this->view->style_plugin = $this;
+
+    $first_row = $result[0];
+    $replacements = [];
+
+    // Generate [vvjr:field_name] tokens for all fields.
+    foreach ($this->view->field as $field_id => $field_handler) {
+      $replacements["[vvjr:$field_id]"] = $field_handler->render($first_row);
+    }
+
+    // Replace in header/footer/empty regions.
+    $sections = ['header', 'footer', 'empty'];
+
+    foreach ($sections as $section) {
+      $options = $this->view->display_handler->getOption($section);
+      if (!empty($options) && is_array($options)) {
+        foreach ($options as &$item) {
+          if (isset($item['content']) && is_string($item['content'])) {
+            $item['content'] = strtr($item['content'], $replacements);
+          }
+        }
+        $this->view->display_handler->setOption($section, $options);
+      }
+    }
   }
 
   /**
@@ -214,7 +279,7 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
       $libraries[] = 'vvjr/vvjr__' . $this->options['available_breakpoints'];
     }
 
-    return [
+    $build = [
       '#theme' => $this->themeFunctions(),
       '#view' => $this->view,
       '#options' => $this->options,
@@ -224,6 +289,9 @@ class ViewsVanillaJavascriptReveal extends StylePluginBase {
         'library' => $libraries,
       ],
     ];
+
+    $build['#context']['tokens']['view'] = $this->view;
+    return $build;
   }
 
   /**
