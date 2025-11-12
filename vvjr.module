@@ -8,21 +8,24 @@
  *
  * Filename:     vvjr.module
  * Website:      https://www.flashwebcenter.com
- * Description:  template.
+ * Description:  Views Vanilla JavaScript Reveal module.
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
+declare(strict_types=1);
+
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Render\Markup;
-use Drupal\views\ViewExecutable;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Template\Attribute;
+use Drupal\views\ViewExecutable;
 use Drupal\vvjr\Plugin\views\style\ViewsVanillaJavascriptReveal;
+use Drupal\vvjr\VvjrConstants;
 
 /**
  * Implements hook_help().
  */
-function vvjr_help($route_name, RouteMatchInterface $route_match): ?string {
+function vvjr_help(string $route_name, RouteMatchInterface $route_match): ?string {
   if ($route_name === 'help.page.vvjr') {
     return _vvjr_helper_render_readme();
   }
@@ -40,14 +43,13 @@ function _vvjr_helper_render_readme(): string {
   $text = file_get_contents($readme_path);
 
   if ($text === FALSE) {
-    return t('README.md file not found.');
+    return (string) t('README.md file not found.');
   }
 
   if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
     return '<pre>' . htmlspecialchars($text) . '</pre>';
   }
 
-  // Use the Markdown filter to render the README.
   $filter_manager = \Drupal::service('plugin.manager.filter');
   $settings = \Drupal::config('markdown.settings')->getRawData();
   $filter = $filter_manager->createInstance('markdown', ['settings' => $settings]);
@@ -57,9 +59,9 @@ function _vvjr_helper_render_readme(): string {
 /**
  * Implements hook_theme().
  */
-function vvjr_theme($existing, $type, $theme, $path) {
+function vvjr_theme(array $existing, string $type, string $theme, string $path): array {
   return [
-    'views_view_vvjr_fields' => [
+    VvjrConstants::THEME_HOOK_FIELDS => [
       'variables' => [
         'view' => NULL,
         'options' => [],
@@ -75,7 +77,7 @@ function vvjr_theme($existing, $type, $theme, $path) {
       'template' => 'views-view-vvjr-fields',
       'path' => $path . '/templates',
     ],
-    'views_view_vvjr' => [
+    VvjrConstants::THEME_HOOK => [
       'variables' => [
         'view' => NULL,
         'rows' => [],
@@ -90,133 +92,138 @@ function vvjr_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_preprocess_HOOK() for views_view_vvjr.
  */
-function template_preprocess_views_view_vvjr(array &$variables) {
-  // Load necessary views theme functions.
-  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+function template_preprocess_views_view_vvjr(array &$variables): void {
+  static $views_theme_loaded = FALSE;
+  if (!$views_theme_loaded) {
+    \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+    $views_theme_loaded = TRUE;
+  }
 
-  // Access the style plugin handler.
   $handler = $variables['view']->style_plugin;
 
-  // Initialize list attributes array.
   $list_attributes = [];
 
-  // Conditionally add options as data attributes.
-  if (!empty($handler->options['reveal_method'])) {
-    $list_attributes['data-reveal-method'] = $handler->options['reveal_method'];
+  if (!empty($handler->options[VvjrConstants::OPTION_REVEAL_METHOD])) {
+    $list_attributes['data-reveal-method'] = $handler->options[VvjrConstants::OPTION_REVEAL_METHOD];
   }
 
-  if (!empty($handler->options['reveal_style'])) {
-    $list_attributes['data-reveal-style'] = $handler->options['reveal_style'];
+  if (!empty($handler->options[VvjrConstants::OPTION_REVEAL_STYLE])) {
+    $list_attributes['data-reveal-style'] = $handler->options[VvjrConstants::OPTION_REVEAL_STYLE];
   }
 
-  if (!empty($handler->options['reveal_speed'])) {
-    $list_attributes['data-reveal-speed'] = $handler->options['reveal_speed'];
+  if (!empty($handler->options[VvjrConstants::OPTION_REVEAL_SPEED])) {
+    $list_attributes['data-reveal-speed'] = $handler->options[VvjrConstants::OPTION_REVEAL_SPEED];
   }
 
-  if (!empty($handler->options['front_bg_color'])) {
-    $list_attributes['data-front-bg-color'] = $handler->options['front_bg_color'];
+  if (!empty($handler->options[VvjrConstants::OPTION_FRONT_BG_COLOR])) {
+    $list_attributes['data-front-bg-color'] = $handler->options[VvjrConstants::OPTION_FRONT_BG_COLOR];
   }
 
-  if (!empty($handler->options['back_bg_color'])) {
-    $list_attributes['data-back-bg-color'] = $handler->options['back_bg_color'];
+  if (!empty($handler->options[VvjrConstants::OPTION_BACK_BG_COLOR])) {
+    $list_attributes['data-back-bg-color'] = $handler->options[VvjrConstants::OPTION_BACK_BG_COLOR];
   }
 
-  if (!empty($handler->options['box_height'])) {
-    $list_attributes['data-box-height'] = $handler->options['box_height'];
+  if (!empty($handler->options[VvjrConstants::OPTION_BOX_HEIGHT])) {
+    $list_attributes['data-box-height'] = $handler->options[VvjrConstants::OPTION_BOX_HEIGHT];
   }
 
-  if (!empty($handler->options['box_width'])) {
-    $list_attributes['data-box-width'] = $handler->options['box_width'];
+  if (!empty($handler->options[VvjrConstants::OPTION_BOX_WIDTH])) {
+    $list_attributes['data-box-width'] = $handler->options[VvjrConstants::OPTION_BOX_WIDTH];
   }
 
-  if (!empty($handler->options['grid_gap'])) {
-    $list_attributes['data-grid-gap'] = $handler->options['grid_gap'];
+  if (!empty($handler->options[VvjrConstants::OPTION_GRID_GAP])) {
+    $list_attributes['data-grid-gap'] = $handler->options[VvjrConstants::OPTION_GRID_GAP];
   }
 
-  if (!empty($handler->options['animation_easing'])) {
-    $list_attributes['data-animation-easing'] = $handler->options['animation_easing'];
+  if (!empty($handler->options[VvjrConstants::OPTION_ANIMATION_EASING])) {
+    $list_attributes['data-animation-easing'] = $handler->options[VvjrConstants::OPTION_ANIMATION_EASING];
   }
 
-  if (!empty($handler->options['unique_id'])) {
-    $list_attributes['data-unique-id'] = $handler->options['unique_id'];
+  if (!empty($handler->options[VvjrConstants::OPTION_UNIQUE_ID])) {
+    $list_attributes['data-unique-id'] = $handler->options[VvjrConstants::OPTION_UNIQUE_ID];
   }
 
-  if (!empty($handler->options['available_breakpoints'])) {
-    $list_attributes['data-available-breakpoints'] = $handler->options['available_breakpoints'];
+  if (!empty($handler->options[VvjrConstants::OPTION_BREAKPOINTS])) {
+    $list_attributes['data-available-breakpoints'] = $handler->options[VvjrConstants::OPTION_BREAKPOINTS];
   }
 
-  if (isset($handler->options['enable_css'])) {
-    $list_attributes['data-enable-css'] = $handler->options['enable_css'] ? 'true' : 'false';
+  if (isset($handler->options[VvjrConstants::OPTION_ENABLE_CSS])) {
+    $list_attributes['data-enable-css'] = $handler->options[VvjrConstants::OPTION_ENABLE_CSS] ? 'true' : 'false';
   }
 
-  // Create an Attribute object for the list.
   $variables['list_attributes'] = new Attribute($list_attributes);
-
-  // Pass options to the template for direct access.
   $variables['options'] = $handler->options;
 
-  // Pass additional settings to the template.
   $variables['settings'] = [
     'view_id' => $variables['view']->dom_id,
-    'box_height' => $handler->options['box_height'],
-    'box_width' => $handler->options['box_width'],
-    'reveal_method' => $handler->options['reveal_method'],
-    'reveal_style' => $handler->options['reveal_style'],
-    'reveal_speed' => $handler->options['reveal_speed'],
-    'front_bg_color' => $handler->options['front_bg_color'],
-    'back_bg_color' => $handler->options['back_bg_color'],
-    'grid_gap' => $handler->options['grid_gap'],
-    'animation_easing' => $handler->options['animation_easing'],
-    'unique_id' => $handler->options['unique_id'],
-    'available_breakpoints' => $handler->options['available_breakpoints'],
-    'enable_css' => $handler->options['enable_css'],
+    VvjrConstants::OPTION_BOX_HEIGHT => $handler->options[VvjrConstants::OPTION_BOX_HEIGHT],
+    VvjrConstants::OPTION_BOX_WIDTH => $handler->options[VvjrConstants::OPTION_BOX_WIDTH],
+    VvjrConstants::OPTION_REVEAL_METHOD => $handler->options[VvjrConstants::OPTION_REVEAL_METHOD],
+    VvjrConstants::OPTION_REVEAL_STYLE => $handler->options[VvjrConstants::OPTION_REVEAL_STYLE],
+    VvjrConstants::OPTION_REVEAL_SPEED => $handler->options[VvjrConstants::OPTION_REVEAL_SPEED],
+    VvjrConstants::OPTION_FRONT_BG_COLOR => $handler->options[VvjrConstants::OPTION_FRONT_BG_COLOR],
+    VvjrConstants::OPTION_BACK_BG_COLOR => $handler->options[VvjrConstants::OPTION_BACK_BG_COLOR],
+    VvjrConstants::OPTION_GRID_GAP => $handler->options[VvjrConstants::OPTION_GRID_GAP],
+    VvjrConstants::OPTION_ANIMATION_EASING => $handler->options[VvjrConstants::OPTION_ANIMATION_EASING],
+    VvjrConstants::OPTION_UNIQUE_ID => $handler->options[VvjrConstants::OPTION_UNIQUE_ID],
+    VvjrConstants::OPTION_BREAKPOINTS => $handler->options[VvjrConstants::OPTION_BREAKPOINTS],
+    VvjrConstants::OPTION_ENABLE_CSS => $handler->options[VvjrConstants::OPTION_ENABLE_CSS],
   ];
 
-  // Customize theme hook suggestions for rows.
   if (!empty($variables['rows'])) {
     foreach ($variables['rows'] as $key => $row) {
       if (isset($row['#theme']) && is_array($row['#theme'])) {
         foreach ($row['#theme'] as $idx => $theme_hook_suggestion) {
-          // Modify theme hook suggestions to use the custom theme function.
-          $variables['rows'][$key]['#theme'][$idx] = str_replace('views_view_fields', 'views_view_vvjr_fields', $theme_hook_suggestion);
+          $variables['rows'][$key]['#theme'][$idx] = str_replace(
+            'views_view_fields',
+            VvjrConstants::THEME_HOOK_FIELDS,
+            $theme_hook_suggestion
+          );
         }
       }
     }
   }
 
-  // Call the default preprocess function for unformatted views.
   template_preprocess_views_view_unformatted($variables);
 }
 
 /**
  * Prepares variables for views_view_vvjr_fields template.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - view: The view object.
+ *   - options: Configuration options.
+ *   - row: The result row object.
+ *   - fields: An array of field render arrays.
  */
-function template_preprocess_views_view_vvjr_fields(array &$variables) {
-  // Load necessary views theme functions.
-  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+function template_preprocess_views_view_vvjr_fields(array &$variables): void {
+  static $views_theme_loaded = FALSE;
+  if (!$views_theme_loaded) {
+    \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+    $views_theme_loaded = TRUE;
+  }
 
-  // Preprocess views view fields.
   template_preprocess_views_view_fields($variables);
 }
 
 /**
  * Implements hook_preprocess_views_view().
  */
-function vvjr_preprocess_views_view(&$variables) {
+function vvjr_preprocess_views_view(array &$variables): void {
   if ($variables['view']->style_plugin instanceof ViewsVanillaJavascriptReveal) {
-    // Add the custom class to the view wrapper.
-    $variables['attributes']['class'][] = 'vvj-reveal';
+    $variables['attributes']['class'][] = VvjrConstants::CSS_CLASS_WRAPPER;
   }
 }
 
 /**
  * Implements hook_token_info().
  */
-function vvjr_token_info() {
+function vvjr_token_info(): array {
   return [
     'tokens' => [
       'view' => [
-        'vvjr' => [
+        VvjrConstants::TOKEN_NAMESPACE => [
           'name' => t('VVJR field output'),
           'description' => t("Use these tokens when you enable 'Use replacement tokens from the first row' in Views text areas such as the header, footer, or empty text. Use [vvjr:field_name] for rendered output, or [vvjr:field_name:plain] to strip HTML and return plain text. These tokens pull values from the first row of the View result."),
         ],
@@ -228,56 +235,148 @@ function vvjr_token_info() {
 /**
  * Implements hook_tokens().
  */
-function vvjr_tokens($type, $tokens, array $data = [], array $options = []) {
+function vvjr_tokens(string $type, array $tokens, array $data = [], array $options = []): array {
   $replacements = [];
 
-  if (in_array($type, ['vvjr', 'global']) && isset($data['view']) && $data['view'] instanceof ViewExecutable) {
-    $view = $data['view'];
+  if (!in_array($type, [VvjrConstants::TOKEN_NAMESPACE, 'global'])) {
+    return $replacements;
+  }
 
-    if (!empty($view->result)) {
-      $first_row = $view->result[0];
-      $field_handlers = $view->display_handler->getHandlers('field');
+  if (!isset($data['view']) || !($data['view'] instanceof ViewExecutable)) {
+    return $replacements;
+  }
 
-      /** @var \Drupal\Core\Render\RendererInterface $renderer */
-      $renderer = \Drupal::service('renderer');
+  $view = $data['view'];
 
-      foreach ($tokens as $token => $name) {
-        $plain = FALSE;
-        $field_id = $token;
+  if (!($view->style_plugin instanceof ViewsVanillaJavascriptReveal)) {
+    return $replacements;
+  }
 
-        if (str_ends_with($token, ':plain')) {
-          $plain = TRUE;
-          $field_id = substr($token, 0, -6);
-        }
+  if (empty($view->result)) {
+    return $replacements;
+  }
 
-        if (!isset($field_handlers[$field_id])) {
-          continue;
-        }
+  $first_row = $view->result[0];
+  $field_handlers = $view->display_handler->getHandlers('field');
 
-        try {
-          $handler = $field_handlers[$field_id];
-          $value = $plain && method_exists($handler, 'advancedRenderText')
-            ? $handler->advancedRenderText($first_row)
-            : $handler->advancedRender($first_row);
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
+  $renderer = \Drupal::service('renderer');
 
-          if (is_array($value)) {
-            // Render safely using renderPlain to avoid LogicException.
-            $rendered = $renderer->renderPlain($value);
-          }
-          else {
-            $rendered = (string) $value;
-          }
+  foreach ($tokens as $token => $name) {
+    if (!preg_match(VvjrConstants::TOKEN_PATTERN, $token)) {
+      \Drupal::logger('vvjr')->warning('Invalid token format: @token', ['@token' => $token]);
+      continue;
+    }
 
-          $replacements["[vvjr:$token]"] = $plain
-            ? Html::decodeEntities(strip_tags($rendered))
-            : Markup::create($rendered);
-        }
-        catch (\Throwable $e) {
-          $replacements["[vvjr:$token]"] = '';
-        }
+    $plain = FALSE;
+    $field_id = $token;
+
+    if (str_ends_with($token, VvjrConstants::TOKEN_SUFFIX_PLAIN)) {
+      $plain = TRUE;
+      $field_id = substr($token, 0, -strlen(VvjrConstants::TOKEN_SUFFIX_PLAIN));
+    }
+
+    if (!isset($field_handlers[$field_id])) {
+      continue;
+    }
+
+    try {
+      $handler = $field_handlers[$field_id];
+      $value = $plain && method_exists($handler, 'advancedRenderText')
+        ? $handler->advancedRenderText($first_row)
+        : $handler->advancedRender($first_row);
+
+      if (is_array($value)) {
+        $rendered = $renderer->renderPlain($value);
       }
+      else {
+        $rendered = (string) $value;
+      }
+
+      $replacements["[" . VvjrConstants::TOKEN_NAMESPACE . ":$token]"] = $plain
+        ? Html::decodeEntities(strip_tags($rendered))
+        : Markup::create($rendered);
+    }
+    catch (\Throwable $e) {
+      \Drupal::logger('vvjr')->error('Token replacement failed for @token: @message', [
+        '@token' => $token,
+        '@message' => $e->getMessage(),
+      ]);
+      $replacements["[" . VvjrConstants::TOKEN_NAMESPACE . ":$token]"] = '';
     }
   }
 
   return $replacements;
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function vvjr_views_data_alter(array &$data): void {
+  $data['views_style_plugin'][VvjrConstants::PLUGIN_ID] = [
+    'type' => 'views_style',
+    'label' => t('Views Vanilla JavaScript Reveal'),
+    'mapping' => [
+      VvjrConstants::OPTION_UNIQUE_ID => [
+        'type' => 'integer',
+        'label' => t('Unique ID'),
+        'description' => t('Unique identifier for the view display.'),
+      ],
+      VvjrConstants::OPTION_REVEAL_METHOD => [
+        'type' => 'string',
+        'label' => t('Reveal Method'),
+        'description' => t('The event that triggers the reveal (click or hover).'),
+      ],
+      VvjrConstants::OPTION_REVEAL_STYLE => [
+        'type' => 'string',
+        'label' => t('Reveal Style'),
+        'description' => t('The style of the reveal animation.'),
+      ],
+      VvjrConstants::OPTION_BOX_WIDTH => [
+        'type' => 'numeric',
+        'label' => t('Box Width'),
+        'description' => t('The minimum width for each box in the reveal grid.'),
+      ],
+      VvjrConstants::OPTION_BOX_HEIGHT => [
+        'type' => 'numeric',
+        'label' => t('Box Height'),
+        'description' => t('The height for each reveal box.'),
+      ],
+      VvjrConstants::OPTION_REVEAL_SPEED => [
+        'type' => 'numeric',
+        'label' => t('Reveal Speed'),
+        'description' => t('The speed of the reveal animation.'),
+      ],
+      VvjrConstants::OPTION_FRONT_BG_COLOR => [
+        'type' => 'string',
+        'label' => t('Displayed Side Background Color'),
+        'description' => t('The background color for the displayed side of the reveal box.'),
+      ],
+      VvjrConstants::OPTION_BACK_BG_COLOR => [
+        'type' => 'string',
+        'label' => t('Revealed Side Background Color'),
+        'description' => t('The background color for the revealed side of the reveal box.'),
+      ],
+      VvjrConstants::OPTION_ANIMATION_EASING => [
+        'type' => 'string',
+        'label' => t('Animation Easing'),
+        'description' => t('The easing function applied to the reveal animation.'),
+      ],
+      VvjrConstants::OPTION_ENABLE_CSS => [
+        'type' => 'boolean',
+        'label' => t('Enable CSS Library'),
+        'description' => t('Include the CSS library for styling the reveal elements.'),
+      ],
+      VvjrConstants::OPTION_GRID_GAP => [
+        'type' => 'numeric',
+        'label' => t('Grid Gap (px)'),
+        'description' => t('Set the gap between grid items in pixels.'),
+      ],
+      VvjrConstants::OPTION_BREAKPOINTS => [
+        'type' => 'string',
+        'label' => t('Responsive Breakpoints'),
+        'description' => t('Defines the breakpoints for responsive design.'),
+      ],
+    ],
+  ];
 }

@@ -1,0 +1,40 @@
+views.style.views_vvjr:
+  type: views_style
+  label: 'Views Vanilla JavaScript Reveal'
+  mapping:
+    unique_id:
+      type: integer
+      label: 'Unique identifier for reveal instance'
+    reveal_method:
+      type: string
+      label: 'Reveal method (hover/click)'
+    reveal_style:
+      type: string
+      label: 'Reveal animation style'
+    reveal_speed:
+      type: float
+      label: 'Reveal animation speed'
+    front_bg_color:
+      type: string
+      label: 'Displayed side background color'
+    back_bg_color:
+      type: string
+      label: 'Revealed side background color'
+    available_breakpoints:
+      type: string
+      label: 'Responsive breakpoints'
+    animation_easing:
+      type: string
+      label: 'Animation easing function'
+    grid_gap:
+      type: integer
+      label: 'Grid gap in pixels'
+    enable_css:
+      type: boolean
+      label: 'Enable CSS library'
+    box_height:
+      type: integer
+      label: 'Box height in pixels'
+    box_width:
+      type: integer
+      label: 'Box minimum width in pixels'

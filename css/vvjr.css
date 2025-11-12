@@ -42,6 +42,11 @@
   width: 100%;
 }
 
+.vvjr .reveal-inner > * {
+  min-width: 0;
+  min-height: 0;
+}
+
 .vvjr .reveal-inner .front-box {
   background-color: var(--bg-color-front);
 }

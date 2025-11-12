@@ -1,4 +1,4 @@
-name: 'Views Vanilla Javascript Reveal'
+name: 'Views Vanilla Javascript Reveal - VVJR'
 type: module
 description: 'Provides a Vanilla Javascript Reveal format for Views.'
 core_version_requirement: ^10 || ^11
