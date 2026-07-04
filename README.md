@@ -1,89 +1,71 @@
-# Views Vanilla JavaScript Reveal
+# Views Vanilla JavaScript Reveal (VVJR)
 
-## Overview
-The **Views Vanilla JavaScript Reveal** module (machine name: `vvjr`) is a 
-versatile and dynamic Views style plugin designed to render content items in 
-an engaging reveal format using vanilla JavaScript. This module enhances your 
-site by adding a visually appealing, interactive reveal effect to content 
-displayed through Drupal Views.
+A vanilla-JavaScript reveal-card grid **Views format** for Drupal 11.3+ / 12.
+Renders Views rows as cards that swap their displayed content for a "revealed"
+content layer on hover or click — with six animation styles, configurable
+speed/easing, breakpoint-gated activation, and AAA-conformant ARIA state
+management.
+
+v2.0 builds on the **`drupal/vvj_core` foundation** (composer auto-installs it).
+Behavior runs in a `<vvjr-reveal>` custom element extending `VvjElementBase`.
 
 ## Features
-- **Interactive Reveal Boxes**: Display content items with reveal animations 
-  for a dynamic user experience.
-- **Customizable Options**: Adjustable settings for reveal style, speed, 
-  background colors, and more.
-- **Responsive Design**: Built-in breakpoints to ensure the reveal adapts 
-  seamlessly to different screen sizes.
-- **Hover or Click Activation**: Choose whether the reveal occurs on hover 
-  or click.
 
-## Configuration
-After installing and enabling the module, you can configure it through the 
-Views UI:
-
-1. **Reveal Style**: Choose the reveal animation style (e.g., Fade, Zoom, 
-   Top, Right, Bottom, Left).
-2. **Reveal Speed**: Set the speed for the reveal animation (e.g., 0.1 for 
-   fast, 2 for slow).
-3. **Background Colors**: Customize the background colors for the front and 
-   revealed sides of the box.
-4. **Available Breakpoints**: Select the breakpoints to ensure the reveal is 
-   responsive (e.g., 576px, 768px, 992px, etc.).
-
-## Token Support in Views Text Areas
-
-In Views headers, footers, or empty text areas—when using *Global: Text area* or
-*Global: Unfiltered text*—there is an option called **"Use replacement tokens
-from the first row."**
-
-The default Twig-style tokens (e.g., `{{ title }}` or `{{ field_image }}`)
-**will not work** with the VVJR style. Instead, use the custom tokens provided
-by VVJR:
-
-**Examples:**
-
-- `{{ title }}` → `[vvjr:title]`  
-- `{{ field_image }}` → `[vvjr:field_image]`
-
-To strip any HTML from the output, you can append `:plain` to the token:
-
-- `[vvjr:title:plain]`
-
-These tokens pull data from the **first row** of the View result and are
-designed to work seamlessly with the VVJR rendering system.
-
-## Example Usage
-1. Create a new view or edit an existing view.
-2. Under the "Format" section, select "Views Vanilla JavaScript Reveal" as 
-   the style.
-3. Configure the reveal style, speed, background colors, and other settings 
-   as needed.
-4. Save the view and see the reveal in action on the front end.
-
-## Additional Information
-- **Dependencies**: This module does not have any dependencies on other 
-  contributed modules.
-- **Compatibility**: Fully compatible with Drupal 10 and follows Drupal best 
-  practices.
+- Hover and click triggers (Enter/Space keyboard fallback)
+- Six animation styles: fade / zoom / slide-from-top / slide-from-right / slide-
+  from-bottom / slide-from-left
+- Configurable reveal speed (0.1 - 2.0 s) + 5 easing curves
+- Configurable box height, min-width, grid gap
+- Front + back background colors (independent)
+- 6 responsive breakpoints (`all` / 576 / 768 / 992 / 1200 / 1400 px) — reveal
+  active above the chosen viewport
+- ARIA `aria-hidden` and `tabindex` synchronized to the revealed state
+- On viewports below the breakpoint: both sides visible, reveal disabled, every
+  nested element tabbable
+- Lazy IntersectionObserver hydration; AbortController-tracked listeners
+- Throttled resize handler keeps state in sync with viewport changes
+- **Views tokens** — `[vvjr:field]` / `[vvjr:field:plain]` in Views text areas
+  with *Use replacement tokens from the first row*
+- **Drupal admin help** — `/admin/help/vvjr`
 
 ## Installation
-1. Download and install the module from 
-   [Drupal.org](https://www.drupal.org/project/vvjr).
-2. Enable the module through the Drupal admin interface or using Drush: 
-   `drush en vvjr`
-3. Clear caches to ensure the new plugin is available: `drush cr`
 
-## Troubleshooting
-If you encounter any issues or have suggestions for improvements, please open 
-an issue in the module's issue queue on Drupal.org.
+```bash
+composer require drupal/vvjr:^2.0
+drush en vvjr
+```
 
-## Maintainers
-- [Alaa Haddad](https://www.drupal.org/u/flashwebcenter)
+## Usage
 
-## Support
-For issues, feature requests, and general support, please use the 
-[issue queue](https://www.drupal.org/project/issues/vvjr).
+1. Create or edit a View.
+2. Set **Format** to *Views Vanilla JavaScript Reveal*.
+3. Set **Show** to *Fields*.
+4. Place a `<div class="vvjr-separator"></div>` field between the displayed and
+   revealed fields. Everything before becomes the front; everything after
+   becomes the back.
+5. Configure responsive / dimensions / reveal / colors in the format settings.
+6. Save.
+
+**Sample view:** Optional config `views.view.vvjr_example` (`config/optional/`)
+installs when there is no ID conflict.
+
+## Drop-in upgrade from 1.x
+
+`composer update drupal/vvjr && drush updb && drush cr` is sufficient. v2
+preserves:
+
+- Plugin ID `views_vvjr`, theme hook `views_view_vvjr`
+- Twig template names
+- All option keys
+- Library names (`vvjr`, `vvjr-style`, `vvjr__all/576/768/992/1200/1400`)
+- JS behavior key `Drupal.behaviors.VVJReveal`
+- All CSS class names (`.vvjr`, `.reveal-inner`, `.reveal-item`, `.front-box`,
+  `.back-box`, `.revealed`, animation classes)
+- Separator marker `<div class="vvjr-separator"></div>`
+
+Outer rendered tag changed from `<div>` to `<vvjr-reveal>`. Theme selectors
+targeting `.vvjr` keep matching.
 
 ## License
-This project is licensed under the 
-[GNU General Public License, version 2 or later](http://www.gnu.org/licenses/gpl-2.0.html).
+
+GPL-2.0-or-later.

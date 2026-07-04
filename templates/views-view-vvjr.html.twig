@@ -29,7 +29,7 @@
 {% set grid_gap = options.grid_gap %}
 {% set reveal_method = options.reveal_method %}
 {% set reveal_style = options.reveal_style %}
-{% set reveal_speed = options.reveal_speed  ~ 's' %}
+{% set reveal_speed = options.reveal_speed ~ 's' %}
 {% set front_bg_color = options.front_bg_color %}
 {% set back_bg_color = options.back_bg_color %}
 {% set animation_easing = options.animation_easing %}
@@ -55,7 +55,7 @@
 {% set style_string = style_attributes ? style_attributes|join('; ') : '' %}
 
 {# Render the main reveal container. #}
-<div {{ attributes.addClass(classes).setAttribute('id', reveal_id) }}
+<vvjr-reveal {{ attributes.addClass(classes).setAttribute('id', reveal_id) }}
      data-reveal-method="{{ reveal_method }}"
      data-breakpoints="{{ breakpoint }}"
      role="region"
@@ -104,4 +104,4 @@
       </div>
     {% endfor %}
   </div>
-</div>
+</vvjr-reveal>

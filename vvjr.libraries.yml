@@ -3,22 +3,27 @@ vvjr:
     theme:
       css/vvjr.css: { }
   js:
+    js/vvjr-reveal-element.js: { }
     js/vvjr.js: {}
   dependencies:
     - core/drupal
     - core/drupal.ajax
     - core/drupalSettings
     - core/once
-
-vvjr__all:
-  css:
-    theme:
-      css/vvjr-all.css: { }
+    - vvj_core/tokens
+    - vvj_core/base
+    - vvj_core/a11y
+    - vvj_core/element-base
 
 vvjr-style:
   css:
     theme:
       css/vvjr-style.css: { }
+
+vvjr__all:
+  css:
+    theme:
+      css/vvjr-all.css: { }
 
 vvjr__576:
   css:
