@@ -1,0 +1,163 @@
+<p><strong>The Vanilla Views suite F.L.A.S.H.C.R.P.T.B <span>FlashCrptb</span></strong> is a collection of ten powerful Drupal modules designed to enhance the visual and interactive experience of Drupal Views using pure, lightweight Vanilla JavaScript. Originally developed as <a href="https://www.drupal.org/project/paragraphs_bundles" target="_blank">Paragraphs Bundles</a>, these modules <a href="https://www.drupal.org/project/vvja" target="_blank">Accordion</a>, <a href="https://www.drupal.org/project/vvjb" target="_blank">Basic Carousel</a>, <a href="https://www.drupal.org/project/vvjc" target="_blank">3D Carousel</a>, <a href="https://www.drupal.org/project/vvjf" target="_blank">3D FlipBox</a>, <a href="https://www.drupal.org/project/vvjh" target="_blank">Hero</a>, <a href="https://www.drupal.org/project/vvjl" target="_blank">Lightbox</a>, <a href="https://www.drupal.org/project/vvjp" target="_blank">Parallax</a>, <a href="https://www.drupal.org/project/vvjr" target="_blank">Reveal</a>, <a href="https://www.drupal.org/project/vvjs" target="_blank">Slideshow</a>, and <a href="https://www.drupal.org/project/vvjt" target="_blank">Tabs</a>.
+</p>
+<p>Additionally, I have created a demo for each module: <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-accordion" target="_blank">Accordion Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-3d-carousel" target="_blank">3D Carousel Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-basic-carousel" target="_blank">Carousel Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-3d-flipbox" target="_blank">3D FlipBox Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-hero" target="_blank">Hero Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-lightbox" target="_blank">Lightbox Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-parallax" target="_blank">Parallax Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-reveal" target="_blank">Reveal Demo</a>, <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-slideshow" target="_blank">Slideshow Demo</a>, and <a href="https://unitedstarsofamerica.com/vanilla-views/views-vanilla-javascript-tabs" target="_blank">Tabs Demo</a>.
+To get started, check out our <a href="https://www.youtube.com/watch?v=zmgim1a8OBQ" target="_blank">Video Demo</a> for a step-by-step guide on using the module effectively. Explore our mixed demos here: <a href="https://unitedstarsofamerica.com/node/417" target="_blank">Live Demo One</a> | <a href="https://unitedstarsofamerica.com/node/418" target="_blank">Live Demo Two</a>. The site for the live demo is built with the <a href="https://www.drupal.org/project/solo" target="_blank">Solo Theme</a>.
+</p>
+<div class="vvj-v2-notice">
+<p><strong>VVJ v2.x</strong> requires <a href="https://www.drupal.org/project/vvj_core">VVJ Core</a> (<code>composer require drupal/vvjr:^2.0</code> pulls it in automatically). Requires Drupal 11.3+ or 12 and PHP 8.3+. v2 runs front-end behavior in custom elements via the shared <code>vvj_core</code> foundation; token and JavaScript API details below reflect v2.</p>
+</div>
+<h3>Overview</h3>
+<p>The <strong>Views Vanilla JavaScript Reveal</strong> module (machine name: <code>vvjr</code>) empowers you to create engaging reveal boxes for displaying content items on your Drupal site. Seamlessly integrated with the Views module, this module offers a new display style that you can select when creating or editing views. Leveraging pure vanilla JavaScript, it ensures a modern, lightweight experience without the need for jQuery.</p>
+
+<h3>Features</h3>
+<ul>
+  <li><strong>Interactive Reveal Boxes</strong>: Display content items with reveal animations for a dynamic user experience.</li>
+  <li><strong>Customizable Options</strong>: Adjustable settings for reveal style, speed, background colors, and more.</li>
+  <li><strong>Responsive Design</strong>: Built-in breakpoints to ensure the reveal adapts seamlessly to different screen sizes.</li>
+  <li><strong>Hover or Click Activation</strong>: Choose whether the reveal occurs on hover or click.</li>
+</ul>
+<!--break-->
+<h3>Accessibility</h3>
+<p>The <strong>Views Vanilla JavaScript Reveal</strong> module includes several accessibility features to ensure that your reveals are usable by all visitors, including those using screen readers. Features include:</p>
+<ul>
+  <li><strong>ARIA Roles and Properties</strong>: Proper ARIA roles and properties provide context and state information to screen readers.</li>
+  <li><strong>Keyboard Navigation</strong>: Users can navigate through reveal items using keyboard shortcuts, ensuring full functionality without a mouse.</li>
+  <li><strong>Focus Management</strong>: Ensures that the currently displayed item is focused, providing a better experience for keyboard and screen reader users.</li>
+</ul>
+
+<h3>Configuration</h3>
+<p>After installing and enabling the module, you can configure it through the Views UI:</p>
+<ol>
+  <li><strong>Box Height:</strong> Set the height for the reveal box (e.g., 250px, 300px, etc.).</li>
+  <li><strong>Box Width:</strong> Define the minimum width for each grid box in the reveal (e.g., 300px, 400px, etc.).</li>
+  <li><strong>Reveal Style:</strong> Choose the reveal animation style (e.g., Fade, Zoom, Top, Right, Bottom, Left).</li>
+  <li><strong>Reveal Speed:</strong> Set the speed for the reveal animation (e.g., 0.1 for fast, 2 for slow).</li>
+  <li><strong>Background Colors:</strong> Customize the background colors for the front and revealed sides of the box.</li>
+  <li><strong>Available Breakpoints:</strong> Select the breakpoints to ensure the reveal is responsive (e.g., 576px, 768px, 992px, etc.).</li>
+</ol>
+<h3>Custom Token for views header/footer from first row</h3>
+<p>
+    In Views header/footer, if you add a field using <em>Global: Text area</em> or <em>Global: Unfiltered text</em>, there is an option called <strong>"Use replacement tokens from the first row."</strong>
+    The default tokens will not work in this case. Please use the custom tokens created by <strong>VVJR</strong> instead.
+    For example:
+</p>
+<ul>
+    <li>
+        The default token <code>{{ title }}</code> should be replaced with <code>[vvjr:title]</code>.
+    </li>
+    <li>
+        The default token <code>{{ field_image }}</code> should be replaced with <code>[vvjr:field_image]</code>.
+    </li>
+</ul>
+<p>
+    You can append <code>:plain</code> to the token to strip any HTML.<br>
+    Example: <code>[vvjr:title:plain]</code>
+</p>
+<p>
+Note: The [vvjr:*] tokens pull data directly from the rendered View fields.
+Fields using complex rewrites (e.g., Global: Custom text with {{ tokens }}) are not supported by default for token replacement. Please use individual field tokens like [vvjr:title], [vvjr:field_image], etc.
+</p>
+<p><em>v2 note:</em> Token resolution is handled by the shared <code>vvj_core.token_resolver</code> service; the <code>[vvjr:field]</code> and <code>[vvjr:field:plain]</code> syntax is unchanged from v1.</p>
+<h3>Example Usage</h3>
+<ol>
+  <li>Install and enable the <strong>Views Vanilla JavaScript Reveal</strong> module.</li>
+  <li>Create or edit a view in the Views module.</li>
+  <li>In the <strong>Format</strong> section, select <em>Reveal</em> from the available display styles.</li>
+  <li>Configure the various options available under the <strong>Format Settings</strong> to customize the reveal according to your needs.</li>
+</ol>
+
+<h3>Additional Information</h3>
+<ul>
+  <li><strong>Dependencies</strong>: This module does not have any dependencies on other contributed modules.</li>
+</ul>
+
+<h3>Installation</h3>
+<ol>
+  <li>Download and install the VVJR module from <a href="https://www.drupal.org/project/vvjr">Drupal.org</a>:
+    <pre><code>composer require drupal/vvjr</code></pre>
+  </li>
+  <li>Enable the module through the Drupal admin interface or using Drush:
+    <pre><code>drush en vvjr</code></pre>
+  </li>
+  <li>Clear caches to ensure the new plugin is available:
+    <pre><code>drush cr</code></pre>
+  </li>
+</ol>
+
+<h3>Support and Contributions</h3>
+<p>If you encounter any issues or have suggestions for improvements, please open an issue in the module's issue queue. Contributions are welcome and appreciated!</p>
+<h3>Reveal - Developer & Site Builder Tips:</h3>
+<ul>
+  <li>Every view created with this plugin has a CSS class <code>vvj-reveal</code> placed alongside <code>js-view-dom-id</code>.</li>
+  <li>You must choose "Row Style" as the format, with at least two fields.</li>
+  <li>The revealed card has the CSS class <code>revealed</code>.</li>
+  <li>The first field should not be clickable. If this is forgotten, the module includes a fallback to disable any links.</li>
+  <li>The first field can be any field type and will be used for the front card; any other fields added will be used for the back card.</li>
+  <li>Hover and click classes are added to the main view.</li>
+  <li>On hover, any links in the front are disabled, but links in the back are active.</li>
+  <li>On click, any links in the front/back are disabled, but they are enabled if the card is collapsed on small screens.</li>
+  <li>The card has the option to collapse into a regular card on small devices.</li>
+</ul>
+<h3>How to Configure Multiple Fields as the Button or Front Card in Views Display</h3>
+
+<p>Our contrib modules for Drupal Views Plugin Display, such as Accordion, Tabs, Reveal, and 3D FlipBox, allow for dynamic content display based on the first field in your view. By default, the first field selected in the view configuration is used as the button or front card. However, if you wish to utilize more than one field as the "first field" for the button or front card, follow these steps:</p>
+
+<h4>Step-by-Step Instructions:</h4>
+
+<ol>
+  <li><strong>Add Desired Fields:</strong> In your Views configuration, add all the fields you want to use as the button or front card.</li>
+  <li><strong>Exclude from Display:</strong> For each of these fields, mark them as <strong>"Exclude from display"</strong>. This ensures that these fields are available for use but are not directly shown in the final output.</li>
+  <li><strong>Create a Custom Global Field:</strong>
+    <ul>
+      <li>Add a <strong>Custom Global Field</strong> (Text) to your view.</li>
+      <li>Use the <strong>Replacement Patterns</strong> feature to insert tokens for the fields you've excluded from the display. This allows you to combine multiple fields into one single output.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4>Field Ordering Guidance:</h4>
+
+<ul>
+  <li>Arrange the fields in your view so that the hidden fields (the ones excluded from display) come first.</li>
+  <li>Follow the hidden fields with the custom global field that will act as the button or front card.</li>
+  <li>After these fields, add any remaining fields that will make up the rest of your content.</li>
+</ul>
+
+<p>By following these steps and arranging your fields in this order, you can use multiple fields as the first field for your button or front card, offering greater flexibility and customization in your Drupal Views displays.</p>
+
+<div class="module-notice">
+  <h3>Module Limitation Notice: Grouping Field Feature</h3>
+  <p>
+    Please note that the current version of this module does not support the
+    <strong>Grouping Field</strong> feature available in Drupal Views. The
+    "Grouping Field" option allows you to group records by a specified field,
+    but this functionality is not compatible with the module's current implementation.
+  </p>
+  <p>
+    We recommend avoiding the use of this feature with this module to ensure
+    proper functionality and display of your Views.
+  </p>
+</div>
+
+    <p><a class="toc-anchor" href="#" title="back to top ☝️ - Permalink">back to top ☝️</a></p>
+
+    <p><a href="https://alaahaddad.com" title="Alaa Haddad" target="_blank"><img src="/files/we-can-drupalit-light.png" alt="Alaa Haddad"></a></p>
+    <h4>Developed & Designed By: <strong><a href="https://www.alaahaddad.com/node/60" title="Alaa Haddad - Drupal Developer" target="_blank">Alaa Haddad</a></strong></h4>
+    <hr>
+
+<div class="note-tip">
+
+<p><strong>A Personal Thank You for Your Support</strong></p>
+<p>Every project you see here, including this one, reflects countless hours of work driven by my passion for making Drupal better for everyone. Your support truly makes a difference, and there are a few simple ways you can help these projects grow and reach others who might benefit:</p>
+<ul>
+   <li><strong>Use & Share Feedback:</strong> Have you found this project (or any of my other work) helpful? Let me know what worked well or how it could be improved. Real user input drives better tools for the entire community.</li>
+   <li><strong>Click "Like" on Drupal.org:</strong> It may seem small, but liking this project on Drupal.org helps others discover and trust these tools.</li> <li><strong>Spread the Word:</strong> Share these projects on social media, Slack groups, or anywhere Drupal folks connect. Your word of mouth helps these tools find the people who need them.</li>
+   <li><strong>Explore More of My Work:</strong> Check out my other projects on Drupal.org to see what else might support your workflow or inspire your next build.</li>
+</ul>
+
+<p><a href="https://www.drupal.org/project/d8w3css" rel="nofollow" target="_blank" title="W3CSS Theme by Alaa Haddad at Flash Web Center, LLC for Drupal">W3CSS Theme (d8w3css)</a> - <a href="https://www.drupal.org/project/solo" rel="nofollow" target="_blank" title="Solo Theme by Alaa Haddad at Flash Web Center, LLC for Drupal">Solo</a> - <a href="https://www.drupal.org/project/w3css_paragraphs" rel="nofollow" target="_blank" title="W3CSS Paragraphs Module by Alaa Haddad at Flash Web Center, LLC for Drupal">W3CSS Paragraphs</a> - <a href="https://www.drupal.org/project/paragraphs_bundles" rel="nofollow" target="_blank" title="Paragraphs Bundles Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Paragraphs Bundles</a> - <a href="https://www.drupal.org/project/amun" rel="nofollow" target="_blank" title="Amun Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Amun</a> - <a href="https://www.drupal.org/project/amunet" rel="nofollow" target="_blank" title="Amunet Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Amunet</a> - <a href="https://www.drupal.org/project/anhur" rel="nofollow" target="_blank" title="Anhur Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Anhur</a> - <a href="https://www.drupal.org/project/acquia_purge_varnish" rel="nofollow" target="_blank" title="Acquia Purge Varnish Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Acquia Purge Varnish</a> - <a href="https://www.drupal.org/project/cloudflare_purge" rel="nofollow" target="_blank" title="Cloudflare Purge Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Cloudflare Purge</a> - <a href="https://www.drupal.org/project/reference_blocked_users" rel="nofollow" target="_blank" title="Reference Blocked Users Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Reference Blocked Users</a> - <a href="https://www.drupal.org/project/solo_copy_blocks" rel="nofollow" target="_blank" title="Solo Copy Blocks Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Solo Copy Blocks</a> - <a href="https://www.drupal.org/project/solo_utilities" rel="nofollow" target="_blank" title="Solo Utilities Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Solo Utilities</a> - <a href="https://www.drupal.org/project/pb_import" rel="nofollow" target="_blank" title="PB Import Module by Alaa Haddad at Flash Web Center, LLC for Drupal">PB Import</a> - <a href="https://www.drupal.org/project/vvja" rel="nofollow" target="_blank" title="VVJA Accordion Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJA - Accordion</a> - <a href="https://www.drupal.org/project/vvjc" rel="nofollow" target="_blank" title="VVJC 3D Carousel Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJC - 3D Carousel</a> - <a href="https://www.drupal.org/project/vvjb" rel="nofollow" target="_blank" title="VVJB Basic Carousel Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJB - Basic Carousel</a> - <a href="https://www.drupal.org/project/vvjf" rel="nofollow" target="_blank" title="VVJF 3D FlipBox Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJF - 3D FlipBox</a> - <a href="https://www.drupal.org/project/vvjh" rel="nofollow" target="_blank" title="VVJH Hero Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJH - Hero</a> - <a href="https://www.drupal.org/project/vvjl" rel="nofollow" target="_blank" title="VVJL Lightbox Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJL - Lightbox</a> - <a href="https://www.drupal.org/project/vvjp" rel="nofollow" target="_blank" title="VVJP Parallax Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJP - Parallax</a> - <a href="https://www.drupal.org/project/vvjr" rel="nofollow" target="_blank" title="VVJR Reveal Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJR - Reveal</a> - <a href="https://www.drupal.org/project/vvjs" rel="nofollow" target="_blank" title="VVJS Slideshow Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJS - Slideshow</a> - <a href="https://www.drupal.org/project/vvjt" rel="nofollow" target="_blank" title="VVJT Tabs Module by Alaa Haddad at Flash Web Center, LLC for Drupal">VVJT - Tabs</a> - <a href="https://www.drupal.org/project/module_matrix" rel="nofollow" target="_blank" title="Module Matrix by Alaa Haddad at Flash Web Center, LLC for Drupal">Module Matrix</a> - <a href="https://www.drupal.org/project/selectify" rel="nofollow" target="_blank" title="Selectify Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Selectify</a> - <a href="https://www.drupal.org/project/utilikit" rel="nofollow" target="_blank" title="Utilikit Module by Alaa Haddad at Flash Web Center, LLC for Drupal">Utilikit</a></p>
+
+<p>If you have any questions, ideas, or feedback about my Drupal.org projects, I’d love to hear from you! To keep things open and helpful for the entire community, I encourage you to post directly in the project's issue queue on Drupal.org. This way, your questions and the answers can benefit others who may have the same needs.</p>
+<p>At the end of the day, my goal is to make Drupal easier and more enjoyable for everyone, especially small businesses and site builders who want to create professional sites without extra hassle. Together, we can build something even better. Thank you for your support, and for being part of this journey!</p>
+
+</div>
