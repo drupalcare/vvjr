@@ -19,8 +19,6 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal) => {
-  'use strict';
-
   const { ElementBase } = Drupal.Vvj;
 
   const TABBABLE = 'a, button, input, select, textarea, [tabindex]';
@@ -33,21 +31,23 @@
       if (!lastRan || now - lastRan >= limit) {
         fn(...args);
         lastRan = now;
-      }
-      else {
+      } else {
         clearTimeout(lastFn);
-        lastFn = setTimeout(() => {
-          fn(...args);
-          lastRan = Date.now();
-        }, limit - (now - lastRan));
+        lastFn = setTimeout(
+          () => {
+            fn(...args);
+            lastRan = Date.now();
+          },
+          limit - (now - lastRan),
+        );
       }
     };
   }
 
   class VvjrRevealElement extends ElementBase {
-
     static get patternSlug() {
- return 'vvjr'; }
+      return 'vvjr';
+    }
 
     constructor() {
       super();
@@ -64,10 +64,12 @@
       const parsed = parseInt(breakpointAttr, 10);
       this._breakpoint = Number.isFinite(parsed) ? parsed : 0;
 
-      this._method = this.getAttribute('data-reveal-method') === 'hover' ? 'hover' : 'click';
+      this._method =
+        this.getAttribute('data-reveal-method') === 'hover' ? 'hover' : 'click';
 
       this._items = this.querySelectorAll('.reveal-item');
-      if (!this._items.length) { return;
+      if (!this._items.length) {
+        return;
       }
 
       this._applyState();
@@ -89,8 +91,7 @@
         this._activate();
         this._setAriaForActive();
         this._disableNestedLinks(this._method === 'click');
-      }
-      else {
+      } else {
         this._deactivate();
         this._setAriaForInactive();
         this._disableNestedLinks(false);
@@ -98,7 +99,8 @@
     }
 
     _isActiveAtCurrentWidth() {
-      if (this._breakpointAll) { return true;
+      if (this._breakpointAll) {
+        return true;
       }
       return window.innerWidth >= this._breakpoint;
     }
@@ -137,22 +139,23 @@
 
       const front = inner.querySelector('.front-box');
       const back = inner.querySelector('.back-box');
-      if (!front || !back) { return;
+      if (!front || !back) {
+        return;
       }
 
       const cardAbort = new AbortController();
       this._cardListeners.set(inner, cardAbort);
 
       const reveal = (value) => {
-        const isRevealed = value !== undefined ? value : inner.classList.toggle('revealed');
+        const isRevealed =
+          value !== undefined ? value : inner.classList.toggle('revealed');
         if (value !== undefined) {
           inner.classList.toggle('revealed', isRevealed);
         }
         this._updateAccessibility(front, back, isRevealed);
         if (isRevealed) {
           this._applyEffect(inner, back);
-        }
-        else {
+        } else {
           this._resetEffect(inner, back);
         }
       };
@@ -165,15 +168,24 @@
       };
 
       if (this._method === 'hover') {
-        inner.addEventListener('mouseenter', () => reveal(true), { signal: cardAbort.signal });
-        inner.addEventListener('mouseleave', () => reveal(false), { signal: cardAbort.signal });
+        inner.addEventListener('mouseenter', () => reveal(true), {
+          signal: cardAbort.signal,
+        });
+        inner.addEventListener('mouseleave', () => reveal(false), {
+          signal: cardAbort.signal,
+        });
+      } else {
+        inner.addEventListener('click', () => reveal(), {
+          signal: cardAbort.signal,
+        });
       }
-      else {
-        inner.addEventListener('click', () => reveal(), { signal: cardAbort.signal });
-      }
-      inner.addEventListener('keydown', onKeydown, { signal: cardAbort.signal });
+      inner.addEventListener('keydown', onKeydown, {
+        signal: cardAbort.signal,
+      });
 
-      this.signal.addEventListener('abort', () => cardAbort.abort(), { once: true });
+      this.signal.addEventListener('abort', () => cardAbort.abort(), {
+        once: true,
+      });
     }
 
     _unbindCard(inner) {
@@ -190,21 +202,31 @@
 
     _applyEffect(inner, back) {
       back.style.opacity = '1';
-      if (inner.classList.contains('a-zoom')) { back.style.transform = 'scale(1)';
-      } else if (inner.classList.contains('a-top')) { back.style.transform = 'translateY(0)';
-      } else if (inner.classList.contains('a-right')) { back.style.transform = 'translateX(0)';
-      } else if (inner.classList.contains('a-bottom')) { back.style.transform = 'translateY(0)';
-      } else if (inner.classList.contains('a-left')) { back.style.transform = 'translateX(0)';
+      if (inner.classList.contains('a-zoom')) {
+        back.style.transform = 'scale(1)';
+      } else if (inner.classList.contains('a-top')) {
+        back.style.transform = 'translateY(0)';
+      } else if (inner.classList.contains('a-right')) {
+        back.style.transform = 'translateX(0)';
+      } else if (inner.classList.contains('a-bottom')) {
+        back.style.transform = 'translateY(0)';
+      } else if (inner.classList.contains('a-left')) {
+        back.style.transform = 'translateX(0)';
       }
     }
 
     _resetEffect(inner, back) {
       back.style.opacity = '0';
-      if (inner.classList.contains('a-zoom')) { back.style.transform = 'scale(0)';
-      } else if (inner.classList.contains('a-top')) { back.style.transform = 'translateY(-100%)';
-      } else if (inner.classList.contains('a-right')) { back.style.transform = 'translateX(100%)';
-      } else if (inner.classList.contains('a-bottom')) { back.style.transform = 'translateY(100%)';
-      } else if (inner.classList.contains('a-left')) { back.style.transform = 'translateX(-100%)';
+      if (inner.classList.contains('a-zoom')) {
+        back.style.transform = 'scale(0)';
+      } else if (inner.classList.contains('a-top')) {
+        back.style.transform = 'translateY(-100%)';
+      } else if (inner.classList.contains('a-right')) {
+        back.style.transform = 'translateX(100%)';
+      } else if (inner.classList.contains('a-bottom')) {
+        back.style.transform = 'translateY(100%)';
+      } else if (inner.classList.contains('a-left')) {
+        back.style.transform = 'translateX(-100%)';
       }
     }
 
@@ -216,9 +238,14 @@
       this._items.forEach((inner) => {
         const front = inner.querySelector('.front-box');
         const back = inner.querySelector('.back-box');
-        if (!front || !back) { return;
+        if (!front || !back) {
+          return;
         }
-        this._updateAccessibility(front, back, inner.classList.contains('revealed'));
+        this._updateAccessibility(
+          front,
+          back,
+          inner.classList.contains('revealed'),
+        );
       });
     }
 
@@ -226,18 +253,22 @@
       this._items.forEach((inner) => {
         const front = inner.querySelector('.front-box');
         const back = inner.querySelector('.back-box');
-        if (!front || !back) { return;
+        if (!front || !back) {
+          return;
         }
         front.setAttribute('aria-hidden', 'false');
         back.setAttribute('aria-hidden', 'false');
         front.removeAttribute('tabindex');
         back.removeAttribute('tabindex');
       });
-      this.querySelectorAll(TABBABLE).forEach((el) => el.setAttribute('tabindex', '0'));
+      this.querySelectorAll(TABBABLE).forEach((el) =>
+        el.setAttribute('tabindex', '0'),
+      );
     }
 
     _updateAccessibility(front, back, isRevealed) {
-      if (!front || !back) { return;
+      if (!front || !back) {
+        return;
       }
       const frontHidden = isRevealed ? 'true' : 'false';
       const backHidden = isRevealed ? 'false' : 'true';
@@ -266,8 +297,7 @@
         if (disable) {
           link.setAttribute('tabindex', '-1');
           link.dataset.vvjrDisabled = 'true';
-        }
-        else if (link.dataset.vvjrDisabled === 'true') {
+        } else if (link.dataset.vvjrDisabled === 'true') {
           link.removeAttribute('tabindex');
           delete link.dataset.vvjrDisabled;
         }
@@ -277,22 +307,27 @@
       // click guard once — it honors the current _nestedLinksDisabled flag.
       if (!this._nestedLinkGuardBound) {
         this._nestedLinkGuardBound = true;
-        this.addEventListener('click', (event) => {
-          if (!this._nestedLinksDisabled) { return;
-          }
-          const target = event.target;
-          if (target instanceof Element
-            && target.closest('.front-box a, .back-box a')) {
-            event.preventDefault();
-          }
-        }, { signal: this.signal });
+        this.addEventListener(
+          'click',
+          (event) => {
+            if (!this._nestedLinksDisabled) {
+              return;
+            }
+            const target = event.target;
+            if (
+              target instanceof Element &&
+              target.closest('.front-box a, .back-box a')
+            ) {
+              event.preventDefault();
+            }
+          },
+          { signal: this.signal },
+        );
       }
     }
-
   }
 
   if (!customElements.get('vvjr-reveal')) {
     customElements.define('vvjr-reveal', VvjrRevealElement);
   }
-
 })(Drupal);

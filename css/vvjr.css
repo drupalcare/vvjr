@@ -8,14 +8,14 @@
  */
 .vvj-reveal .visually-hidden {
   position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   width: 1px;
   height: 1px;
   margin: -1px;
   padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
   white-space: nowrap;
+  border: 0;
 }
 
 .vvj-reveal,
@@ -25,9 +25,9 @@
 
 .vvj-reveal,
 .vvj-reveal .view-content {
+  display: block !important;
   width: 100%;
   min-width: 100%;
-  display: block !important;
 }
 
 .vvjr {
@@ -36,10 +36,10 @@
 
 .vvjr .reveal-inner {
   display: grid;
-  grid-template-columns: 1fr;
   overflow: hidden;
-  background-color: transparent;
+  grid-template-columns: 1fr;
   width: 100%;
+  background-color: transparent;
 }
 
 .vvjr .reveal-inner > * {

@@ -6,32 +6,32 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
-@media (min-width:62rem) {
+@media (min-width: 62rem) {
   .vvjr.br-992 .reveal-inner {
     grid-template-columns: repeat(auto-fill, minmax(calc(var(--box-width) * 1px), 1fr));
     gap: calc(var(--grid-gap) * 1px);
   }
 
   .vvjr.br-992 .reveal-item {
-    cursor: pointer;
     position: relative;
     overflow: hidden;
-    background-color: transparent;
     width: 100%;
     height: calc(var(--box-height) * 1px);
+    cursor: pointer;
+    background-color: transparent;
   }
 
   .vvjr.br-992 .back-box {
-    opacity: 0;
     position: absolute;
-    inset-inline-start: 0;
-    inset-inline-end: 0;
     top: 0;
     bottom: 0;
     overflow: hidden;
-    transition: var(--reveal-speed) var(--animation-easing);
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
+    transition: var(--reveal-speed) var(--animation-easing);
+    opacity: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
   }
 
   .vvjr.br-992 .reveal-inner .back-box,
@@ -93,10 +93,9 @@
     transform: translateX(0);
     opacity: 1;
   }
-
 }
 
-@media (max-width:61.99875rem) {
+@media (max-width: 61.99875rem) {
   .vvjr.br-992 .reveal-inner {
     grid-template-columns: 1fr;
     gap: calc(var(--grid-gap) * 1px);
@@ -104,8 +103,8 @@
 
   .vvjr.br-992 .reveal-item {
     display: grid;
-    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr;
     height: auto;
   }
 
@@ -123,5 +122,4 @@
     transform: none !important;
     opacity: 1 !important;
   }
-
 }

@@ -10,8 +10,6 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal, once) => {
-  'use strict';
-
   Drupal.behaviors.VVJReveal = {
     attach(context) {
       once('vvjr-reveal-marker', 'vvjr-reveal', context);

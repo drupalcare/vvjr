@@ -12,25 +12,25 @@
 }
 
 .vvjr.br-all .reveal-item {
-  cursor: pointer;
   position: relative;
   overflow: hidden;
-  background-color: transparent;
   width: 100%;
   height: calc(var(--box-height) * 1px);
+  cursor: pointer;
+  background-color: transparent;
 }
 
 .vvjr.br-all .back-box {
-  opacity: 0;
   position: absolute;
-  inset-inline-start: 0;
-  inset-inline-end: 0;
   top: 0;
   bottom: 0;
   overflow: hidden;
-  transition: var(--reveal-speed) var(--animation-easing);
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
+  transition: var(--reveal-speed) var(--animation-easing);
+  opacity: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
 }
 
 .vvjr.br-all .reveal-inner .back-box,
