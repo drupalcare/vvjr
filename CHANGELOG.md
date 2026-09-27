@@ -10,6 +10,8 @@ JS-driven inline-style reveal effect from 1.x.
 
 ### Fixed
 
+- Update 10002 converts v1 views to the v2 option shape (value types:
+  strings and integers stored where v2 declares integer, boolean and float).
 - Click-trigger reveal cards again suppress navigation on nested links — a mouse
   click on a link inside a click-active card now toggles the card without also
   following the link (v1 parity). `tabindex="-1"` alone only blocked keyboard
