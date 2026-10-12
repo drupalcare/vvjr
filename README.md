@@ -2,7 +2,7 @@
 
 A vanilla-JavaScript reveal-card grid **Views format** for Drupal 11.3+ / 12.
 Renders Views rows as cards that swap their displayed content for a "revealed"
-content layer on hover or click — with six animation styles, configurable
+content layer on hover or click, with six animation styles, configurable
 speed/easing, breakpoint-gated activation, and AAA-conformant ARIA state
 management.
 
@@ -17,16 +17,16 @@ Behavior runs in a `<vvjr-reveal>` custom element extending `VvjElementBase`.
 - Configurable reveal speed (0.1 - 2.0 s) + 5 easing curves
 - Configurable box height, min-width, grid gap
 - Front + back background colors (independent)
-- 6 responsive breakpoints (`all` / 576 / 768 / 992 / 1200 / 1400 px) — reveal
+- 6 responsive breakpoints (`all` / 576 / 768 / 992 / 1200 / 1400 px). Reveal
   active above the chosen viewport
 - ARIA `aria-hidden` and `tabindex` synchronized to the revealed state
 - On viewports below the breakpoint: both sides visible, reveal disabled, every
   nested element tabbable
 - Lazy IntersectionObserver hydration; AbortController-tracked listeners
 - Throttled resize handler keeps state in sync with viewport changes
-- **Views tokens** — `[vvjr:field]` / `[vvjr:field:plain]` in Views text areas
+- **Views tokens**: `[vvjr:field]` / `[vvjr:field:plain]` in Views text areas
   with *Use replacement tokens from the first row*
-- **Drupal admin help** — `/admin/help/vvjr`
+- **Drupal admin help**: `/admin/help/vvjr`
 
 ## Token Support in Views Text Areas
 
@@ -97,10 +97,10 @@ export SIMPLETEST_DB="mysql://user:pass@localhost/dbname"
 ../vendor/bin/phpunit -c core modules/contrib/vvjr/tests/src/Kernel
 ```
 
-The **Functional** and **FunctionalJavascript** suites additionally need
+The **Functional** and **FunctionalJavascript** suites also need
 `SIMPLETEST_BASE_URL` pointing at a running web server, and the JavaScript ones
 need chromedriver. Without those they error rather than fail, and the errors
-name missing infrastructure rather than anything about this module — so don't
+name missing infrastructure rather than anything about this module, so don't
 read them as test failures. The drupal.org pipeline provides both.
 
 ## License
