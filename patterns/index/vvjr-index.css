@@ -3,7 +3,8 @@
  * Pattern Index: a numbered list; each row slides open into an accent panel.
  */
 
-.vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvjr-bulk { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin: 0 0 20px 0; padding: 0; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvjr-bulk { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin: 0 0 20px 0; padding: 0 8px; }
+/* The bar keeps the rows' inline padding (8px; 4px below 700px), so "n of 5 open" lines up with the toggles and never meets the page edge. */
 .vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvjr-bulk-seg { display: inline-flex; margin: 0; padding: 4px; border-radius: 999px; background: var(--vvjr-raised); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvjr-bulk button { min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; color: var(--vvjr-ink); transition: background-color 0.3s, color 0.3s; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvjr-bulk button[aria-pressed="true"] { background: var(--vvjr-ink); color: var(--vvjr-surface); }
@@ -46,6 +47,7 @@
 @media (max-width: 699px) {
   .vvj-pattern.vvjr.vvj-pattern--vvjr-index .reveal-inner .reveal-item { height: 232px; }
   .vvj-pattern.vvjr.vvj-pattern--vvjr-index .reveal-inner .reveal-item > .front-box { grid-template-columns: 1fr 72px; grid-template-rows: auto 1fr; align-content: center; gap: 8px 12px; padding: 16px 4px 16px 4px; }
+  .vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvjr-bulk { padding: 0 4px; }
   .vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvj-num { font-size: 32px; }
   .vvj-pattern.vvjr.vvj-pattern--vvjr-index .vvj-head { grid-column: 1 / -1; padding: 0 64px 0 0; }
   .vvj-pattern.vvjr.vvj-pattern--vvjr-index .front-box .vvj-media, .vvj-pattern.vvjr.vvj-pattern--vvjr-index .reveal-inner .reveal-item:hover .front-box .vvj-media { grid-row: 1; grid-column: 2; width: 64px; height: 64px; }

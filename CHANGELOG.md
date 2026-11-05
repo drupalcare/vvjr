@@ -19,6 +19,7 @@ JS-driven inline-style reveal effect from 1.x.
 
 ### Added
 
+- Patterns: 5 ready-made designs (Lens, Blinds, Index, Cover, Nocturne) chosen in the format settings. They need the `vvj_patterns` sub-module of `drupal/vvj_core`.
 - `drupal/vvj_core` dependency (auto-installed).
 - `vvjr.install` with `vvjr_update_10001()` to auto-enable vvj_core during
   `drush updb`.
