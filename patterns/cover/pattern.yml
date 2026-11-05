@@ -1,0 +1,17 @@
+label: 'Cover'
+description: 'Bento of photo cards, the first one large; a paper cover drops over the photo from a folded corner.'
+weight: 3
+options:
+  reveal_method: hover
+  reveal_style: a-top
+  reveal_speed: 0.8
+  animation_easing: ease
+  front_bg_color: '#ffffff'
+  back_bg_color: '#111111'
+  available_breakpoints: '768'
+  grid_gap: 16
+  box_height: 280
+  box_width: 220
+  enable_css: false
+needs:
+  - 'Row style Fields. Front (Custom text): figure.vvj-media (vvj_landscape_1200), div.vvj-label with kicker and title. Back: kicker, title, p.vvj-text, p.vvj-link.'

@@ -1,0 +1,58 @@
+/**
+ * @file
+ * Pattern Cover: bento of photo cards; a paper cover drops over the photo.
+ */
+
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner { grid-template-columns: repeat(4, 1fr); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child { grid-column: span 2; grid-row: span 2; height: calc(var(--box-height) * 2px + var(--grid-gap, 16) * 1px); }
+@media (max-width: 991px) {
+  .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner { grid-template-columns: repeat(2, 1fr); }
+  .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child { grid-row: auto; height: calc(var(--box-height) * 1.4px); }
+}
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover.vvjr-stacked .reveal-inner { grid-template-columns: 1fr; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover.vvjr-stacked .reveal-inner .reveal-item:first-child { grid-column: auto; height: auto; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item { border-radius: 4px; background: var(--vvjr-raised); box-shadow: 0 1px 0 var(--vvjr-line); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item > .front-box { position: relative; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .front-box .vvj-media { position: absolute; inset: 0 0 0 0; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvj-media img { transition: transform 1.1s var(--vvjr-ease-out); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:hover .vvj-media img { transform: scale(1.06); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvj-label { position: absolute; inset: auto 12px 12px 12px; max-width: max-content; margin: 0; padding: 10px 14px 12px 14px; border-radius: 2px; background: var(--vvjr-surface); color: var(--vvjr-ink); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvj-kicker { margin: 0 0 2px 0; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--vvjr-muted); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvj-title { margin: 0; font: 600 18px / 1.15 var(--vvjr-font-display); color: var(--vvjr-ink); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child .vvj-title { font-size: clamp(24px, 2.6vw, 34px); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child .vvj-label { inset: auto 20px 20px 20px; padding: 14px 20px 16px 20px; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item > .back-box {
+  display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 24px 22px 24px 22px;
+  background: var(--vvjr-surface); color: var(--vvjr-ink); opacity: 1;
+  transform: translateY(-104%) rotate(-3deg); transform-origin: 0 0; box-shadow: 0 18px 30px -14px rgba(0, 0, 0, 0.35);
+  transition: transform var(--reveal-speed) cubic-bezier(0.3, 1.35, 0.5, 1);
+}
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item.revealed > .back-box { transform: none; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .back-box .vvj-title { font-size: 22px; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child > .back-box { padding: 40px 40px 40px 40px; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child .back-box .vvj-title { font-size: clamp(28px, 3vw, 40px); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvj-text { margin: 0; color: var(--vvjr-muted); font-size: 15px; line-height: 1.45; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child .vvj-text { max-width: 34ch; font-size: 18px; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .back-box > * { opacity: 0; transform: translateY(-10px); transition: opacity 0.3s, transform 0.45s var(--vvjr-ease-out); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .revealed .back-box > * { opacity: 1; transform: none; transition-delay: 0.3s; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle { inset: 0 0 auto auto; width: 56px; height: 56px; min-height: 56px; padding: 9px 9px 9px 9px; place-items: start end; display: grid; color: var(--vvjr-ink); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle::before { content: ""; position: absolute; inset: 0 0 0 0; background: linear-gradient(225deg, var(--vvjr-raised) 0 50%, var(--vvjr-surface) 50%); clip-path: polygon(0 0, 100% 0, 100% 100%); filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.2)); transition: clip-path 0.4s var(--vvjr-ease-out); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle .vvjr-icon { position: relative; width: 14px; height: 14px; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle:hover::before { clip-path: polygon(-20% 0, 100% 0, 100% 120%); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .revealed .vvjr-toggle .vvjr-icon { transform: rotate(135deg); }
+@keyframes vvjr-cover-in { from { opacity: 0; scale: 0.94; } }
+.vvjr-ready.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item { animation: vvjr-cover-in 0.7s var(--vvjr-ease-out) both; }
+.vvjr-ready.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:nth-child(2) { animation-delay: 0.06s; }
+.vvjr-ready.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:nth-child(3) { animation-delay: 0.12s; }
+.vvjr-ready.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:nth-child(4) { animation-delay: 0.18s; }
+.vvjr-ready.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:nth-child(5) { animation-delay: 0.24s; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover.vvjr-stacked .reveal-inner .reveal-item > .front-box { min-height: 240px; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover.vvjr-stacked .reveal-inner .reveal-item > .back-box { padding: 16px 4px 8px 4px; box-shadow: none; background: transparent; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover.vvjr-stacked .back-box :is(.vvj-kicker, .vvj-title) { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item > .back-box { transform: none; opacity: 0; }
+  .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item.revealed > .back-box { opacity: 1; }
+}
+
+/* Icon-only button: the text stays as its accessible name. */
+.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle :is(.vvjr-t-show, .vvjr-t-hide) { position: absolute; width: 1px; height: 1px; margin: -1px 0 0 -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }

@@ -61,6 +61,15 @@ class Reveal extends VvjStylePluginBase {
   /**
    * {@inheritdoc}
    *
+   * The Patterns select appears only while vvj_patterns is enabled.
+   */
+  protected function supportsPatterns(): bool {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
    * Reveal offers six animation styles (omits "None" — reveals always animate).
    *
    * @return array<string, \Drupal\Core\StringTranslation\TranslatableMarkup>
@@ -330,6 +339,9 @@ class Reveal extends VvjStylePluginBase {
     }
 
     $flattened['unique_id'] = $this->options['unique_id'] ?? $this->generateUniqueId();
+
+    // Patterns: the shared logic lives in vvj_patterns.
+    $this->flattenPatternChoice($values, $flattened);
 
     return $flattened;
   }

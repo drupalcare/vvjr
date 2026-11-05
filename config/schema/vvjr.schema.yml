@@ -38,3 +38,6 @@ views.style.views_vvjr:
     box_width:
       type: integer
       label: 'Box minimum width in pixels'
+    vvj_pattern:
+      type: string
+      label: 'VVJ Pattern'

@@ -1,0 +1,132 @@
+/**
+ * @file
+ * Shared by every vvjr Pattern: resets, the card frame, the toggle, states.
+ *
+ * Colours come only from the --vvj-* tokens (vvj_patterns/base) and greys.
+ * Defensive: full shorthands; every control, list, heading and image a
+ * Pattern styles is reset here so theme rules cannot reach in. In Pattern
+ * views the template renames the method and style classes (vvjr-hover,
+ * vvjr-a-zoom) so the module's own :hover and a-* rules never apply, and
+ * the element toggles `.revealed` only: this CSS owns the end state.
+ * `.vvjr-stacked` = below the breakpoint, `.vvjr-ready` = hydrated.
+ */
+
+.vvj-pattern.vvjr {
+  --vvjr-ink: var(--vvj-ink, #111111);
+  --vvjr-surface: var(--vvj-surface, #ffffff);
+  --vvjr-raised: var(--vvj-raised, #f2f2f2);
+  --vvjr-muted: var(--vvj-muted, #555555);
+  --vvjr-line: var(--vvj-line, rgba(0, 0, 0, 0.16));
+  --vvjr-accent: var(--vvj-accent, var(--vvjr-ink));
+  --vvjr-on-accent: var(--vvjr-surface);
+  --vvjr-ease-out: var(--vvj-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  --vvjr-ease-io: var(--vvj-ease-io, cubic-bezier(0.76, 0, 0.24, 1));
+  --vvjr-font-display: var(--vvj-font-display, Georgia, "Times New Roman", serif);
+  --vvjr-font-ui: var(--vvj-font-ui, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  --vvjr-focus: var(--vvj-focus, var(--vvjr-ink));
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: var(--vvjr-ink);
+  font-family: var(--vvjr-font-ui);
+}
+.vvj-pattern.vvjr,
+.vvj-pattern.vvjr *,
+.vvj-pattern.vvjr *::before,
+.vvj-pattern.vvjr *::after { box-sizing: border-box; }
+.vvj-pattern.vvjr:focus-visible { outline: 3px solid var(--vvjr-focus); outline-offset: 6px; }
+
+.vvj-pattern.vvjr :is(h1, h2, h3, h4, h5, h6, p, blockquote, figure) {
+  margin: 0; padding: 0; font-size: inherit; line-height: inherit; color: inherit;
+  hyphens: manual; overflow-wrap: normal; word-break: normal;
+}
+.vvj-pattern.vvjr :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
+.vvj-pattern.vvjr :is(img, svg) { display: block; max-width: 100%; height: auto; margin: 0; border: 0; }
+/* The hidden attribute always wins over a control's display (Nocturne hides the toggle). */
+.vvj-pattern.vvjr [hidden] { display: none !important; }
+.vvj-pattern.vvjr .vvj-title {
+  color: inherit; font-weight: 600; letter-spacing: normal; text-transform: none;
+  hyphens: manual; overflow-wrap: normal; word-break: normal; text-wrap: balance;
+}
+
+/* A hidden face is inert (the element sets it). Once its fade has run it is
+ * not painted either, so its masked links cannot sit under a control or be
+ * read as text over the photo. Reduced motion shortens this to 0.01ms. */
+@keyframes vvjr-face-off { to { visibility: hidden; } }
+.vvj-pattern.vvjr .reveal-inner .reveal-item > .back-box[inert] { animation: vvjr-face-off var(--reveal-speed, 0.6s) step-end both; }
+
+/* The grid and the card, cleared of the module's cosmetic defaults. */
+.vvj-pattern.vvjr .reveal-inner {
+  display: grid; margin: 0; padding: 0;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--box-width, 300) * 1px)), 1fr));
+  gap: calc(var(--grid-gap, 16) * 1px);
+}
+.vvj-pattern.vvjr .reveal-inner .reveal-item {
+  position: relative; overflow: hidden; isolation: isolate; margin: 0; padding: 0; border: 0;
+  border-radius: 0; box-shadow: none; background: none; cursor: pointer;
+  height: calc(var(--box-height, 300) * 1px);
+}
+.vvj-pattern.vvjr .reveal-inner .reveal-item > .front-box,
+.vvj-pattern.vvjr .reveal-inner .reveal-item > .back-box {
+  height: 100%; margin: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none;
+  background: none; display: block; text-align: start;
+}
+.vvj-pattern.vvjr .reveal-inner .reveal-item > .back-box {
+  position: absolute; inset: 0 0 0 0; z-index: 2; overflow-y: auto; opacity: 0; transform: none;
+  pointer-events: none;
+  transition: opacity var(--reveal-speed, 0.6s) var(--animation-easing, ease);
+}
+.vvj-pattern.vvjr .reveal-inner .reveal-item.revealed > .back-box { opacity: 1; pointer-events: auto; }
+.vvj-pattern.vvjr .vvj-media { margin: 0; padding: 0; }
+.vvj-pattern.vvjr .vvj-media img { width: 100%; height: 100%; object-fit: cover; }
+
+/* The toggle: full reset, then each Pattern sets its own shape. */
+.vvj-pattern.vvjr .vvjr-toggle,
+.vvj-pattern.vvjr .vvjr-seg button,
+.vvj-pattern.vvjr .vvjr-bulk button { appearance: none; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: inherit; font-family: inherit; font-size: inherit; font-weight: 600; font-style: normal; line-height: 1.2; letter-spacing: normal; text-transform: none; text-decoration: none; text-align: center; width: auto; height: auto; min-width: 0; min-height: 0; vertical-align: middle; outline: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; justify-content: center; gap: 0.6em; }
+.vvj-pattern.vvjr .vvjr-toggle { position: absolute; z-index: 3; }
+.vvj-pattern.vvjr :is(.vvjr-toggle, .vvjr-seg button, .vvjr-bulk button):focus-visible { outline: 3px solid var(--vvjr-focus); outline-offset: 3px; }
+.vvj-pattern.vvjr .vvjr-t-hide,
+.vvj-pattern.vvjr .revealed .vvjr-t-show { display: none; }
+.vvj-pattern.vvjr .revealed .vvjr-t-hide { display: inline; }
+.vvj-pattern.vvjr .vvjr-icon {
+  display: block; flex: none; width: 1em; height: 1em; margin: 0; padding: 0; background: currentColor;
+  -webkit-mask: url("../svg/vvjr-pattern-add.svg") center / contain no-repeat;
+  mask: url("../svg/vvjr-pattern-add.svg") center / contain no-repeat;
+  transition: transform 0.45s var(--vvjr-ease-out);
+}
+/* Link control. */
+.vvj-pattern.vvjr .vvj-link { margin: 0; padding: 0; }
+.vvj-pattern.vvjr .vvj-link a {
+  appearance: none; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: inherit; font-family: inherit; font-size: inherit; font-weight: 600; font-style: normal; line-height: 1.2; letter-spacing: normal; text-transform: none; text-decoration: none; text-align: center; width: auto; height: auto; min-width: 0; min-height: 0; vertical-align: middle; outline: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; gap: 0.5em; min-height: 44px; text-align: start;
+  text-decoration: underline; text-underline-offset: 0.25em;
+}
+.vvj-pattern.vvjr .vvj-link a:focus-visible { outline: 3px solid var(--vvjr-focus); outline-offset: 3px; }
+.vvj-pattern.vvjr .vvj-link a::after {
+  content: ""; display: block; flex: none; width: 0.8em; height: 0.8em; margin: 0; background: currentColor;
+  -webkit-mask: url("../svg/vvjr-pattern-link.svg") center / contain no-repeat;
+  mask: url("../svg/vvjr-pattern-link.svg") center / contain no-repeat;
+  transition: transform 0.35s var(--vvjr-ease-out);
+}
+.vvj-pattern.vvjr .vvj-link a:hover::after,
+.vvj-pattern.vvjr .vvj-link a:focus-visible::after { transform: translate(3px, -3px); }
+
+/* Below the breakpoint: both faces stacked, no toggle. The doubled
+ * .vvjr-stacked keeps these above the Pattern files, whose selectors carry
+ * .vvj-pattern.vvjr.vvj-pattern--vvjr-NAME so they beat the resets above. */
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner { grid-template-columns: 1fr; }
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item { height: auto; cursor: auto; }
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .front-box,
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .back-box { height: auto; }
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .back-box {
+  position: relative; inset: auto; opacity: 1; transform: none; clip-path: none; -webkit-mask: none; mask: none;
+  overflow: visible; pointer-events: auto;
+}
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .back-box > * { opacity: 1; transform: none; }
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked :is(.vvjr-toggle, .vvjr-seg, .vvjr-bulk) { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vvj-pattern.vvjr *,
+  .vvj-pattern.vvjr *::before,
+  .vvj-pattern.vvjr *::after { transition-duration: 0.01ms !important; transition-delay: 0s !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}

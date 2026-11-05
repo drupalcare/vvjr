@@ -1,0 +1,17 @@
+label: 'Nocturne'
+description: 'A dark band of tall cards; details sweep in on a band of light, chosen with a Photo and Details control.'
+weight: 4
+options:
+  reveal_method: click
+  reveal_style: a-fade
+  reveal_speed: 1.0
+  animation_easing: linear
+  front_bg_color: '#ffffff'
+  back_bg_color: '#111111'
+  available_breakpoints: '576'
+  grid_gap: 2
+  box_height: 520
+  box_width: 300
+  enable_css: false
+needs:
+  - 'Row style Fields. Front (Custom text): figure.vvj-media (vvj_landscape_1200), div.vvj-head with kicker and title. Back: title, p.vvj-sub (kicker), p.vvj-text, p.vvj-link.'

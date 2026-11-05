@@ -22,6 +22,8 @@
   const { ElementBase } = Drupal.Vvj;
 
   const TABBABLE = 'a, button, input, select, textarea, [tabindex]';
+  // Pattern views: a click or key on one of these never toggles the card.
+  const INTERACTIVE = 'a, button, input, select, textarea, label, summary';
 
   function throttle(fn, limit) {
     let lastFn;
@@ -56,6 +58,8 @@
       this._breakpointAll = false;
       this._items = [];
       this._cardListeners = new WeakMap();
+      this._patterned = false;
+      this._revealers = new Map();
     }
 
     onHydrate() {
@@ -70,6 +74,12 @@
       this._items = this.querySelectorAll('.reveal-item');
       if (!this._items.length) {
         return;
+      }
+      // Pattern views only (no change for None): CSS owns the end state, a
+      // real toggle button per card, links on the shown face work.
+      this._patterned = this.classList.contains('vvj-pattern');
+      if (this._patterned) {
+        this.classList.add('vvjr-ready');
       }
 
       this._applyState();
@@ -90,11 +100,14 @@
       if (active) {
         this._activate();
         this._setAriaForActive();
-        this._disableNestedLinks(this._method === 'click');
+        this._disableNestedLinks(this._method === 'click' && !this._patterned);
       } else {
         this._deactivate();
         this._setAriaForInactive();
         this._disableNestedLinks(false);
+      }
+      if (this._patterned) {
+        this.classList.toggle('vvjr-stacked', !active);
       }
     }
 
@@ -114,6 +127,7 @@
         inner.classList.remove('revealed');
         this._unbindCard(inner);
       });
+      this._revealers.clear();
     }
 
     _resetRevealed() {
@@ -158,7 +172,19 @@
         } else {
           this._resetEffect(inner, back);
         }
+        if (this._patterned) {
+          this._announceToggle(inner, isRevealed);
+        }
       };
+      this._revealers.set(inner, reveal);
+
+      if (this._patterned) {
+        this._bindPatternCard(inner, back, reveal, cardAbort.signal);
+        this.signal.addEventListener('abort', () => cardAbort.abort(), {
+          once: true,
+        });
+        return;
+      }
 
       const onKeydown = (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -188,6 +214,102 @@
       });
     }
 
+    /**
+     * Pattern views: button, Escape, and a card click that spares controls.
+     *
+     * @param {HTMLElement} inner
+     *   The `.reveal-item`.
+     * @param {HTMLElement} back
+     *   Its `.back-box`.
+     * @param {(value?: boolean) => void} reveal
+     *   Shows (true), hides (false) or toggles (undefined) the back face.
+     * @param {AbortSignal} signal
+     *   Released when the card is unbound.
+     */
+    _bindPatternCard(inner, back, reveal, signal) {
+      const button = inner.querySelector(':scope > .vvjr-toggle');
+      if (button) {
+        button.addEventListener(
+          'click',
+          (event) => {
+            event.stopPropagation();
+            reveal();
+          },
+          { signal },
+        );
+      }
+      if (this._method === 'hover') {
+        inner.addEventListener('mouseenter', () => reveal(true), { signal });
+        inner.addEventListener('mouseleave', () => reveal(false), { signal });
+      } else {
+        inner.addEventListener(
+          'click',
+          (event) => {
+            const target = event.target;
+            if (target instanceof Element && target.closest(INTERACTIVE)) {
+              return;
+            }
+            reveal();
+          },
+          { signal },
+        );
+      }
+      inner.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key !== 'Escape' || !inner.classList.contains('revealed')) {
+            return;
+          }
+          const hadFocus = back.contains(document.activeElement);
+          reveal(false);
+          if (hadFocus && button) {
+            button.focus();
+          }
+        },
+        { signal },
+      );
+    }
+
+    /**
+     * Pattern views: shared state, a `vvjr:toggle` event, open count.
+     *
+     * @param {HTMLElement} inner
+     *   The `.reveal-item` that changed.
+     * @param {boolean} isRevealed
+     *   Its new state.
+     */
+    _announceToggle(inner, isRevealed) {
+      const items = Array.from(this._items);
+      const index = items.indexOf(inner);
+      const open = items.filter((item) =>
+        item.classList.contains('revealed'),
+      ).length;
+      this.style.setProperty('--vvjr-open', String(open));
+      this.writeState({ index, total: items.length, items });
+      this.dispatchEvent(
+        new CustomEvent('vvjr:toggle', {
+          bubbles: true,
+          detail: { index, revealed: isRevealed, open, total: items.length },
+        }),
+      );
+    }
+
+    /**
+     * Shows or hides one card's back face (Pattern scripts use this).
+     *
+     * @param {number} index
+     *   Zero-based card index.
+     * @param {boolean} value
+     *   True shows the back face, false the front.
+     */
+    setRevealed(index, value) {
+      const inner = this._items[index];
+      const reveal = inner ? this._revealers.get(inner) : null;
+      if (reveal && inner.classList.contains('revealed') !== value) {
+        reveal(value);
+      }
+    }
+
     _unbindCard(inner) {
       const ctl = this._cardListeners.get(inner);
       if (ctl) {
@@ -201,6 +323,9 @@
     // -----------------------------------------------------------------
 
     _applyEffect(inner, back) {
+      if (this._patterned) {
+        return;
+      }
       back.style.opacity = '1';
       if (inner.classList.contains('a-zoom')) {
         back.style.transform = 'scale(1)';
@@ -216,6 +341,9 @@
     }
 
     _resetEffect(inner, back) {
+      if (this._patterned) {
+        return;
+      }
       back.style.opacity = '0';
       if (inner.classList.contains('a-zoom')) {
         back.style.transform = 'scale(0)';
@@ -260,6 +388,10 @@
         back.setAttribute('aria-hidden', 'false');
         front.removeAttribute('tabindex');
         back.removeAttribute('tabindex');
+        if (this._patterned) {
+          front.inert = false;
+          back.inert = false;
+        }
       });
       this.querySelectorAll(TABBABLE).forEach((el) =>
         el.setAttribute('tabindex', '0'),
@@ -283,6 +415,11 @@
       back.querySelectorAll(TABBABLE).forEach((el) => {
         el.setAttribute('tabindex', isRevealed ? '0' : '-1');
       });
+      if (this._patterned) {
+        // The hidden face can be neither clicked nor focused.
+        front.inert = isRevealed;
+        back.inert = !isRevealed;
+      }
     }
 
     /**

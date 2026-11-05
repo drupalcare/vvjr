@@ -49,3 +49,62 @@ vvjr__1400:
   css:
     theme:
       css/vvjr-1400.css: { }
+
+# Patterns. Each depends on vvjr/vvjr so its CSS loads after the module CSS.
+vvjr-pattern-base:
+  css:
+    theme:
+      patterns/vvjr-pattern-base.css: { weight: 205 }
+  dependencies:
+    - vvjr/vvjr
+    - vvj_patterns/base
+
+pattern.lens:
+  css:
+    theme:
+      patterns/lens/vvjr-lens.css: { weight: 210 }
+  js:
+    patterns/lens/vvjr-lens.js: {}
+  dependencies:
+    - vvjr/vvjr-pattern-base
+    - vvj_patterns/origin
+    - core/drupal
+    - core/once
+
+pattern.blinds:
+  css:
+    theme:
+      patterns/blinds/vvjr-blinds.css: { weight: 210 }
+  dependencies:
+    - vvjr/vvjr-pattern-base
+
+pattern.index:
+  css:
+    theme:
+      patterns/index/vvjr-index.css: { weight: 210 }
+  js:
+    patterns/index/vvjr-index.js: {}
+  dependencies:
+    - vvjr/vvjr-pattern-base
+    - vvj_core/element-base
+    - core/drupal
+    - core/once
+
+pattern.cover:
+  css:
+    theme:
+      patterns/cover/vvjr-cover.css: { weight: 210 }
+  dependencies:
+    - vvjr/vvjr-pattern-base
+
+pattern.nocturne:
+  css:
+    theme:
+      patterns/nocturne/vvjr-nocturne.css: { weight: 210 }
+  js:
+    patterns/nocturne/vvjr-nocturne.js: {}
+  dependencies:
+    - vvjr/vvjr-pattern-base
+    - vvj_core/element-base
+    - core/drupal
+    - core/once

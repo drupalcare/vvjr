@@ -41,6 +41,19 @@
   'br-' ~ breakpoint,
   reveal_method,
 ] %}
+{# A Pattern chosen in the style settings (vvj_patterns enabled). #}
+{% set vvj_pattern = options.vvj_pattern_active|default('') %}
+{% set vvj_pattern_label = options.vvj_pattern_label|default('') %}
+{% if vvj_pattern %}
+  {% set classes = [
+    'vvjr',
+    'br-' ~ breakpoint,
+    'vvjr-' ~ reveal_method,
+    'vvj-pattern',
+    vvj_pattern,
+  ] %}
+  {% set reveal_style = 'vvjr-' ~ reveal_style %}
+{% endif %}
 
 {# Build the style attribute conditionally #}
 {% set style_attributes = [] %}
@@ -63,7 +76,7 @@
      tabindex="0">
 
   <h2 id="{{ reveal_id }}-label" class="visually-hidden">
-    {{ 'Reveal Container'|t }}
+    {{ vvj_pattern and vvj_pattern_label ? vvj_pattern_label : 'Reveal Container'|t }}
   </h2>
 
   <div class="reveal-inner" {% if style_string %}style="{{ style_string }}"{% endif %}>
@@ -89,7 +102,7 @@
             {{ front_content|safe_html }}
           </div>
 
-          <div class="back-box"
+          <div class="back-box"{% if vvj_pattern %} id="{{ reveal_id }}-back-box-{{ key }}"{% endif %}
                style="--bg-color-back: {{ back_bg_color }}; --reveal-speed: {{ reveal_speed }}; --animation-easing: {{ animation_easing }};"
                role="group"
                aria-labelledby="{{ reveal_id }}-back-{{ key }}"
@@ -100,6 +113,14 @@
             </h3>
             {{ back_content|safe_html }}
           </div>
+          {% if vvj_pattern %}
+            {# Pattern views: a real toggle; its visible text names the face it shows next. #}
+            <button type="button" class="vvjr-toggle" aria-controls="{{ reveal_id }}-back-box-{{ key }}">
+              <span class="vvjr-icon" aria-hidden="true"></span>
+              <span class="vvjr-t-show">{{ 'Show details'|t }}</span>
+              <span class="vvjr-t-hide">{{ 'Show front'|t }}</span>
+            </button>
+          {% endif %}
 
       </div>
     {% endfor %}

@@ -1,0 +1,17 @@
+label: 'Blinds'
+description: 'Wide photo cards; the facts panel closes over the photo in eight blinds, opened by a pill button.'
+weight: 1
+options:
+  reveal_method: click
+  reveal_style: a-bottom
+  reveal_speed: 0.9
+  animation_easing: ease-in-out
+  front_bg_color: '#ffffff'
+  back_bg_color: '#111111'
+  available_breakpoints: '576'
+  grid_gap: 24
+  box_height: 380
+  box_width: 420
+  enable_css: false
+needs:
+  - 'Row style Fields. Front (Custom text): figure.vvj-media (vvj_landscape_1200), div.vvj-caption with kicker and title. Back: p.vvj-title, p.vvj-summary, p.vvj-link.'
