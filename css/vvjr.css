@@ -19,12 +19,12 @@
 }
 
 .vvj-reveal,
-.vvj-reveal * {
+:where(.vvj-reveal) * {
   box-sizing: border-box;
 }
 
 .vvj-reveal,
-.vvj-reveal .view-content {
+:where(.vvj-reveal) .view-content {
   display: block !important;
   width: 100%;
   min-width: 100%;
@@ -42,15 +42,15 @@
   background-color: transparent;
 }
 
-.vvjr .reveal-inner > * {
+.vvjr :where(.reveal-inner) > * {
   min-width: 0;
   min-height: 0;
 }
 
-.vvjr .reveal-inner .front-box {
+.vvjr :where(.reveal-inner) .front-box {
   background-color: var(--bg-color-front);
 }
 
-.vvjr .reveal-inner .back-box {
+.vvjr :where(.reveal-inner) .back-box {
   background-color: var(--bg-color-back);
 }

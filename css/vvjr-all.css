@@ -20,7 +20,7 @@
   background-color: transparent;
 }
 
-.vvjr.br-all .back-box {
+:where(.vvjr.br-all) .back-box {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -40,27 +40,27 @@
   align-items: center;
 }
 
-.vvjr.br-all .reveal-item > div {
+:where(.vvjr.br-all) :where(.reveal-item) > div {
   height: 100%;
 }
 
-.vvjr.br-all .reveal-item.a-zoom .back-box {
+:where(.vvjr.br-all) :where(.reveal-item.a-zoom) .back-box {
   transform: scale(0);
 }
 
-.vvjr.br-all .reveal-item.a-top .back-box {
+:where(.vvjr.br-all) :where(.reveal-item.a-top) .back-box {
   transform: translateY(-100%);
 }
 
-.vvjr.br-all .reveal-item.a-right .back-box {
+:where(.vvjr.br-all) :where(.reveal-item.a-right) .back-box {
   transform: translateX(100%);
 }
 
-.vvjr.br-all .reveal-item.a-bottom .back-box {
+:where(.vvjr.br-all) :where(.reveal-item.a-bottom) .back-box {
   transform: translateY(100%);
 }
 
-.vvjr.br-all .reveal-item.a-left .back-box {
+:where(.vvjr.br-all) :where(.reveal-item.a-left) .back-box {
   transform: translateX(-100%);
 }
 

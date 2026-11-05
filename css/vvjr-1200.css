@@ -21,7 +21,7 @@
     background-color: transparent;
   }
 
-  .vvjr.br-1200 .back-box {
+  :where(.vvjr.br-1200) .back-box {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -41,27 +41,27 @@
     align-items: center;
   }
 
-  .vvjr.br-1200 .reveal-item > div {
+  :where(.vvjr.br-1200) :where(.reveal-item) > div {
     height: 100%;
   }
 
-  .vvjr.br-1200 .reveal-item.a-zoom .back-box {
+  :where(.vvjr.br-1200) :where(.reveal-item.a-zoom) .back-box {
     transform: scale(0);
   }
 
-  .vvjr.br-1200 .reveal-item.a-top .back-box {
+  :where(.vvjr.br-1200) :where(.reveal-item.a-top) .back-box {
     transform: translateY(-100%);
   }
 
-  .vvjr.br-1200 .reveal-item.a-right .back-box {
+  :where(.vvjr.br-1200) :where(.reveal-item.a-right) .back-box {
     transform: translateX(100%);
   }
 
-  .vvjr.br-1200 .reveal-item.a-bottom .back-box {
+  :where(.vvjr.br-1200) :where(.reveal-item.a-bottom) .back-box {
     transform: translateY(100%);
   }
 
-  .vvjr.br-1200 .reveal-item.a-left .back-box {
+  :where(.vvjr.br-1200) :where(.reveal-item.a-left) .back-box {
     transform: translateX(-100%);
   }
 
@@ -108,17 +108,17 @@
     height: auto;
   }
 
-  .vvjr.br-1200 .reveal-item > * {
+  .vvjr.br-1200 :where(.reveal-item) > * {
     min-width: 0;
     min-height: 0;
   }
 
-  .vvjr.br-1200 .reveal-item > *:last-child {
+  :where(.vvjr.br-1200) :where(.reveal-item) > *:last-child {
     align-self: stretch;
   }
 
-  .vvjr.br-1200 .reveal-item .back-box,
-  .vvjr.br-1200 .reveal-item .front-box {
+  :where(.vvjr.br-1200) :where(.reveal-item) .back-box,
+  :where(.vvjr.br-1200) :where(.reveal-item) .front-box {
     transform: none !important;
     opacity: 1 !important;
   }

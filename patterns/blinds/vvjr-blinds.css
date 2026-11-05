@@ -5,10 +5,10 @@
 
 @property --vvjr-blind { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item { border-radius: 6px; background: #161616; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item > .front-box { position: relative; color: #ffffff; }
+.vvj-pattern--vvjr-blinds :where(.reveal-inner) :where(.reveal-item) > .front-box { position: relative; color: #ffffff; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .front-box .vvj-media { position: absolute; inset: 0 0 0 0; overflow: hidden; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-media img { transition: transform 1.4s var(--vvjr-ease-io), filter 1s; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .revealed .vvj-media img { transform: scale(1.12) translateY(3%); filter: blur(3px); }
+.vvj-pattern--vvjr-blinds :where(.vvj-media) img { transition: transform 1.4s var(--vvjr-ease-io), filter 1s; }
+.vvj-pattern--vvjr-blinds :where(.revealed) :where(.vvj-media) img { transform: scale(1.12) translateY(3%); filter: blur(3px); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-caption { position: absolute; inset: 0 0 auto 0; margin: 0; padding: 22px 24px 64px 24px; background: linear-gradient(to bottom, rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.7) 55%, rgba(10, 10, 10, 0)); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-kicker { margin: 0 0 4px 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-title { margin: 0; max-width: 16ch; font: 600 clamp(24px, 2.6vw, 34px) / 1.08 var(--vvjr-font-display); color: inherit; }
@@ -34,9 +34,9 @@
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvjr-toggle .vvjr-icon { order: 2; width: 14px; height: 14px; transform: rotate(180deg); -webkit-mask-image: url("../../svg/vvjr-pattern-expand.svg"); mask-image: url("../../svg/vvjr-pattern-expand.svg"); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .revealed .vvjr-toggle .vvjr-icon { transform: none; }
 @keyframes vvjr-blinds-in { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.vvjr-ready.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item { animation: vvjr-blinds-in 1s var(--vvjr-ease-io) both; }
-.vvjr-ready.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item:nth-child(even) { animation-delay: 0.12s; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds.vvjr-stacked .reveal-inner .reveal-item > .front-box { min-height: 260px; }
+:where(.vvjr-ready.vvj-pattern--vvjr-blinds) :where(.reveal-inner) .reveal-item { animation: vvjr-blinds-in 1s var(--vvjr-ease-io) both; }
+:where(.vvjr-ready.vvj-pattern--vvjr-blinds) :where(.reveal-inner) .reveal-item:nth-child(even) { animation-delay: 0.12s; }
+:where(.vvj-pattern--vvjr-blinds.vvjr-stacked) :where(.reveal-inner) :where(.reveal-item) > .front-box { min-height: 260px; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds.vvjr-stacked .reveal-inner .reveal-item > .back-box { padding: 20px 20px 20px 20px; background: #161616; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds.vvjr-stacked .back-box .vvj-title { display: none; }
 @media (prefers-reduced-motion: reduce) {

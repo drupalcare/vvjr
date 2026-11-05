@@ -45,6 +45,11 @@ vendor/bin/phpstan analyse -c web/modules/contrib/vvjr/phpstan.neon
 
 The suites are described in `CONTRIBUTING.md` (Running the tests). The `.eslintrc.json` and `.cspell.json` files configure the JavaScript lint and the spelling check; the drupal.org pipeline (`.gitlab-ci.yml`) runs both.
 
+## CSS checks
+
+The cascade checker is `vvj_core/scripts/check-vvj-cascade.py` (one copy; run `python3 -I` on it from the lane root, `--list` prints each change). Its CI job `vvj-cascade` runs in vvj_core's pipeline, not in this repo's.
+`.stylelintrc.json` reports id selectors, `!important` and selectors above 0,2,0 as warnings only; the drupal.org template's stylelint job never fails the pipeline (needs checking), so the cascade checker is the gate.
+
 ## What must not change
 
 - **The 1.x contract.** *Upgrading from 1.x* in `README.md` lists the names a drop-in upgrade preserves: plugin ID, theme hook, Twig template names, option keys, library names, JS behavior key and CSS class names. Renaming any of them breaks existing sites and themes.

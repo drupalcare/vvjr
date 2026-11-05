@@ -8,14 +8,14 @@
  */
 
 /* Custom */
-.vvjr .reveal-item {
+:where(.vvjr) .reveal-item {
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgb(0, 0, 0, 0.1);
 }
 
-.vvjr .reveal-item:hover,
-.vvjr .reveal-item:focus {
+:where(.vvjr) .reveal-item:hover,
+:where(.vvjr) .reveal-item:focus {
   box-shadow: 0 8px 12px rgb(0, 0, 0, 0.15);
 }
 
