@@ -12,6 +12,7 @@ JS-driven inline-style reveal effect from 1.x.
 
 ### Fixed
 
+- Help page: follows the drupal.org help text standard (translatable About and Uses sections) instead of printing README.md as raw text.
 - Patterns Blinds and Nocturne: on small screens the Show details and Photo/Details controls are hidden again, so they no longer cover the card's link.
 
 - Pattern Index: the revealed panel fits its row, so it no longer shows a scrollbar when the picture is taller than the row.
