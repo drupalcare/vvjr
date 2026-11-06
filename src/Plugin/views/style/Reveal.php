@@ -122,14 +122,14 @@ class Reveal extends VvjStylePluginBase {
   protected function buildResponsiveSection(array &$form): void {
     $form['responsive'] = [
       '#type' => 'details',
-      '#title' => $this->t('Responsive Settings'),
+      '#title' => $this->t('Responsive settings'),
       '#open' => TRUE,
       '#weight' => -40,
     ];
 
     $form['responsive']['available_breakpoints'] = [
       '#type' => 'select',
-      '#title' => $this->t('Available Breakpoints for Reveal'),
+      '#title' => $this->t('Available breakpoints for reveal'),
       '#options' => [
         VvjrConstants::BREAKPOINT_ALL => $this->t('Active on all screens'),
         '576' => $this->t('576 px / 36 rem'),
@@ -159,7 +159,7 @@ class Reveal extends VvjStylePluginBase {
 
     $form['dimensions']['box_width'] = [
       '#type' => 'number',
-      '#title' => $this->t('Box Min Width (px)'),
+      '#title' => $this->t('Box min width (px)'),
       '#default_value' => $this->options['box_width'],
       '#description' => $this->t('Defines the minimum width for each grid box (reveal). The grid automatically adjusts the number of columns to fit the available space, ensuring responsive and flexible layout. Enter "0" to disable this field.'),
       '#step' => 1,
@@ -169,7 +169,7 @@ class Reveal extends VvjStylePluginBase {
 
     $form['dimensions']['box_height'] = [
       '#type' => 'number',
-      '#title' => $this->t('Box Height (in pixels)'),
+      '#title' => $this->t('Box height (in pixels)'),
       '#default_value' => $this->options['box_height'],
       '#description' => $this->t('Specify the height of the revealed box in pixels. Enter "0" to disable this field.'),
       '#step' => 1,
@@ -179,7 +179,7 @@ class Reveal extends VvjStylePluginBase {
 
     $form['dimensions']['grid_gap'] = [
       '#type' => 'number',
-      '#title' => $this->t('Grid Gap (px)'),
+      '#title' => $this->t('Grid gap (px)'),
       '#default_value' => $this->options['grid_gap'],
       '#description' => $this->t('Set the gap between grid items in pixels.'),
       '#step' => 1,
@@ -197,7 +197,7 @@ class Reveal extends VvjStylePluginBase {
   protected function buildRevealSection(array &$form): void {
     $form['reveal'] = [
       '#type' => 'details',
-      '#title' => $this->t('Reveal Settings'),
+      '#title' => $this->t('Reveal settings'),
       '#open' => TRUE,
       '#weight' => -20,
     ];
@@ -209,7 +209,7 @@ class Reveal extends VvjStylePluginBase {
 
     $form['reveal']['reveal_method'] = [
       '#type' => 'select',
-      '#title' => $this->t('Reveal Method'),
+      '#title' => $this->t('Reveal method'),
       '#options' => [
         VvjrConstants::METHOD_HOVER => $this->t('Hover'),
         VvjrConstants::METHOD_CLICK => $this->t('Click'),
@@ -220,7 +220,7 @@ class Reveal extends VvjStylePluginBase {
 
     $form['reveal']['reveal_speed'] = [
       '#type' => 'number',
-      '#title' => $this->t('Reveal Speed (seconds)'),
+      '#title' => $this->t('Reveal speed (seconds)'),
       '#default_value' => $this->options['reveal_speed'],
       '#description' => $this->t('Specify the speed of the reveal animation (e.g., 0.1 for fast, 2 for slow). Range: @min - @max.', [
         '@min' => VvjrConstants::MIN_REVEAL_SPEED,
@@ -233,7 +233,7 @@ class Reveal extends VvjStylePluginBase {
 
     $form['reveal']['animation_easing'] = [
       '#type' => 'select',
-      '#title' => $this->t('Animation Easing'),
+      '#title' => $this->t('Animation easing'),
       '#options' => [
         VvjrConstants::EASING_LINEAR => $this->t('Linear'),
         VvjrConstants::EASING_EASE => $this->t('Ease'),
@@ -255,21 +255,21 @@ class Reveal extends VvjStylePluginBase {
   protected function buildColorSection(array &$form): void {
     $form['colors'] = [
       '#type' => 'details',
-      '#title' => $this->t('Color Settings'),
+      '#title' => $this->t('Color settings'),
       '#open' => FALSE,
       '#weight' => -10,
     ];
 
     $form['colors']['front_bg_color'] = [
       '#type' => 'color',
-      '#title' => $this->t('Displayed Side Background Color'),
+      '#title' => $this->t('Displayed side background color'),
       '#default_value' => $this->options['front_bg_color'],
       '#description' => $this->t('Select the background color for the displayed side of the box.'),
     ];
 
     $form['colors']['back_bg_color'] = [
       '#type' => 'color',
-      '#title' => $this->t('Revealed Side Background Color'),
+      '#title' => $this->t('Revealed side background color'),
       '#default_value' => $this->options['back_bg_color'],
       '#description' => $this->t('Select the background color for the revealed side of the box.'),
     ];

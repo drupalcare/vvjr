@@ -1,6 +1,6 @@
-name: 'Views Vanilla Javascript Reveal - VVJR'
+name: 'Views Vanilla JavaScript Reveal - VVJR'
 type: module
-description: 'Accessible reveal-on-interaction display format for Views.'
+description: 'Displays Views results with accessible reveal-on-interaction effects.'
 core_version_requirement: ^11.3 || ^12
 package: VVJ
 php: 8.3
