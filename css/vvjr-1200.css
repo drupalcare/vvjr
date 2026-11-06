@@ -7,12 +7,12 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 @media (min-width: 75rem) {
-  .vvjr.br-1200 .reveal-inner {
+  .vvjr.br-1200:where(:not(.vvj-pattern)) .reveal-inner {
     grid-template-columns: repeat(auto-fill, minmax(calc(var(--box-width) * 1px), 1fr));
     gap: calc(var(--grid-gap) * 1px);
   }
 
-  .vvjr.br-1200 .reveal-item {
+  .vvjr.br-1200:where(:not(.vvj-pattern)) .reveal-item {
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -21,7 +21,7 @@
     background-color: transparent;
   }
 
-  :where(.vvjr.br-1200) .back-box {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) .back-box {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -34,91 +34,91 @@
     inset-inline-end: 0;
   }
 
-  .vvjr.br-1200 .reveal-inner .back-box,
-  .vvjr.br-1200 .reveal-inner .front-box {
+  .vvjr.br-1200:where(:not(.vvj-pattern)) .reveal-inner .back-box,
+  .vvjr.br-1200:where(:not(.vvj-pattern)) .reveal-inner .front-box {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item) > div {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item) > div {
     height: 100%;
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item.a-zoom) .back-box {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item.a-zoom) .back-box {
     transform: scale(0);
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item.a-top) .back-box {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item.a-top) .back-box {
     transform: translateY(-100%);
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item.a-right) .back-box {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item.a-right) .back-box {
     transform: translateX(100%);
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item.a-bottom) .back-box {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item.a-bottom) .back-box {
     transform: translateY(100%);
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item.a-left) .back-box {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item.a-left) .back-box {
     transform: translateX(-100%);
   }
 
-  .vvjr.br-1200.hover .reveal-item.a-fade:hover .back-box {
+  .vvjr.br-1200:where(:not(.vvj-pattern)).hover .reveal-item.a-fade:hover .back-box {
     opacity: 1;
   }
 
-  .vvjr.br-1200.hover .reveal-item.a-zoom:hover .back-box {
+  .vvjr.br-1200:where(:not(.vvj-pattern)).hover .reveal-item.a-zoom:hover .back-box {
     transform: scale(1);
     opacity: 1;
   }
 
-  .vvjr.br-1200.hover .reveal-item.a-top:hover .back-box {
+  .vvjr.br-1200:where(:not(.vvj-pattern)).hover .reveal-item.a-top:hover .back-box {
     transform: translateY(0);
     opacity: 1;
   }
 
-  .vvjr.br-1200.hover .reveal-item.a-right:hover .back-box {
+  .vvjr.br-1200:where(:not(.vvj-pattern)).hover .reveal-item.a-right:hover .back-box {
     transform: translateX(0);
     opacity: 1;
   }
 
-  .vvjr.br-1200.hover .reveal-item.a-bottom:hover .back-box {
+  .vvjr.br-1200:where(:not(.vvj-pattern)).hover .reveal-item.a-bottom:hover .back-box {
     transform: translateY(0);
     opacity: 1;
   }
 
-  .vvjr.br-1200.hover .reveal-item.a-left:hover .back-box {
+  .vvjr.br-1200:where(:not(.vvj-pattern)).hover .reveal-item.a-left:hover .back-box {
     transform: translateX(0);
     opacity: 1;
   }
 }
 
 @media (max-width: 74.99875rem) {
-  .vvjr.br-1200 .reveal-inner {
+  .vvjr.br-1200:where(:not(.vvj-pattern)) .reveal-inner {
     grid-template-columns: 1fr;
     gap: calc(var(--grid-gap) * 1px);
   }
 
-  .vvjr.br-1200 .reveal-item {
+  .vvjr.br-1200:where(:not(.vvj-pattern)) .reveal-item {
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr;
     height: auto;
   }
 
-  .vvjr.br-1200 :where(.reveal-item) > * {
+  .vvjr.br-1200:where(:not(.vvj-pattern)) :where(.reveal-item) > * {
     min-width: 0;
     min-height: 0;
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item) > *:last-child {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item) > *:last-child {
     align-self: stretch;
   }
 
-  :where(.vvjr.br-1200) :where(.reveal-item) .back-box,
-  :where(.vvjr.br-1200) :where(.reveal-item) .front-box {
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item) .back-box,
+  :where(.vvjr.br-1200:where(:not(.vvj-pattern))) :where(.reveal-item) .front-box {
     transform: none !important;
     opacity: 1 !important;
   }

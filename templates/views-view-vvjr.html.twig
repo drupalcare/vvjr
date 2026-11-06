@@ -72,8 +72,7 @@
      data-reveal-method="{{ reveal_method }}"
      data-breakpoints="{{ breakpoint }}"
      role="region"
-     aria-labelledby="{{ reveal_id }}-label"
-     tabindex="0">
+     aria-labelledby="{{ reveal_id }}-label">
 
   <h2 id="{{ reveal_id }}-label" class="visually-hidden">
     {{ vvj_pattern and vvj_pattern_label ? vvj_pattern_label : 'Reveal Container'|t }}
@@ -115,7 +114,7 @@
           </div>
           {% if vvj_pattern %}
             {# Pattern views: a real toggle; its visible text names the face it shows next. #}
-            <button type="button" class="vvjr-toggle" aria-controls="{{ reveal_id }}-back-box-{{ key }}">
+            <button type="button" class="vvjr-toggle vvjr-toggle--{{ reveal_method == 'hover' ? 'hover' : 'click' }}" aria-controls="{{ reveal_id }}-back-box-{{ key }}" aria-expanded="false">
               <span class="vvjr-icon" aria-hidden="true"></span>
               <span class="vvjr-t-show">{{ 'Show details'|t }}</span>
               <span class="vvjr-t-hide">{{ 'Show front'|t }}</span>

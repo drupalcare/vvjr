@@ -4,19 +4,19 @@
  */
 
 @property --vvjr-blind { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item { border-radius: 6px; background: #161616; }
-.vvj-pattern--vvjr-blinds :where(.reveal-inner) :where(.reveal-item) > .front-box { position: relative; color: #ffffff; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item { border-radius: 6px; background: var(--vvjr-ground); }
+.vvj-pattern--vvjr-blinds :where(.reveal-inner) :where(.reveal-item) > .front-box { position: relative; color: var(--vvj-stage-color); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .front-box .vvj-media { position: absolute; inset: 0 0 0 0; overflow: hidden; }
 .vvj-pattern--vvjr-blinds :where(.vvj-media) img { transition: transform 1.4s var(--vvjr-ease-io), filter 1s; }
 .vvj-pattern--vvjr-blinds :where(.revealed) :where(.vvj-media) img { transform: scale(1.12) translateY(3%); filter: blur(3px); }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-caption { position: absolute; inset: 0 0 auto 0; margin: 0; padding: 22px 24px 64px 24px; background: linear-gradient(to bottom, rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.7) 55%, rgba(10, 10, 10, 0)); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-caption { position: absolute; inset: 0 0 auto 0; margin: 0; padding: 22px 24px 64px 24px; background: linear-gradient(to bottom, color-mix(in sRGB, var(--vvjr-blinds-scrim) 82%, transparent), color-mix(in sRGB, var(--vvjr-blinds-scrim) 70%, transparent) 55%, transparent); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-kicker { margin: 0 0 4px 0; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-title { margin: 0; max-width: 16ch; font: 600 clamp(24px, 2.6vw, 34px) / 1.08 var(--vvjr-font-display); color: inherit; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item > .back-box {
   display: flex; flex-direction: column; justify-content: safe flex-end; gap: 14px; padding: 24px 24px 84px 24px;
-  background: rgba(14, 14, 14, 0.92); color: #f4f4f4; opacity: 1; transform: translateY(6%);
-  -webkit-mask: repeating-linear-gradient(to bottom, #000000 0 var(--vvjr-blind), transparent var(--vvjr-blind) 12.5%);
-  mask: repeating-linear-gradient(to bottom, #000000 0 var(--vvjr-blind), transparent var(--vvjr-blind) 12.5%);
+  background: color-mix(in sRGB, var(--vvjr-blinds-panel) 92%, transparent); color: var(--vvjr-blinds-ink); opacity: 1; transform: translateY(6%);
+  -webkit-mask: repeating-linear-gradient(to bottom, var(--vvj-mask-solid) 0 var(--vvjr-blind), transparent var(--vvjr-blind) 12.5%);
+  mask: repeating-linear-gradient(to bottom, var(--vvj-mask-solid) 0 var(--vvjr-blind), transparent var(--vvjr-blind) 12.5%);
   transition: --vvjr-blind var(--reveal-speed) var(--animation-easing), transform var(--reveal-speed) var(--animation-easing);
 }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item.revealed > .back-box { --vvjr-blind: 12.6%; transform: none; }
@@ -24,20 +24,24 @@
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvj-summary { margin: 0; max-width: 44ch; font-size: 16px; line-height: 1.45; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvjr-toggle {
   inset: auto auto 20px 20px; min-height: 48px; padding: 0 18px 0 18px; border-radius: 999px; gap: 10px;
-  background: #f4f4f4; color: #161616; font-size: 15px; font-weight: 700;
-  transition: transform 0.3s var(--vvjr-ease-out), padding 0.4s var(--vvjr-ease-out);
+  background: var(--vvjr-pill); color: var(--vvjr-pill-ink); font-size: 15px; font-weight: 700;
+  transition: transform 0.3s var(--vvjr-ease-out);
 }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvjr-toggle:hover { padding: 0 24px 0 24px; }
+/* The pill widens by 6px a side on hover through the two pseudo spacers, not its own padding (JS-RULES.md rule 1). */
+:where(.vvj-pattern--vvjr-blinds .vvjr-toggle--click:hover)::before { margin-inline-start: 6px; }
+:where(.vvj-pattern--vvjr-blinds .vvjr-toggle--click:hover)::after { margin-inline-start: -4px; }
 /* An empty twin of the icon on the left keeps the label at the pill's centre. */
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvjr-toggle::before { content: ""; display: block; flex: none; order: 0; width: 14px; height: 14px; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvjr-toggle:active { transform: scale(0.96); }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvjr-toggle::before { content: ""; display: block; flex: none; order: 0; width: 14px; height: 14px; transition: margin-inline-start 0.4s var(--vvjr-ease-out); }
+/* A zero-width twin on the right; its negative margin cancels the flex gap, so the pill is as wide as before at rest. */
+:where(.vvj-pattern--vvjr-blinds .vvjr-toggle)::after { content: ""; display: block; flex: none; order: 3; width: 0; height: 14px; margin-inline-start: -10px; transition: margin-inline-start 0.4s var(--vvjr-ease-out); }
+:where(.vvj-pattern--vvjr-blinds) .vvjr-toggle--click:active { transform: scale(0.96); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .vvjr-toggle .vvjr-icon { order: 2; width: 14px; height: 14px; transform: rotate(180deg); -webkit-mask-image: url("../../svg/vvjr-pattern-expand.svg"); mask-image: url("../../svg/vvjr-pattern-expand.svg"); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .revealed .vvjr-toggle .vvjr-icon { transform: none; }
 @keyframes vvjr-blinds-in { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 :where(.vvjr-ready.vvj-pattern--vvjr-blinds) :where(.reveal-inner) .reveal-item { animation: vvjr-blinds-in 1s var(--vvjr-ease-io) both; }
 :where(.vvjr-ready.vvj-pattern--vvjr-blinds) :where(.reveal-inner) .reveal-item:nth-child(even) { animation-delay: 0.12s; }
 :where(.vvj-pattern--vvjr-blinds.vvjr-stacked) :where(.reveal-inner) :where(.reveal-item) > .front-box { min-height: 260px; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds.vvjr-stacked .reveal-inner .reveal-item > .back-box { padding: 20px 20px 20px 20px; background: #161616; }
+.vvj-pattern.vvjr.vvj-pattern--vvjr-blinds.vvjr-stacked .reveal-inner .reveal-item > .back-box { padding: 20px 20px 20px 20px; background: var(--vvjr-ground); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds.vvjr-stacked .back-box .vvj-title { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .vvj-pattern.vvjr.vvj-pattern--vvjr-blinds .reveal-inner .reveal-item > .back-box { -webkit-mask: none; mask: none; transform: none; opacity: 0; }

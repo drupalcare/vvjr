@@ -3,7 +3,9 @@
  * VvjrRevealElement — `<vvjr-reveal>` custom element.
  *
  * Extends `Drupal.Vvj.ElementBase` from `vvj_core`. Reveal-card grid
- * with hover or click triggers, breakpoint-gated activation. Animation
+ * with hover or click triggers, breakpoint-gated activation (the window
+ * width, or for a Pattern its own width, as its `@container` CSS uses).
+ * Animation
  * is driven by inline `style.transform` / `style.opacity` writes
  * (matches v1 behavior verbatim) keyed by the per-card animation class
  * (`a-fade`, `a-zoom`, `a-top`, `a-right`, `a-bottom`, `a-left`). The
@@ -19,11 +21,31 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal) => {
-  const { ElementBase } = Drupal.Vvj;
+  const { ElementBase, ownWidth, watchOwnWidth } = Drupal.Vvj;
 
   const TABBABLE = 'a, button, input, select, textarea, [tabindex]';
   // Pattern views: a click or key on one of these never toggles the card.
   const INTERACTIVE = 'a, button, input, select, textarea, label, summary';
+
+  /**
+   * The control inside a card face an event started on, if any.
+   *
+   * @param {Event} event
+   *   The click or keydown event.
+   * @param {HTMLElement} inner
+   *   The `.reveal-item` of the card.
+   *
+   * @return {Element|null}
+   *   The link or form control inside the card, or NULL.
+   */
+  function fromControl(event, inner) {
+    const { target } = event;
+    if (!(target instanceof Element) || target === inner) {
+      return null;
+    }
+    const control = target.closest(INTERACTIVE);
+    return control && inner.contains(control) ? control : null;
+  }
 
   function throttle(fn, limit) {
     let lastFn;
@@ -60,6 +82,7 @@
       this._cardListeners = new WeakMap();
       this._patterned = false;
       this._revealers = new Map();
+      this._width = 0;
     }
 
     onHydrate() {
@@ -80,9 +103,24 @@
       this._patterned = this.classList.contains('vvj-pattern');
       if (this._patterned) {
         this.classList.add('vvjr-ready');
+        // A Pattern follows the room it has (a narrow column on a wide
+        // screen stacks too); a view without a Pattern keeps the window.
+        this._width = ownWidth(this);
       }
 
       this._applyState();
+
+      if (this._patterned) {
+        watchOwnWidth(this, this.signal, (width) => {
+          if (width === this._width) {
+            return;
+          }
+          this._width = width;
+          this._resetRevealed();
+          this._applyState();
+        });
+        return;
+      }
 
       const onResize = throttle(() => {
         this._resetRevealed();
@@ -100,11 +138,9 @@
       if (active) {
         this._activate();
         this._setAriaForActive();
-        this._disableNestedLinks(this._method === 'click' && !this._patterned);
       } else {
         this._deactivate();
         this._setAriaForInactive();
-        this._disableNestedLinks(false);
       }
       if (this._patterned) {
         this.classList.toggle('vvjr-stacked', !active);
@@ -115,7 +151,8 @@
       if (this._breakpointAll) {
         return true;
       }
-      return window.innerWidth >= this._breakpoint;
+      const width = this._patterned ? this._width : window.innerWidth;
+      return width >= this._breakpoint;
     }
 
     _activate() {
@@ -187,6 +224,10 @@
       }
 
       const onKeydown = (event) => {
+        // Enter on a link or a button inside a face does its own job.
+        if (fromControl(event, inner)) {
+          return;
+        }
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           reveal();
@@ -201,9 +242,24 @@
           signal: cardAbort.signal,
         });
       } else {
-        inner.addEventListener('click', () => reveal(), {
-          signal: cardAbort.signal,
-        });
+        inner.addEventListener(
+          'click',
+          (event) => {
+            const control = fromControl(event, inner);
+            if (!control) {
+              reveal();
+              return;
+            }
+            // A control on the hidden face never acts on a card that looks
+            // like plain content: the click turns the card instead.
+            if (control.closest('[aria-hidden="true"]')) {
+              event.preventDefault();
+              reveal();
+            }
+            // A control on the shown face works as itself.
+          },
+          { signal: cardAbort.signal },
+        );
       }
       inner.addEventListener('keydown', onKeydown, {
         signal: cardAbort.signal,
@@ -227,12 +283,36 @@
      *   Released when the card is unbound.
      */
     _bindPatternCard(inner, back, reveal, signal) {
-      const button = inner.querySelector(':scope > .vvjr-toggle');
-      if (button) {
-        button.addEventListener(
+      // One class per mode on the toggle (vvj_core/docs/JS-RULES.md rule 11):
+      // the template sets vvjr-toggle--click or vvjr-toggle--hover, and no
+      // handler reaches both.
+      const clickButton = inner.querySelector(':scope > .vvjr-toggle--click');
+      const hoverButton = inner.querySelector(':scope > .vvjr-toggle--hover');
+      const button = clickButton || hoverButton;
+      if (clickButton) {
+        clickButton.addEventListener(
           'click',
           (event) => {
             event.stopPropagation();
+            reveal();
+          },
+          { signal },
+        );
+      }
+      if (hoverButton) {
+        // Hover mode: the pointer already reveals the card, so a mouse click
+        // on the toggle would undo it. Only keyboard (detail 0) and devices
+        // without hover (touch) use the toggle.
+        hoverButton.addEventListener(
+          'click',
+          (event) => {
+            event.stopPropagation();
+            if (
+              event.detail !== 0 &&
+              window.matchMedia('(hover: hover)').matches
+            ) {
+              return;
+            }
             reveal();
           },
           { signal },
@@ -388,9 +468,14 @@
         back.setAttribute('aria-hidden', 'false');
         front.removeAttribute('tabindex');
         back.removeAttribute('tabindex');
+        // Both faces are shown below the breakpoint.
+        back.style.pointerEvents = '';
         if (this._patterned) {
           front.inert = false;
           back.inert = false;
+          inner
+            .querySelector(':scope > .vvjr-toggle')
+            ?.setAttribute('aria-expanded', 'false');
         }
       });
       this.querySelectorAll(TABBABLE).forEach((el) =>
@@ -419,47 +504,22 @@
         // The hidden face can be neither clicked nor focused.
         front.inert = isRevealed;
         back.inert = !isRevealed;
+        // The toggle is a disclosure for the back face (aria-controls).
+        front.parentElement
+          ?.querySelector(':scope > .vvjr-toggle')
+          ?.setAttribute('aria-expanded', isRevealed ? 'true' : 'false');
+      } else {
+        // The hidden back face covers the front at opacity 0 (fade). Let
+        // clicks pass through it so links on the shown front work and the
+        // unseen links on the back cannot be followed.
+        back.style.pointerEvents = isRevealed ? '' : 'none';
       }
-    }
-
-    /**
-     * Disable nested anchors when the parent card is the click target.
-     *
-     * @param {boolean} disable
-     *   True to suppress nested-link clicks.
-     */
-    _disableNestedLinks(disable) {
-      this._nestedLinksDisabled = disable;
-      this.querySelectorAll('.front-box a, .back-box a').forEach((link) => {
-        if (disable) {
-          link.setAttribute('tabindex', '-1');
-          link.dataset.vvjrDisabled = 'true';
-        } else if (link.dataset.vvjrDisabled === 'true') {
-          link.removeAttribute('tabindex');
-          delete link.dataset.vvjrDisabled;
-        }
-      });
-      // Suppress mouse navigation on nested links while disabled (v1 parity;
-      // tabindex=-1 alone only blocks keyboard focus). Bind the delegated
-      // click guard once — it honors the current _nestedLinksDisabled flag.
-      if (!this._nestedLinkGuardBound) {
-        this._nestedLinkGuardBound = true;
-        this.addEventListener(
-          'click',
-          (event) => {
-            if (!this._nestedLinksDisabled) {
-              return;
-            }
-            const target = event.target;
-            if (
-              target instanceof Element &&
-              target.closest('.front-box a, .back-box a')
-            ) {
-              event.preventDefault();
-            }
-          },
-          { signal: this.signal },
-        );
+      // Focus never stays inside the face that was just hidden: it moves to
+      // the face now showing, without scrolling the page.
+      const hidden = isRevealed ? front : back;
+      const shown = isRevealed ? back : front;
+      if (hidden.contains(document.activeElement)) {
+        shown.focus({ preventScroll: true });
       }
     }
   }

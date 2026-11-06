@@ -15,7 +15,7 @@
     );
     const groups = [];
     items.forEach((item, i) => {
-      const toggle = item.querySelector(':scope > .vvjr-toggle');
+      const toggle = item.querySelector(':scope > .vvjr-toggle--click');
       if (!toggle) {
         return;
       }

@@ -59,6 +59,18 @@ vvjr-pattern-base:
     - vvjr/vvjr
     - vvj_patterns/base
 
+# Theme bridges: token mapping only, added to vvjr-pattern-base by the
+# vvj_patterns library alter when Solo or APEX is the active theme.
+pattern-bridge-solo:
+  css:
+    theme:
+      patterns/bridge/vvjr-bridge-solo.css: { weight: 206 }
+
+pattern-bridge-apex:
+  css:
+    theme:
+      patterns/bridge/vvjr-bridge-apex.css: { weight: 206 }
+
 pattern.lens:
   css:
     theme:

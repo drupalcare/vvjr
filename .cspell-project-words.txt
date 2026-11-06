@@ -1,0 +1,6 @@
+# Project words for cspell (drupal.org CI reads this file by name).
+# Pattern names shipped in this module; noct is part of the shipped keyframes names vvjr-noct-*
+bento
+noct
+# Terms used in comments
+revealers

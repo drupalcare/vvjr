@@ -5,7 +5,7 @@
 
 .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner { grid-template-columns: repeat(4, 1fr); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child { grid-column: span 2; grid-row: span 2; height: calc(var(--box-height) * 2px + var(--grid-gap, 16) * 1px); }
-@media (max-width: 991px) {
+@container vvj-region (max-width: 940px) {
   .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner { grid-template-columns: repeat(2, 1fr); }
   .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item:first-child { grid-row: auto; height: calc(var(--box-height) * 1.4px); }
 }
@@ -24,7 +24,7 @@
 .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item > .back-box {
   display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 24px 22px 24px 22px;
   background: var(--vvjr-surface); color: var(--vvjr-ink); opacity: 1;
-  transform: translateY(-104%) rotate(-3deg); transform-origin: 0 0; box-shadow: 0 18px 30px -14px rgba(0, 0, 0, 0.35);
+  transform: translateY(-104%) rotate(-3deg); transform-origin: 0 0; box-shadow: 0 18px 30px -14px var(--vvjr-cover-shadow);
   transition: transform var(--reveal-speed) cubic-bezier(0.3, 1.35, 0.5, 1);
 }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .reveal-inner .reveal-item.revealed > .back-box { transform: none; }
@@ -36,9 +36,9 @@
 .vvj-pattern--vvjr-cover :where(.back-box) > * { opacity: 0; transform: translateY(-10px); transition: opacity 0.3s, transform 0.45s var(--vvjr-ease-out); }
 .vvj-pattern--vvjr-cover :where(.revealed) :where(.back-box) > * { opacity: 1; transform: none; transition-delay: 0.3s; }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle { inset: 0 0 auto auto; width: 56px; height: 56px; min-height: 56px; padding: 9px 9px 9px 9px; place-items: start end; display: grid; color: var(--vvjr-ink); }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle::before { content: ""; position: absolute; inset: 0 0 0 0; background: linear-gradient(225deg, var(--vvjr-raised) 0 50%, var(--vvjr-surface) 50%); clip-path: polygon(0 0, 100% 0, 100% 100%); filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.2)); transition: clip-path 0.4s var(--vvjr-ease-out); }
+:where(.vvj-pattern--vvjr-cover .vvjr-toggle)::before { content: ""; position: absolute; inset: 0 0 0 0; background: linear-gradient(225deg, var(--vvjr-raised) 0 50%, var(--vvjr-surface) 50%); clip-path: polygon(0 0, 100% 0, 100% 100%); filter: drop-shadow(-2px 2px 2px var(--vvjr-cover-fold)); transition: clip-path 0.4s var(--vvjr-ease-out); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle .vvjr-icon { position: relative; width: 14px; height: 14px; }
-.vvj-pattern.vvjr.vvj-pattern--vvjr-cover .vvjr-toggle:hover::before { clip-path: polygon(-20% 0, 100% 0, 100% 120%); }
+:where(.vvj-pattern--vvjr-cover .vvjr-toggle--click:hover)::before { clip-path: polygon(-20% 0, 100% 0, 100% 120%); }
 .vvj-pattern.vvjr.vvj-pattern--vvjr-cover .revealed .vvjr-toggle .vvjr-icon { transform: rotate(135deg); }
 @keyframes vvjr-cover-in { from { opacity: 0; scale: 0.94; } }
 :where(.vvjr-ready.vvj-pattern--vvjr-cover) :where(.reveal-inner) .reveal-item { animation: vvjr-cover-in 0.7s var(--vvjr-ease-out) both; }

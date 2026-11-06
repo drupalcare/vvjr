@@ -2,7 +2,8 @@
  * @file
  * Shared by every vvjr Pattern: resets, the card frame, the toggle, states.
  *
- * Colours come only from the --vvj-* tokens (vvj_patterns/base) and greys.
+ * Colours come only from the --vvj-* tokens (vvj_patterns/base) and the
+ * Pattern tokens declared once below.
  * Defensive: full shorthands; every control, list, heading and image a
  * Pattern styles is reset here so theme rules cannot reach in. In Pattern
  * views the template renames the method and style classes (vvjr-hover,
@@ -11,19 +12,68 @@
  * `.vvjr-stacked` = below the breakpoint, `.vvjr-ready` = hydrated.
  */
 
-.vvj-pattern.vvjr {
-  --vvjr-ink: var(--vvj-ink, #111111);
-  --vvjr-surface: var(--vvj-surface, #ffffff);
-  --vvjr-raised: var(--vvj-raised, #f2f2f2);
-  --vvjr-muted: var(--vvj-muted, #555555);
-  --vvjr-line: var(--vvj-line, rgba(0, 0, 0, 0.16));
-  --vvjr-accent: var(--vvj-accent, var(--vvjr-ink));
+/*
+ * The ONE place a vvjr Pattern colour is written. Page colours read the
+ * --vvj-* tokens (vvj_patterns/base); a dark or light tone of N/255 is
+ * color-mix(in sRGB, stage-color N/2.55%, stage-bg), which gives the same
+ * black-and-white look as the old literals. The theme bridges
+ * (bridge/vvjr-bridge-*.css) re-declare some of these for Solo and APEX.
+ * :where() keeps this at zero specificity so a bridge, loaded after, wins.
+ */
+:where(.vvj-pattern.vvjr) {
+  --vvjr-ink: var(--vvj-ink);
+  --vvjr-surface: var(--vvj-surface);
+  --vvjr-raised: var(--vvj-raised);
+  --vvjr-muted: var(--vvj-muted);
+  --vvjr-line: var(--vvj-line);
+  --vvjr-accent: var(--vvjr-ink);
   --vvjr-on-accent: var(--vvjr-surface);
+  --vvjr-focus: var(--vvj-focus, var(--vvjr-ink));
+
+  /* Round and pill buttons that sit on a photo. */
+  --vvjr-pill: color-mix(in sRGB, var(--vvj-stage-color) 95.7%, var(--vvj-stage-bg));
+  --vvjr-pill-ink: color-mix(in sRGB, var(--vvj-stage-color) 8.6%, var(--vvj-stage-bg));
+  --vvjr-toggle: var(--vvj-stage-color);
+  --vvjr-toggle-ink: color-mix(in sRGB, var(--vvj-stage-color) 6.7%, var(--vvj-stage-bg));
+
+  /* Index: the Show all / Hide all bar. */
+  --vvjr-bulk-bg: var(--vvjr-raised);
+  --vvjr-bulk-ink: var(--vvjr-ink);
+  --vvjr-bulk-active-bg: var(--vvjr-ink);
+  --vvjr-bulk-active-ink: var(--vvjr-surface);
+  --vvjr-bulk-hover-bg: var(--vvjr-line);
+
+  /* Blinds: dark card, light words, dark panel that closes like blinds. */
+  --vvjr-ground: color-mix(in sRGB, var(--vvj-stage-color) 8.6%, var(--vvj-stage-bg));
+  --vvjr-blinds-scrim: color-mix(in sRGB, var(--vvj-stage-color) 4%, var(--vvj-stage-bg));
+  --vvjr-blinds-panel: color-mix(in sRGB, var(--vvj-stage-color) 5.5%, var(--vvj-stage-bg));
+  --vvjr-blinds-ink: color-mix(in sRGB, var(--vvj-stage-color) 95.7%, var(--vvj-stage-bg));
+
+  /* Lens: caption scrim and toggle shadow on the photo. */
+  --vvjr-lens-scrim: color-mix(in sRGB, var(--vvj-stage-color) 3.1%, var(--vvj-stage-bg));
+  --vvjr-lens-shadow: color-mix(in sRGB, var(--vvj-stage-bg) 25%, transparent);
+
+  /* Cover: the paper cover's shadow and the folded corner's shadow. */
+  --vvjr-cover-shadow: color-mix(in sRGB, var(--vvj-stage-bg) 35%, transparent);
+  --vvjr-cover-fold: color-mix(in sRGB, var(--vvj-stage-bg) 20%, transparent);
+
+  /* Nocturne: dark band, light words, light sweep. */
+  --vvjr-night: var(--vvj-stage-bg);
+  --vvjr-glow: color-mix(in sRGB, var(--vvj-stage-color) 91%, var(--vvj-stage-bg));
+  --vvjr-night-ink: color-mix(in sRGB, var(--vvj-stage-color) 95%, var(--vvj-stage-bg));
+  --vvjr-night-scrim: color-mix(in sRGB, var(--vvj-stage-color) 2.4%, var(--vvj-stage-bg));
+  --vvjr-night-panel: color-mix(in sRGB, var(--vvj-stage-color) 4.7%, var(--vvj-stage-bg));
+  --vvjr-night-line: color-mix(in sRGB, var(--vvj-stage-color) 16%, transparent);
+  --vvjr-night-line-strong: color-mix(in sRGB, var(--vvj-stage-color) 20%, transparent);
+  --vvjr-night-focus: var(--vvj-stage-color);
+}
+
+.vvj-pattern.vvjr {
   --vvjr-ease-out: var(--vvj-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
   --vvjr-ease-io: var(--vvj-ease-io, cubic-bezier(0.76, 0, 0.24, 1));
   --vvjr-font-display: var(--vvj-font-display, Georgia, "Times New Roman", serif);
   --vvjr-font-ui: var(--vvj-font-ui, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
-  --vvjr-focus: var(--vvj-focus, var(--vvjr-ink));
+
   display: block;
   margin: 0;
   padding: 0;
@@ -33,100 +83,282 @@
 .vvj-pattern.vvjr,
 :where(.vvj-pattern.vvjr) *,
 :where(.vvj-pattern.vvjr) *::before,
-:where(.vvj-pattern.vvjr) *::after { box-sizing: border-box; }
-.vvj-pattern.vvjr:focus-visible { outline: 3px solid var(--vvjr-focus); outline-offset: 6px; }
+:where(.vvj-pattern.vvjr) *::after {
+  box-sizing: border-box;
+}
+.vvj-pattern.vvjr:focus-visible {
+  outline: 3px solid var(--vvjr-focus);
+  outline-offset: 6px;
+}
 
 :where(.vvj-pattern.vvjr) :is(h1, h2, h3, h4, h5, h6, p, blockquote, figure) {
-  margin: 0; padding: 0; font-size: inherit; line-height: inherit; color: inherit;
-  hyphens: manual; overflow-wrap: normal; word-break: normal;
+  margin: 0;
+  padding: 0;
+  word-break: normal;
+  hyphens: manual;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  overflow-wrap: normal;
 }
-:where(.vvj-pattern.vvjr) :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
-:where(.vvj-pattern.vvjr) :is(img, svg) { display: block; max-width: 100%; height: auto; margin: 0; border: 0; }
+:where(.vvj-pattern.vvjr) :is(ul, ol, li) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+:where(.vvj-pattern.vvjr) :is(img, svg) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  border: 0;
+}
 /* The hidden attribute always wins over a control's display (Nocturne hides the toggle). */
-:where(.vvj-pattern.vvjr) [hidden] { display: none !important; }
+:where(.vvj-pattern.vvjr) [hidden] {
+  display: none !important;
+}
 .vvj-pattern.vvjr .vvj-title {
-  color: inherit; font-weight: 600; letter-spacing: normal; text-transform: none;
-  hyphens: manual; overflow-wrap: normal; word-break: normal; text-wrap: balance;
+  letter-spacing: normal;
+  text-transform: none;
+  text-wrap: balance;
+  word-break: normal;
+  hyphens: manual;
+  color: inherit;
+  font-weight: 600;
+  overflow-wrap: normal;
 }
 
 /* A hidden face is inert (the element sets it). Once its fade has run it is
  * not painted either, so its masked links cannot sit under a control or be
  * read as text over the photo. Reduced motion shortens this to 0.01ms. */
-@keyframes vvjr-face-off { to { visibility: hidden; } }
-:where(.vvj-pattern.vvjr) :where(.reveal-inner) :where(.reveal-item) > .back-box[inert] { animation: vvjr-face-off var(--reveal-speed, 0.6s) step-end both; }
+@keyframes vvjr-face-off {
+  to {
+    visibility: hidden;
+  }
+}
+:where(.vvj-pattern.vvjr) :where(.reveal-inner) :where(.reveal-item) > .back-box[inert] {
+  animation: vvjr-face-off var(--reveal-speed, 0.6s) step-end both;
+}
 
 /* The grid and the card, cleared of the module's cosmetic defaults. */
 .vvj-pattern.vvjr .reveal-inner {
-  display: grid; margin: 0; padding: 0;
+  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--box-width, 300) * 1px)), 1fr));
+  margin: 0;
+  padding: 0;
   gap: calc(var(--grid-gap, 16) * 1px);
 }
 .vvj-pattern.vvjr .reveal-inner .reveal-item {
-  position: relative; overflow: hidden; isolation: isolate; margin: 0; padding: 0; border: 0;
-  border-radius: 0; box-shadow: none; background: none; cursor: pointer;
+  position: relative;
+  overflow: hidden;
   height: calc(var(--box-height, 300) * 1px);
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  isolation: isolate;
 }
 .vvj-pattern.vvjr .reveal-inner .reveal-item > .front-box,
 .vvj-pattern.vvjr .reveal-inner .reveal-item > .back-box {
-  height: 100%; margin: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none;
-  background: none; display: block; text-align: start;
+  display: block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: start;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
 }
 :where(.vvj-pattern.vvjr) :where(.reveal-inner) :where(.reveal-item) > .back-box {
-  position: absolute; inset: 0 0 0 0; z-index: 2; overflow-y: auto; opacity: 0; transform: none;
-  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  overflow-x: hidden;
+  overflow-y: auto;
   transition: opacity var(--reveal-speed, 0.6s) var(--animation-easing, ease);
+  transform: none;
+  pointer-events: none;
+  opacity: 0;
+  inset: 0 0 0 0;
 }
-:where(.vvj-pattern.vvjr) :where(.reveal-inner) :where(.reveal-item.revealed) > .back-box { opacity: 1; pointer-events: auto; }
-.vvj-pattern.vvjr .vvj-media { margin: 0; padding: 0; }
-.vvj-pattern.vvjr .vvj-media img { width: 100%; height: 100%; object-fit: cover; }
+:where(.vvj-pattern.vvjr) :where(.reveal-inner) :where(.reveal-item.revealed) > .back-box {
+  pointer-events: auto;
+  opacity: 1;
+}
+.vvj-pattern.vvjr .vvj-media {
+  margin: 0;
+  padding: 0;
+}
+.vvj-pattern.vvjr .vvj-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 /* The toggle: full reset, then each Pattern sets its own shape. */
 .vvj-pattern.vvjr .vvjr-toggle,
 .vvj-pattern.vvjr .vvjr-seg button,
-.vvj-pattern.vvjr .vvjr-bulk button { appearance: none; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: inherit; font-family: inherit; font-size: inherit; font-weight: 600; font-style: normal; line-height: 1.2; letter-spacing: normal; text-transform: none; text-decoration: none; text-align: center; width: auto; height: auto; min-width: 0; min-height: 0; vertical-align: middle; outline: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; justify-content: center; gap: 0.6em; }
-.vvj-pattern.vvjr .vvjr-toggle { position: absolute; z-index: 3; }
-.vvj-pattern.vvjr :is(.vvjr-toggle, .vvjr-seg button, .vvjr-bulk button):focus-visible { outline: 3px solid var(--vvjr-focus); outline-offset: 3px; }
+.vvj-pattern.vvjr .vvjr-bulk button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: normal;
+  text-transform: none;
+  color: inherit;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: none;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.2;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  gap: 0.6em;
+}
+.vvj-pattern.vvjr .vvjr-toggle {
+  position: absolute;
+  z-index: 3;
+}
+.vvj-pattern.vvjr :is(.vvjr-toggle, .vvjr-seg button, .vvjr-bulk button):focus-visible {
+  outline: 3px solid var(--vvjr-focus);
+  outline-offset: 3px;
+}
 .vvj-pattern.vvjr .vvjr-t-hide,
-.vvj-pattern.vvjr .revealed .vvjr-t-show { display: none; }
-.vvj-pattern.vvjr .revealed .vvjr-t-hide { display: inline; }
+.vvj-pattern.vvjr .revealed .vvjr-t-show {
+  display: none;
+}
+.vvj-pattern.vvjr .revealed .vvjr-t-hide {
+  display: inline;
+}
 .vvj-pattern.vvjr .vvjr-icon {
-  display: block; flex: none; width: 1em; height: 1em; margin: 0; padding: 0; background: currentColor;
+  display: block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  padding: 0;
+  transition: transform 0.45s var(--vvjr-ease-out);
+  background: currentColor;
   -webkit-mask: url("../svg/vvjr-pattern-add.svg") center / contain no-repeat;
   mask: url("../svg/vvjr-pattern-add.svg") center / contain no-repeat;
-  transition: transform 0.45s var(--vvjr-ease-out);
 }
 /* Link control. */
-.vvj-pattern.vvjr .vvj-link { margin: 0; padding: 0; }
-.vvj-pattern.vvjr .vvj-link a {
-  appearance: none; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: inherit; font-family: inherit; font-size: inherit; font-weight: 600; font-style: normal; line-height: 1.2; letter-spacing: normal; text-transform: none; text-decoration: none; text-align: center; width: auto; height: auto; min-width: 0; min-height: 0; vertical-align: middle; outline: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; gap: 0.5em; min-height: 44px; text-align: start;
-  text-decoration: underline; text-underline-offset: 0.25em;
+.vvj-pattern.vvjr .vvj-link {
+  margin: 0;
+  padding: 0;
 }
-.vvj-pattern.vvjr .vvj-link a:focus-visible { outline: 3px solid var(--vvjr-focus); outline-offset: 3px; }
+.vvj-pattern.vvjr .vvj-link a {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  text-align: start;
+  vertical-align: middle;
+  text-decoration: none;
+  text-decoration: underline;
+  letter-spacing: normal;
+  text-transform: none;
+  color: inherit;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: none;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.2;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  gap: 0.5em;
+  text-underline-offset: 0.25em;
+}
+.vvj-pattern.vvjr .vvj-link a:focus-visible {
+  outline: 3px solid var(--vvjr-focus);
+  outline-offset: 3px;
+}
 .vvj-pattern.vvjr .vvj-link a::after {
-  content: ""; display: block; flex: none; width: 0.8em; height: 0.8em; margin: 0; background: currentColor;
+  display: block;
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+  margin: 0;
+  content: "";
+  transition: transform 0.35s var(--vvjr-ease-out);
+  background: currentColor;
   -webkit-mask: url("../svg/vvjr-pattern-link.svg") center / contain no-repeat;
   mask: url("../svg/vvjr-pattern-link.svg") center / contain no-repeat;
-  transition: transform 0.35s var(--vvjr-ease-out);
 }
 .vvj-pattern.vvjr .vvj-link a:hover::after,
-.vvj-pattern.vvjr .vvj-link a:focus-visible::after { transform: translate(3px, -3px); }
+.vvj-pattern.vvjr .vvj-link a:focus-visible::after {
+  transform: translate(3px, -3px);
+}
 
 /* Below the breakpoint: both faces stacked, no toggle. The doubled
  * .vvjr-stacked keeps these above the Pattern files, whose selectors carry
  * .vvj-pattern.vvjr.vvj-pattern--vvjr-NAME so they beat the resets above. */
-.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner { grid-template-columns: 1fr; }
-.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item { height: auto; cursor: auto; }
-.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .front-box,
-.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .back-box { height: auto; }
-.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .back-box {
-  position: relative; inset: auto; opacity: 1; transform: none; clip-path: none; -webkit-mask: none; mask: none;
-  overflow: visible; pointer-events: auto;
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner {
+  grid-template-columns: 1fr;
 }
-:where(.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked) :where(.reveal-inner) :where(.reveal-item) > :where(.back-box) > * { opacity: 1; transform: none; }
-:where(.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked) :is(.vvjr-toggle, .vvjr-seg, .vvjr-bulk) { display: none; }
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item {
+  height: auto;
+  cursor: auto;
+}
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .front-box,
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .back-box {
+  height: auto;
+}
+.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked .reveal-inner .reveal-item > .back-box {
+  position: relative;
+  overflow: visible;
+  transform: none;
+  pointer-events: auto;
+  opacity: 1;
+  inset: auto;
+  clip-path: none;
+  -webkit-mask: none;
+  mask: none;
+}
+:where(.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked) :where(.reveal-inner) :where(.reveal-item) > :where(.back-box) > * {
+  transform: none;
+  opacity: 1;
+}
+:where(.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked) :is(.vvjr-toggle, .vvjr-seg, .vvjr-bulk) {
+  display: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   :where(.vvj-pattern.vvjr) *,
   :where(.vvj-pattern.vvjr) *::before,
-  :where(.vvj-pattern.vvjr) *::after { transition-duration: 0.01ms !important; transition-delay: 0s !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  :where(.vvj-pattern.vvjr) *::after {
+    transition-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

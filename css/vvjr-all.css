@@ -6,12 +6,12 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
-.vvjr.br-all .reveal-inner {
+.vvjr.br-all:where(:not(.vvj-pattern)) .reveal-inner {
   grid-template-columns: repeat(auto-fill, minmax(calc(var(--box-width) * 1px), 1fr));
   gap: calc(var(--grid-gap) * 1px);
 }
 
-.vvjr.br-all .reveal-item {
+.vvjr.br-all:where(:not(.vvj-pattern)) .reveal-item {
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -20,7 +20,7 @@
   background-color: transparent;
 }
 
-:where(.vvjr.br-all) .back-box {
+:where(.vvjr.br-all:where(:not(.vvj-pattern))) .back-box {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -33,62 +33,62 @@
   inset-inline-end: 0;
 }
 
-.vvjr.br-all .reveal-inner .back-box,
-.vvjr.br-all .reveal-inner .front-box {
+.vvjr.br-all:where(:not(.vvj-pattern)) .reveal-inner .back-box,
+.vvjr.br-all:where(:not(.vvj-pattern)) .reveal-inner .front-box {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-:where(.vvjr.br-all) :where(.reveal-item) > div {
+:where(.vvjr.br-all:where(:not(.vvj-pattern))) :where(.reveal-item) > div {
   height: 100%;
 }
 
-:where(.vvjr.br-all) :where(.reveal-item.a-zoom) .back-box {
+:where(.vvjr.br-all:where(:not(.vvj-pattern))) :where(.reveal-item.a-zoom) .back-box {
   transform: scale(0);
 }
 
-:where(.vvjr.br-all) :where(.reveal-item.a-top) .back-box {
+:where(.vvjr.br-all:where(:not(.vvj-pattern))) :where(.reveal-item.a-top) .back-box {
   transform: translateY(-100%);
 }
 
-:where(.vvjr.br-all) :where(.reveal-item.a-right) .back-box {
+:where(.vvjr.br-all:where(:not(.vvj-pattern))) :where(.reveal-item.a-right) .back-box {
   transform: translateX(100%);
 }
 
-:where(.vvjr.br-all) :where(.reveal-item.a-bottom) .back-box {
+:where(.vvjr.br-all:where(:not(.vvj-pattern))) :where(.reveal-item.a-bottom) .back-box {
   transform: translateY(100%);
 }
 
-:where(.vvjr.br-all) :where(.reveal-item.a-left) .back-box {
+:where(.vvjr.br-all:where(:not(.vvj-pattern))) :where(.reveal-item.a-left) .back-box {
   transform: translateX(-100%);
 }
 
-.vvjr.br-all.hover .reveal-item.a-fade:hover .back-box {
+.vvjr.br-all:where(:not(.vvj-pattern)).hover .reveal-item.a-fade:hover .back-box {
   opacity: 1;
 }
 
-.vvjr.br-all.hover .reveal-item.a-zoom:hover .back-box {
+.vvjr.br-all:where(:not(.vvj-pattern)).hover .reveal-item.a-zoom:hover .back-box {
   transform: scale(1);
   opacity: 1;
 }
 
-.vvjr.br-all.hover .reveal-item.a-top:hover .back-box {
+.vvjr.br-all:where(:not(.vvj-pattern)).hover .reveal-item.a-top:hover .back-box {
   transform: translateY(0);
   opacity: 1;
 }
 
-.vvjr.br-all.hover .reveal-item.a-right:hover .back-box {
+.vvjr.br-all:where(:not(.vvj-pattern)).hover .reveal-item.a-right:hover .back-box {
   transform: translateX(0);
   opacity: 1;
 }
 
-.vvjr.br-all.hover .reveal-item.a-bottom:hover .back-box {
+.vvjr.br-all:where(:not(.vvj-pattern)).hover .reveal-item.a-bottom:hover .back-box {
   transform: translateY(0);
   opacity: 1;
 }
 
-.vvjr.br-all.hover .reveal-item.a-left:hover .back-box {
+.vvjr.br-all:where(:not(.vvj-pattern)).hover .reveal-item.a-left:hover .back-box {
   transform: translateX(0);
   opacity: 1;
 }

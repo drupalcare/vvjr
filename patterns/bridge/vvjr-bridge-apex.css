@@ -1,0 +1,71 @@
+/**
+ * @file
+ * vvjr theme bridge: APEX region colours (`--r-*`).
+ *
+ * Token mapping ONLY. Loaded by the vvj_patterns library alter when the active
+ * theme is apex_theme or an apex_* sub-theme; the black-and-white default (declared once in
+ * vvjr-pattern-base.css) stays untouched everywhere else. Each Pattern
+ * inherits the colours of the region it sits in. `:where()` keeps this at zero
+ * specificity and the library weight (206) loads it after the base (205).
+ *
+ * Mapping: accent panels (Index and Lens back faces) and the round and pill
+ * buttons take the button colours; the Index Show all / Hide all bar takes the
+ * menu colours; page, card and text tokens follow the --vvj-* tokens that the
+ * vvj_patterns APEX bridge sets. Pattern colours on a dark stage (Blinds,
+ * Nocturne) follow the --vvj-stage-* tokens, so they are not repeated here.
+ * Needs checking: contrast of every pair below on each colour scheme (button
+ * text on button background, menu text on menu background, active menu text
+ * on active menu background).
+ *
+ * Fallbacks name the already-bridged --vvj-* or --vvjr-* token, so a region
+ * that leaves a colour unset still renders.
+ */
+/* Colours come from the shared --vvj-theme-* roles (vvj_patterns bridge), so the
+   theme's own colour spelling lives once, there. Each role keeps its black-and-white fallback. */
+/* The Blinds pill and the Lens round toggle sit on photos, so they keep the stage tokens
+   (a theme fill could vanish there, 1.4.11). */
+:where(.vvj-pattern.vvjr) {
+  /* Index and Lens back faces, and the Lens toggle when open. */
+  --vvjr-accent: var(--vvj-theme-button-bg, var(--vvjr-ink));
+  --vvjr-on-accent: var(--vvj-theme-button-text, var(--vvjr-surface));
+
+  /* Index: the Show all / Hide all bar is a menu. */
+  --vvjr-bulk-bg: var(--vvj-theme-menu-bg, var(--vvjr-raised));
+  --vvjr-bulk-ink: var(--vvj-theme-menu-text, var(--vvjr-ink));
+  --vvjr-bulk-active-bg: var(--vvj-theme-active-bg, var(--vvjr-ink));
+  --vvjr-bulk-active-ink: var(--vvj-theme-active-text, var(--vvjr-surface));
+
+  /*
+   * EXTRA APEX COLOURS: the owner will name the five extra colours here.
+   * Nothing is invented for them; add their mappings in this block.
+   */
+}
+
+@media (forced-colors: active) {
+  :where(.vvj-pattern.vvjr) {
+    --vvjr-accent: Highlight;
+    --vvjr-on-accent: HighlightText;
+    --vvjr-pill: ButtonFace;
+    --vvjr-pill-ink: ButtonText;
+    --vvjr-toggle: ButtonFace;
+    --vvjr-toggle-ink: ButtonText;
+    --vvjr-bulk-bg: Canvas;
+    --vvjr-bulk-ink: CanvasText;
+    --vvjr-bulk-active-bg: Highlight;
+    --vvjr-bulk-active-ink: HighlightText;
+    --vvjr-bulk-hover-bg: Canvas;
+    --vvjr-ground: Canvas;
+    --vvjr-blinds-scrim: Canvas;
+    --vvjr-blinds-panel: Canvas;
+    --vvjr-blinds-ink: CanvasText;
+    --vvjr-lens-scrim: Canvas;
+    --vvjr-night: Canvas;
+    --vvjr-glow: CanvasText;
+    --vvjr-night-ink: CanvasText;
+    --vvjr-night-scrim: Canvas;
+    --vvjr-night-panel: Canvas;
+    --vvjr-night-line: CanvasText;
+    --vvjr-night-line-strong: CanvasText;
+    --vvjr-night-focus: Highlight;
+  }
+}
