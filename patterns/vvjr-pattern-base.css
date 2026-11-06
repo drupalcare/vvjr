@@ -2,7 +2,7 @@
  * @file
  * Shared by every vvjr Pattern: resets, the card frame, the toggle, states.
  *
- * Colours come only from the --vvj-* tokens (vvj_patterns/base) and the
+ * Colors come only from the --vvj-* tokens (vvj_patterns/base) and the
  * Pattern tokens declared once below.
  * Defensive: full shorthands; every control, list, heading and image a
  * Pattern styles is reset here so theme rules cannot reach in. In Pattern
@@ -13,7 +13,7 @@
  */
 
 /*
- * The ONE place a vvjr Pattern colour is written. Page colours read the
+ * The ONE place a vvjr Pattern color is written. Page colors read the
  * --vvj-* tokens (vvj_patterns/base); a dark or light tone of N/255 is
  * color-mix(in sRGB, stage-color N/2.55%, stage-bg), which gives the same
  * black-and-white look as the old literals. The theme bridges

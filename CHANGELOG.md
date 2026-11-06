@@ -24,7 +24,7 @@ JS-driven inline-style reveal effect from 1.x.
 
 - Patterns: 5 ready-made designs (Lens, Blinds, Index, Cover, Nocturne) chosen in the format settings. They need the `vvj_patterns` sub-module of `drupal/vvj_core`.
 - Patterns: the bridge reads the shared roles; the Blinds pill and Lens toggle keep the stage tokens; dead `--vvj-accent` read removed.
-- Pattern theme bridges `pattern-bridge-solo` and `pattern-bridge-apex`: under Solo or APEX the Patterns take the region colours; every Pattern colour is now a token declared once in `vvjr-pattern-base.css`, with the same black-and-white look elsewhere.
+- Pattern theme bridges `pattern-bridge-solo` and `pattern-bridge-apex`: under Solo or APEX the Patterns take the region colors; every Pattern color is now a token declared once in `vvjr-pattern-base.css`, with the same black-and-white look elsewhere.
 - `drupal/vvj_core` dependency (auto-installed).
 - `vvjr.install` with `vvjr_update_10001()` to auto-enable vvj_core during
   `drush updb`.
