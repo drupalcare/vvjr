@@ -474,7 +474,9 @@
           front.inert = false;
           back.inert = false;
           inner
-            .querySelector(':scope > .vvjr-toggle')
+            .querySelector(
+              ':scope > :is(.vvjr-toggle--click, .vvjr-toggle--hover)',
+            )
             ?.setAttribute('aria-expanded', 'false');
         }
       });
@@ -506,7 +508,9 @@
         back.inert = !isRevealed;
         // The toggle is a disclosure for the back face (aria-controls).
         front.parentElement
-          ?.querySelector(':scope > .vvjr-toggle')
+          ?.querySelector(
+            ':scope > :is(.vvjr-toggle--click, .vvjr-toggle--hover)',
+          )
           ?.setAttribute('aria-expanded', isRevealed ? 'true' : 'false');
       } else {
         // The hidden back face covers the front at opacity 0 (fade). Let
