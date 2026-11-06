@@ -349,7 +349,9 @@
   opacity: 1;
 }
 :where(.vvj-pattern.vvjr.vvjr-stacked.vvjr-stacked) :is(.vvjr-toggle, .vvjr-seg, .vvjr-bulk) {
-  display: none;
+  /* Important: the control reset and each Pattern set display at a higher
+     specificity, and a visible toggle would sit on the stacked text. */
+  display: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

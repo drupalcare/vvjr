@@ -10,6 +10,9 @@ JS-driven inline-style reveal effect from 1.x.
 
 ### Fixed
 
+- Patterns Blinds and Nocturne: on small screens the Show details and Photo/Details controls are hidden again, so they no longer cover the card's link.
+
+- Pattern Index: the revealed panel fits its row, so it no longer shows a scrollbar when the picture is taller than the row.
 - Patterns: the accent token falls back to the ink, so accent text keeps the ink's contrast in black and white.
 - Patterns: the stacked state (`.vvjr-stacked`) now follows the Pattern's own width (a ResizeObserver on the element) instead of the window. Views without a Pattern still use the window width.
 - Accessibility: the reveal container is no longer an empty tab stop; the Pattern toggle carries `aria-expanded` for the back face it controls.
