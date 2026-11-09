@@ -1,6 +1,10 @@
 label: 'Nocturne'
 description: 'A dark band of tall cards; details sweep in on a band of light, chosen with a Photo and Details control.'
 weight: 4
+stage: open
+ground: dark
+placement: neither
+serves: [events, saas, studio]
 options:
   reveal_method: click
   reveal_style: a-fade

@@ -1,6 +1,10 @@
 label: 'Lens'
 description: 'Portrait cards; the back face opens as a circle from where the pointer entered, with a round + button.'
 weight: 0
+stage: open
+ground: dark
+placement: neither
+serves: [university, creative, healthcare]
 options:
   reveal_method: hover
   reveal_style: a-zoom

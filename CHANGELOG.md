@@ -12,6 +12,9 @@ JS-driven inline-style reveal effect from 1.x.
 
 ### Fixed
 
+- Patterns: spacing, corner radius, type size, shadow and motion read shared `--vvj-*` variables with fallbacks, so a site or theme can adjust them in one place; a few odd values moved to the nearest step, under 10%.
+- Patterns: each Pattern states its stage, ground, placement and the kinds of site it serves best in `pattern.yml`.
+- Patterns: sizes that followed the screen width (`vw`) now follow the Pattern's own width (`cqi`), so a Pattern in a sidebar or narrow column keeps its proportions.
 - Help page: follows the drupal.org help text standard (translatable About and Uses sections) instead of printing README.md as raw text.
 - Patterns Blinds and Nocturne: on small screens the Show details and Photo/Details controls are hidden again, so they no longer cover the card's link.
 

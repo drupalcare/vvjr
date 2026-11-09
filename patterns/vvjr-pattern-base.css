@@ -254,7 +254,7 @@
   height: 1em;
   margin: 0;
   padding: 0;
-  transition: transform 0.45s var(--vvjr-ease-out);
+  transition: transform var(--vvj-dur-450, 0.45s) var(--vvjr-ease-out);
   background: currentColor;
   -webkit-mask: url("../svg/vvjr-pattern-add.svg") center / contain no-repeat;
   mask: url("../svg/vvjr-pattern-add.svg") center / contain no-repeat;
@@ -309,7 +309,7 @@
   height: 0.8em;
   margin: 0;
   content: "";
-  transition: transform 0.35s var(--vvjr-ease-out);
+  transition: transform var(--vvj-dur-350, 0.35s) var(--vvjr-ease-out);
   background: currentColor;
   -webkit-mask: url("../svg/vvjr-pattern-link.svg") center / contain no-repeat;
   mask: url("../svg/vvjr-pattern-link.svg") center / contain no-repeat;

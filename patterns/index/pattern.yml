@@ -1,6 +1,10 @@
 label: 'Index'
 description: 'A numbered full-width list; each row wipes open into an accent panel; Open all and Close all with a live count.'
 weight: 2
+stage: open
+ground: light
+placement: neither
+serves: [government, associations, healthcare]
 options:
   reveal_method: click
   reveal_style: a-left

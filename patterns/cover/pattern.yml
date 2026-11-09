@@ -1,6 +1,10 @@
 label: 'Cover'
 description: 'Bento of photo cards, the first one large; a paper cover drops over the photo from a folded corner.'
 weight: 3
+stage: open
+ground: light
+placement: neither
+serves: [publication, university, corporate]
 options:
   reveal_method: hover
   reveal_style: a-top
