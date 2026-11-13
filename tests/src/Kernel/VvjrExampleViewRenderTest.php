@@ -11,6 +11,7 @@ use Drupal\Tests\vvj_core\Kernel\VvjArticleImageExampleKernelTrait;
 use Drupal\file\Entity\File;
 use Drupal\node\Entity\Node;
 use Drupal\views\Views;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
@@ -30,6 +31,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
  *
  * @license SPDX-License-Identifier: GPL-2.0-or-later
  */
+#[Group('vvjr')]
 #[RunTestsInSeparateProcesses]
 class VvjrExampleViewRenderTest extends KernelTestBase {
 

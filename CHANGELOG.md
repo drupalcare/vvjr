@@ -2,6 +2,7 @@
 
 ## [2.0.0] (UNRELEASED)
 
+- Accessibility: a view without a Pattern gets a real toggle button per card (hidden until it has focus) instead of a focusable card face with no button role, and Escape shows the front again; the hidden face is `inert` (the back is printed inert, so a Tab before the script runs skips it) instead of rewriting every control's tabindex; focus inside a face that hides moves to the toggle before the face goes inert; the toggle's changing text is its only state (no aria-expanded); the per-card "Front/Back Side Content" labels are no longer headings; the back face no longer slides or fades in when the visitor asks for reduced motion.
 - Accessibility: in Windows high contrast (forced colors) the Pattern icons stay visible; they are masks painted with the text color, which the system used to replace.
 
 **Drop-in upgrade for 1.x sites.** v2 modernizes internals: extends `vvj_core`

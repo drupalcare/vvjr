@@ -23,7 +23,6 @@
 ((Drupal) => {
   const { ElementBase, ownWidth, watchOwnWidth } = Drupal.Vvj;
 
-  const TABBABLE = 'a, button, input, select, textarea, [tabindex]';
   // Pattern views: a click or key on one of these never toggles the card.
   const INTERACTIVE = 'a, button, input, select, textarea, label, summary';
 
@@ -45,6 +44,23 @@
     }
     const control = target.closest(INTERACTIVE);
     return control && inner.contains(control) ? control : null;
+  }
+
+  /**
+   * The card's toggle button, if the template printed one.
+   *
+   * @param {HTMLElement} inner
+   *   The `.reveal-item` of the card.
+   *
+   * @return {HTMLElement|null}
+   *   The `.vvjr-toggle` button, or NULL (an overridden template).
+   */
+  function toggleButton(inner) {
+    return inner
+      ? inner.querySelector(
+          ':scope > :is(.vvjr-toggle--click, .vvjr-toggle--hover, .vvjr-toggle--base)',
+        )
+      : null;
   }
 
   function throttle(fn, limit) {
@@ -223,6 +239,32 @@
         return;
       }
 
+      // A view without a Pattern: the template prints a toggle that is
+      // hidden until it has focus, so a keyboard or screen reader user
+      // meets a real button instead of a focusable face.
+      const baseButton = inner.querySelector(':scope > .vvjr-toggle--base');
+      if (baseButton) {
+        baseButton.hidden = false;
+        baseButton.addEventListener(
+          'click',
+          (event) => {
+            event.stopPropagation();
+            // In hover mode a mouse click comes after the pointer already
+            // revealed the card; only keyboard (detail 0) and touch use it.
+            if (
+              this._method === 'hover' &&
+              event.detail !== 0 &&
+              window.matchMedia('(hover: hover)').matches
+            ) {
+              return;
+            }
+            reveal();
+          },
+          { signal: cardAbort.signal },
+        );
+        this._bindEscape(inner, back, reveal, baseButton, cardAbort.signal);
+      }
+
       const onKeydown = (event) => {
         // Enter on a link or a button inside a face does its own job.
         if (fromControl(event, inner)) {
@@ -334,6 +376,24 @@
           { signal },
         );
       }
+      this._bindEscape(inner, back, reveal, button, signal);
+    }
+
+    /**
+     * Escape shows the front again, from anywhere in the card.
+     *
+     * @param {HTMLElement} inner
+     *   The `.reveal-item`.
+     * @param {HTMLElement} back
+     *   Its `.back-box`.
+     * @param {(value?: boolean) => void} reveal
+     *   Shows (true), hides (false) or toggles (undefined) the back face.
+     * @param {HTMLElement|null} button
+     *   The card's toggle, which takes focus back from the back face.
+     * @param {AbortSignal} signal
+     *   Released when the card is unbound.
+     */
+    _bindEscape(inner, back, reveal, button, signal) {
       inner.addEventListener(
         'keydown',
         (event) => {
@@ -464,67 +524,67 @@
         if (!front || !back) {
           return;
         }
-        front.setAttribute('aria-hidden', 'false');
-        back.setAttribute('aria-hidden', 'false');
-        front.removeAttribute('tabindex');
-        back.removeAttribute('tabindex');
-        // Both faces are shown below the breakpoint.
+        // Both faces are shown and usable below the breakpoint. Controls
+        // inside keep their own authored tabindex.
+        [front, back].forEach((face) => {
+          face.setAttribute('aria-hidden', 'false');
+          face.inert = false;
+          face.removeAttribute('tabindex');
+        });
         back.style.pointerEvents = '';
-        if (this._patterned) {
-          front.inert = false;
-          back.inert = false;
-          inner
-            .querySelector(
-              ':scope > :is(.vvjr-toggle--click, .vvjr-toggle--hover)',
-            )
-            ?.setAttribute('aria-expanded', 'false');
+        // Nothing to toggle while both faces show.
+        const baseButton = inner.querySelector(':scope > .vvjr-toggle--base');
+        if (baseButton) {
+          baseButton.hidden = true;
         }
       });
-      this.querySelectorAll(TABBABLE).forEach((el) =>
-        el.setAttribute('tabindex', '0'),
-      );
     }
 
     _updateAccessibility(front, back, isRevealed) {
       if (!front || !back) {
         return;
       }
-      const frontHidden = isRevealed ? 'true' : 'false';
-      const backHidden = isRevealed ? 'false' : 'true';
-      front.setAttribute('aria-hidden', frontHidden);
-      back.setAttribute('aria-hidden', backHidden);
-      front.setAttribute('tabindex', frontHidden === 'true' ? '-1' : '0');
-      back.setAttribute('tabindex', backHidden === 'true' ? '-1' : '0');
+      const hidden = isRevealed ? front : back;
+      const shown = isRevealed ? back : front;
+      // The toggle's visible text names the face it shows next, so it
+      // carries no expanded or pressed state (one or the other, not both).
+      const toggle = toggleButton(front.parentElement);
 
-      front.querySelectorAll(TABBABLE).forEach((el) => {
-        el.setAttribute('tabindex', isRevealed ? '-1' : '0');
-      });
-      back.querySelectorAll(TABBABLE).forEach((el) => {
-        el.setAttribute('tabindex', isRevealed ? '0' : '-1');
-      });
-      if (this._patterned) {
-        // The hidden face can be neither clicked nor focused.
-        front.inert = isRevealed;
-        back.inert = !isRevealed;
-        // The toggle is a disclosure for the back face (aria-controls).
-        front.parentElement
-          ?.querySelector(
-            ':scope > :is(.vvjr-toggle--click, .vvjr-toggle--hover)',
-          )
-          ?.setAttribute('aria-expanded', isRevealed ? 'true' : 'false');
+      shown.setAttribute('aria-hidden', 'false');
+      shown.inert = false;
+      if (toggle) {
+        // The toggle is the card's one control; a face is not a second,
+        // focusable copy of it.
+        front.removeAttribute('tabindex');
+        back.removeAttribute('tabindex');
       } else {
+        // Fallback for a theme template that prints no toggle.
+        shown.setAttribute('tabindex', '0');
+        hidden.setAttribute('tabindex', '-1');
+      }
+      if (!this._patterned) {
         // The hidden back face covers the front at opacity 0 (fade). Let
         // clicks pass through it so links on the shown front work and the
         // unseen links on the back cannot be followed.
         back.style.pointerEvents = isRevealed ? '' : 'none';
       }
-      // Focus never stays inside the face that was just hidden: it moves to
-      // the face now showing, without scrolling the page.
-      const hidden = isRevealed ? front : back;
-      const shown = isRevealed ? back : front;
+      // Focus never stays inside the face about to be hidden: it moves to
+      // the toggle, or else the face now showing, without scrolling. This
+      // runs before `inert`, which would otherwise drop focus to the body.
       if (hidden.contains(document.activeElement)) {
-        shown.focus({ preventScroll: true });
+        // A Pattern may hide the toggle and add its own buttons (Nocturne).
+        const target =
+          (toggle && !toggle.hidden ? toggle : null) ||
+          front.parentElement?.querySelector(
+            ':scope > button:not([hidden]), :scope > :not(.front-box, .back-box) button:not([hidden])',
+          ) ||
+          shown;
+        target.focus({ preventScroll: true });
       }
+      // `inert` takes the hidden face's controls out of the Tab order and
+      // the accessibility tree without rewriting authored tabindex.
+      hidden.setAttribute('aria-hidden', 'true');
+      hidden.inert = true;
     }
   }
 

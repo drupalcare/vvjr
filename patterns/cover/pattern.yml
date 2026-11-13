@@ -17,5 +17,9 @@ options:
   box_height: 280
   box_width: 220
   enable_css: false
+pictures:
+  vvj_image:
+    style: vvj_landscape_1200
+    responsive: false
 needs:
   - 'Row style Fields. Front (Custom text): figure.vvj-media (vvj_landscape_1200), div.vvj-label with kicker and title. Back: kicker, title, p.vvj-text, p.vvj-link.'

@@ -95,27 +95,37 @@
                aria-labelledby="{{ reveal_id }}-front-{{ key }}"
                aria-hidden="false">
 
-            <h3 id="{{ reveal_id }}-front-{{ key }}" class="visually-hidden">
-              {{ 'Front Side Content'|t }}
-            </h3>
+            {# A label for the group, not a heading: one per card would fill the heading outline. #}
+            <span id="{{ reveal_id }}-front-{{ key }}" class="visually-hidden" aria-hidden="true">
+              {{- 'Front Side Content'|t -}}
+            </span>
             {{ front_content|safe_html }}
           </div>
 
-          <div class="back-box"{% if vvj_pattern %} id="{{ reveal_id }}-back-box-{{ key }}"{% endif %}
+          {# The back starts inert, so a Tab before the script runs never lands in hidden content. #}
+          <div class="back-box" id="{{ reveal_id }}-back-box-{{ key }}"
                style="--bg-color-back: {{ back_bg_color }}; --reveal-speed: {{ reveal_speed }}; --animation-easing: {{ animation_easing }};"
                role="group"
                aria-labelledby="{{ reveal_id }}-back-{{ key }}"
-               aria-hidden="true">
+               aria-hidden="true"
+               inert>
 
-            <h3 id="{{ reveal_id }}-back-{{ key }}" class="visually-hidden">
-              {{ 'Back Side Content'|t }}
-            </h3>
+            <span id="{{ reveal_id }}-back-{{ key }}" class="visually-hidden" aria-hidden="true">
+              {{- 'Back Side Content'|t -}}
+            </span>
             {{ back_content|safe_html }}
           </div>
+          {# A real toggle per card; its visible text names the face it shows next,
+             so it carries no expanded state. Without a Pattern it is hidden until
+             it has focus, and the script unhides it once the card can turn. #}
           {% if vvj_pattern %}
-            {# Pattern views: a real toggle; its visible text names the face it shows next. #}
-            <button type="button" class="vvjr-toggle vvjr-toggle--{{ reveal_method == 'hover' ? 'hover' : 'click' }}" aria-controls="{{ reveal_id }}-back-box-{{ key }}" aria-expanded="false">
+            <button type="button" class="vvjr-toggle vvjr-toggle--{{ reveal_method == 'hover' ? 'hover' : 'click' }}" aria-controls="{{ reveal_id }}-back-box-{{ key }}">
               <span class="vvjr-icon" aria-hidden="true"></span>
+              <span class="vvjr-t-show">{{ 'Show details'|t }}</span>
+              <span class="vvjr-t-hide">{{ 'Show front'|t }}</span>
+            </button>
+          {% else %}
+            <button type="button" class="vvjr-toggle vvjr-toggle--base" aria-controls="{{ reveal_id }}-back-box-{{ key }}" hidden>
               <span class="vvjr-t-show">{{ 'Show details'|t }}</span>
               <span class="vvjr-t-hide">{{ 'Show front'|t }}</span>
             </button>

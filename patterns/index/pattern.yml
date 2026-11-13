@@ -17,5 +17,9 @@ options:
   box_height: 156
   box_width: 900
   enable_css: false
+pictures:
+  vvj_image:
+    style: vvj_landscape_1200
+    responsive: false
 needs:
-  - 'Row style Fields. Front (Custom text): p.vvj-num (empty, CSS counter), div.vvj-head with title and summary line, figure.vvj-media (vvj_thumb_240). Back: figure.vvj-media, div.vvj-body with p.vvj-text and p.vvj-link.'
+  - 'Row style Fields. Front (Custom text): p.vvj-num (empty, CSS counter), div.vvj-head with title and summary line, figure.vvj-media (vvj_landscape_1200). Back: figure.vvj-media, div.vvj-body with p.vvj-text and p.vvj-link.'

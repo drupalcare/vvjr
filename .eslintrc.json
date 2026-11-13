@@ -26,6 +26,7 @@
       {
         "exceptMethods": [
           "_applyEffect",
+          "_bindEscape",
           "_resetEffect",
           "_updateAccessibility"
         ]

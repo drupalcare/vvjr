@@ -17,5 +17,9 @@ options:
   box_height: 420
   box_width: 260
   enable_css: false
+pictures:
+  vvj_image:
+    style: vvj_square_800
+    responsive: false
 needs:
   - 'Row style Fields. First shown field (Custom text): figure.vvj-media with the image (vvj_square_800), then div.vvj-caption with p.vvj-kicker and p.vvj-title. Back: blockquote.vvj-quote (summary), p.vvj-role (title), p.vvj-link (link).'
